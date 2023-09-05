@@ -2,6 +2,9 @@ package model;
 
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 @EqualsAndHashCode(callSuper = true)
 public class DateTime extends Date{
@@ -23,10 +26,14 @@ public class DateTime extends Date{
     }
 
     private int validateMinute(int minute) {
-        if(!(0 <= minute && minute <= 59)){
-            throw  new IllegalArgumentException("분은 0~59 사이 여야 합니다.");
+        if (!(0 <= minute && minute <= 59)) {
+            throw new IllegalArgumentException("분은 0~59 사이 여야 합니다.");
         }
         return minute;
+    }
+    public static String dateTimeToString(DateTime dateTime) {
+
+        return dateTime.toString();
     }
 
 }
