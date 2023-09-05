@@ -2,7 +2,9 @@ package model;
 
 import java.time.YearMonth;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+@Getter
 @EqualsAndHashCode
 public class Date {
 
@@ -15,6 +17,20 @@ public class Date {
         this.year = validateYear(year);
         this.month = validateMonth(month);
         this.day = validateDay(year, month, day);
+    }
+
+    /**
+     * 문자열을 입력받아 Date를 반환 합니다.
+     * @param time 문자열 형식(2020-12-12)
+     * @return Date
+     */
+    public static Date ofString(String time){
+
+        String[] times = time.split("-");
+        int[] timesInt = parseTimeInt(times);
+
+        return new Date(timesInt[0], timesInt[1], timesInt[2]);
+
     }
 
     private int validateYear(int year) {
@@ -38,6 +54,20 @@ public class Date {
         return day;
     }
 
+    static int[] parseTimeInt(String[] times){
+
+        int[] timesInt = new int[times.length];
+
+        for(int i = 0 ; i < times.length ; i++){
+            try {
+                timesInt[i] = Integer.parseInt(times[i]);
+            }catch (NumberFormatException e){
+                throw new NumberFormatException("날짜 입력 형식이 올바르지 않습니다.");
+            }
+        }
+
+        return timesInt;
+    }
 
 
 
