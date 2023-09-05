@@ -21,7 +21,7 @@ public class DateTimeTest {
     }
 
     @Test
-    public void 문자열의파싱이정상적으로입력되는가(){
+    public void 문자열의파싱이정상적으로입력되는가() {
         DateTime dateTime = DateTime.ofString("2023-12-31 12:59");
         assertThat(dateTime).isEqualTo(new DateTime(year, month, day, hour, minute));
     }

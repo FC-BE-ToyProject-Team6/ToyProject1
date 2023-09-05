@@ -12,13 +12,13 @@ public class DateTest {
     private int day = 31;
 
     @Test
-    public void Date클래스는년월일비교가같나요(){
+    public void Date클래스는년월일비교가같나요() {
         Date date = new Date(year, month, day);
         assertThat(date).isEqualTo(new Date(year, month, day));
     }
 
     @Test
-    public void Date문자열인스턴스확인(){
+    public void Date문자열인스턴스확인() {
 
         Date date = Date.ofString("2023-12-31");
         assertThat(date).isEqualTo(new Date(year, month, day));
@@ -26,7 +26,7 @@ public class DateTest {
     }
 
     @Test
-    public void Date문자열잘못입력시에러발생(){
+    public void Date문자열잘못입력시에러발생() {
 
         assertThatThrownBy(() -> {
             Date date = Date.ofString("2023%12-31");
@@ -37,7 +37,7 @@ public class DateTest {
     }
 
     @Test
-    public void 잘못된년도입력(){
+    public void 잘못된년도입력() {
 
         assertThatThrownBy(() -> {
             Date date = new Date(-1, month, day);
@@ -47,7 +47,7 @@ public class DateTest {
     }
 
     @Test
-    public void 잘못된0월입력(){
+    public void 잘못된0월입력() {
         assertThatThrownBy(() -> {
             Date date = new Date(year, 0, day);
         }).isInstanceOf(IllegalArgumentException.class)
@@ -55,7 +55,7 @@ public class DateTest {
     }
 
     @Test
-    public void 잘못된13월입력(){
+    public void 잘못된13월입력() {
         assertThatThrownBy(() -> {
             Date date = new Date(year, 13, day);
         }).isInstanceOf(IllegalArgumentException.class)
@@ -63,7 +63,7 @@ public class DateTest {
     }
 
     @Test
-    public void 잘못된0일입력(){
+    public void 잘못된0일입력() {
         assertThatThrownBy(() -> {
             Date date = new Date(year, month, 0);
         }).isInstanceOf(IllegalArgumentException.class)
@@ -71,7 +71,7 @@ public class DateTest {
     }
 
     @Test
-    public void 잘못된32일입력(){
+    public void 잘못된32일입력() {
         assertThatThrownBy(() -> {
             Date date = new Date(year, month, 32);
         }).isInstanceOf(IllegalArgumentException.class)
@@ -79,7 +79,7 @@ public class DateTest {
     }
 
     @Test
-    public void 윤년아닌데29일입력(){
+    public void 윤년아닌데29일입력() {
         assertThatThrownBy(() -> {
             Date date = new Date(year, 2, 29);
         }).isInstanceOf(IllegalArgumentException.class)
@@ -87,14 +87,14 @@ public class DateTest {
     }
 
     @Test
-    public void 윤년에정상적인29일입력(){
+    public void 윤년에정상적인29일입력() {
 
         Date date = new Date(2024, 2, 29);
         assertThat(date).isEqualTo(new Date(2024, 2, 29));
     }
 
     @Test
-    public void 윤년에비정상적30일입력(){
+    public void 윤년에비정상적30일입력() {
         assertThatThrownBy(() -> {
             Date date = new Date(2024, 2, 30);
         }).isInstanceOf(IllegalArgumentException.class)
