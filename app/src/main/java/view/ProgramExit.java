@@ -1,6 +1,6 @@
 package view;
 
-public class ProgramExit implements ConsoleView{
+public class ProgramExit implements ConsoleView {
 
     boolean status;
 
@@ -12,7 +12,7 @@ public class ProgramExit implements ConsoleView{
         return this;
     }
 
-    public boolean isEnd(){
+    public boolean isEnd() {
         return status;
     }
 }
