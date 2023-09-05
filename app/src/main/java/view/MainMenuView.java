@@ -22,9 +22,20 @@ public class MainMenuView implements ConsoleView{
         return moveNextMenu();
     }
 
+
+    //이 메소드는 Factory 패턴을 이용해 개선 할 수 있을것 같습니다.
     private ConsoleView moveNextMenu() {
         if(status == 1){
-            return new MainMenuView();
+            // return 여행 입력 화면 인스턴스
+        }
+        if(status == 2){
+            // return 여정 입력 화면 인스턴스
+        }
+        if(status == 3){
+            // return 여행 조회 화면 인스턴스
+        }
+        if(status == 4){
+            // return 여정 조회 화면 인스턴스
         }
         if(status == 5){
             return new ProgramExit();
