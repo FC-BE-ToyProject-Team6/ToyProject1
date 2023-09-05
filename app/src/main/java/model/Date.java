@@ -18,6 +18,7 @@ public class Date {
         this.year = validateYear(year);
         this.month = validateMonth(month);
         this.day = validateDay(year, month, day);
+
     }
 
     public static Date fromString(String tripDatum) {

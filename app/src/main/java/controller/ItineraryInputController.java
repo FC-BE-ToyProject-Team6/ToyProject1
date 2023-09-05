@@ -1,33 +1,47 @@
 package controller;
 
+import java.math.BigInteger;
+import java.util.UUID;
+import model.DateTime;
 import model.Itinerary;
 
-import model.dao.TripDAO;
-import view.ItineraryInputView;
-
-import java.io.IOException;
-
 public class ItineraryInputController {
-    private TripDAO tripDAO;
-    private ItineraryInputView itineraryInputView;
 
-    public ItineraryInputController() {
-        this.tripDAO = tripDAO;
-        this.itineraryInputView = new ItineraryInputView();
+    public Itinerary createItinerary(String departurePlace, String destination,
+        String departureTime, String arrivalTime, String checkIn, String checkOut) {
+
+        int itineraryId = UUID.randomUUID().toString()
+            .replace("-", "").chars()
+            .mapToObj(c -> Character.toString((char) c))
+            .reduce
+                (BigInteger.ZERO,
+                    (acc, s) ->
+                        acc.multiply(BigInteger.valueOf(16)).add(new BigInteger(s, 16)),
+                    BigInteger::add
+                )
+            .mod(BigInteger.valueOf(Integer.MAX_VALUE))
+            .intValue();
+
+
+        return new Itinerary(
+            itineraryId, departurePlace,destination,
+            stringToDateTime(departureTime), stringToDateTime(arrivalTime),
+            stringToDateTime(checkIn),stringToDateTime(checkOut)
+        );
+
     }
 
-    public void run(int tripId) throws IOException {
-        do {
-            Itinerary itinerary = itineraryInputView.run();
-            tripDAO.insertItinerary(tripId, itinerary);
-        } while(itineraryInputView.wantToContinue());
+    public DateTime stringToDateTime(String dateTimeString){
+        String[] dateTimeArray = dateTimeString.split(" ");
+        String[] dateArray = dateTimeArray[0].split("-");
+        String[] timeArray = dateTimeArray[1].split(":");
 
-        /**
-         * view는 입출력만 함.
-         * getInput,wantToContinue => Controller나 DAO에서 구현해야 됨.
-         */
-    }
-
-    public void addItinerary(Itinerary itinerary, int tripID) {
+        return new DateTime(
+            Integer.parseInt(dateArray[0]), // 년도
+            Integer.parseInt(dateArray[1]), // 월
+            Integer.parseInt(dateArray[2]),  // 일
+            Integer.parseInt(timeArray[0]), // 시
+            Integer.parseInt(timeArray[1]) // 분
+        );
     }
 }
