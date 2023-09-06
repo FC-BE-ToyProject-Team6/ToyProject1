@@ -62,4 +62,10 @@ public class DateTime extends Date {
         return dateTime.toString();
     }
 
+
+    @Override
+    public String toString() {
+        return super.toString() + " " + hour + ":" + minute;
+    }
+
 }
