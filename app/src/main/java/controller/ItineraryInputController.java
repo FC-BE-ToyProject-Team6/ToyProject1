@@ -20,9 +20,10 @@ public class ItineraryInputController {
         jsonDAO = new TripJsonDAO();
     }
     public void createItinerary() {
+        int tripId = jsonDAO.getLastTripId();
         for (Itinerary itinerary: view.inputItinerary()) {
-            csvDAO.insertItinerary(itinerary);
-            jsonDAO.insertItinerary(itinerary);
+            csvDAO.insertItinerary(tripId, itinerary);
+            jsonDAO.insertItinerary(tripId, itinerary);
         }
     }
 

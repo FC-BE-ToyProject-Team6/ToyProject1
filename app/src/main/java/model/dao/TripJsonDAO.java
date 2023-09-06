@@ -16,12 +16,12 @@ import java.util.List;
 
 
 public class TripJsonDAO implements TripDAO {
-
+    private int lastTripId;
     private Gson gson = new Gson();
     private String directoryName = "./trip_json_files/";
 
     @Override
-    public void createTrip(Trip trip) {
+    public int createTrip(Trip trip) {
 
         File dir = new File(directoryName);
         if (!dir.exists()) {
@@ -29,31 +29,34 @@ public class TripJsonDAO implements TripDAO {
         }
         int tripId = countTripFiles() + 1;
 
-        Trip newTrip = new Trip();
-        newTrip.setTripId(tripId);
-        newTrip.setTripName(trip.getTripName());
-        newTrip.setStartDate(trip.getStartDate());
-        newTrip.setEndDate(trip.getEndDate());
-        newTrip.setItineraries(new Itineraries());
+        trip.setTripId(tripId);
+        trip.setItineraries(new Itineraries());
 
         String fileName = "travel_"+ tripId+ ".json";
         String fullPath = directoryName + "/" + fileName;
 
         try (FileWriter writer = new FileWriter(fullPath)) {
-            gson.toJson(newTrip, writer);
+            gson.toJson(trip, writer);
             System.out.println("File created at: " + new File(fullPath).getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
+        lastTripId = tripId;
+        return tripId;
     }
 
+    public int getLastTripId() {
+        return lastTripId;
+    }
 
 
 
     @Override
     public void insertItinerary(int tripId, Itinerary itinerary) {
+
         String fileName = "travel_"+ tripId+ ".json";
-        String fullPath = directoryName + "/" + fileName;
+        String fullPath = directoryName+"/"+ fileName;
+        System.out.println("Attempting to read from path: " + fullPath);
 
         try (FileReader reader = new FileReader(fullPath)) {
             Trip trip = gson.fromJson(reader, Trip.class);
