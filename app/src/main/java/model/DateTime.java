@@ -55,4 +55,10 @@ public class DateTime extends Date {
         return minute;
     }
 
+
+    @Override
+    public String toString() {
+        return super.toString() + " " + hour + ":" + minute;
+    }
+
 }
