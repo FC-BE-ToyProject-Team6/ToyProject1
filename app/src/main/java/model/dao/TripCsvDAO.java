@@ -1,119 +1,145 @@
 package model.dao;
-
 import model.*;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class TripCsvDAO implements TripDAO {
+    private Trip trip;
+    private Itinerary itinerary;
+    private String directoryName = "./trip_csv_files/";
 
     @Override
-    public void createTrip(Trip trip) {
-        try (FileWriter writer = new FileWriter(trip.getTripId() + ".csv")) {
-            writer.append("TripID,TripName,StartDate,EndDate\n");
-            writer.append(trip.getTripId() + "," + trip.getTripName() + "," + trip.getStartDate() + "," + trip.getEndDate() + "\n");
+    public void createTrip(String tripName, String startDateStr, String endDateStr) {
+        File dir = new File(directoryName);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        int tripId = countTripFiles() + 1;
+        Date startDate = Date.ofString(startDateStr);
+        Date endDate = Date.ofString(endDateStr);
+
+        String fileName = tripId + ".csv";
+        String fullPath = directoryName + "/"+ fileName;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath))) {
+            writer.write("trip_id,trip_name,start_date,end_date,itinerary_id,departure,destination,departure_ti\n" +
+                    "me,arrival_time,accommodation,check_in,check_out");
+            writer.newLine();
+            writer.write(tripId + "," + tripName + "," + startDate + "," + endDate);
+            writer.newLine();
+            System.out.println("File created at: " + new File(fullPath).getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void insertItinerary(int tripId, Itinerary itinerary) {
-        // Append new itinerary to existing CSV file
-        try (FileWriter writer = new FileWriter(tripId + ".csv", true)) {
-            writer.append(itinerary.getItineraryId() + "," + itinerary.getDeparturePlace() + ","
-                    + itinerary.getDestination() + "," + itinerary.getDepartureTime() + ","
-                    + itinerary.getArrivalTime() + "," + itinerary.getCheckIn() + "," + itinerary.getCheckOut() + "\n");
+    public void insertItinerary(int tripId,
+                                String departurePlace,
+                                String destination,
+                                String departureTimeString,
+                                String arrivalTimeString,
+                                String checkInString,
+                                String checkOutString) {
+
+
+        DateTime departureTime = DateTime.ofString(departureTimeString);
+        DateTime arrivalTime = DateTime.ofString(arrivalTimeString);
+        DateTime checkIn = DateTime.ofString(checkInString);
+        DateTime checkOut = DateTime.ofString(checkOutString);
+
+        String fileName = tripId + ".csv";
+        String fullPath = directoryName + "/" + fileName;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath, true))) {
+            writer.write(tripId + "," + departurePlace + "," + destination + "," +
+                    departureTime + "," + arrivalTime + "," + checkIn + "," + checkOut);
+            writer.newLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
     @Override
     public List<Trip> selectTripList() {
-        File folder = new File(".");
-        File[] listOfFiles = folder.listFiles();
         List<Trip> tripList = new ArrayList<>();
 
-        if (listOfFiles != null) {
-            for (File file : listOfFiles) {
-                if (file.isFile() && file.getName().endsWith(".csv")) {
-                    try {
-                        List<String> lines = Files.lines(Paths.get(file.getPath())).collect(Collectors.toList());
-                        String[] tripData = lines.get(0).split(",");
-                        Date startDate = Date.fromString(tripData[2]); // 가정: Date 클래스에 fromString 메서드가 있다.
-                        Date endDate = Date.fromString(tripData[3]);
-                        tripList.add(new Trip(Integer.parseInt(tripData[0]), tripData[1], startDate, endDate, null));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
         return tripList;
     }
 
     @Override
     public Trip selectTrip(int tripId) {
-        try {
-            List<String> lines = Files.lines(Paths.get(tripId + ".csv")).collect(Collectors.toList());
-            String[] tripData = lines.get(0).split(",");
+        String fileName = tripId + ".csv";
+        String fullPath = directoryName + "/" + fileName;
 
-            // DateTime과 Date로 변환
-            Date startDate = Date.fromString(tripData[2]);
-            Date endDate = Date.fromString(tripData[3]);
+        try (BufferedReader reader = new BufferedReader(new FileReader(fullPath))) {
+            String line = reader.readLine();
+            line = reader.readLine();
 
-            return new Trip(Integer.parseInt(tripData[0]), tripData[1], startDate, endDate, null);
+            if (line != null) {
+                String[] values = line.split(",");
+                int id = Integer.parseInt(values[0]);
+                String name = values[1];
+                Date startDate = Date.ofString(values[2]);
+                Date endDate = Date.ofString(values[3]);
+                return new Trip(id, name, startDate, endDate, new Itineraries());
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
-
 
     @Override
     public int countTripFiles() {
-
-        File folder = new File(".");
+        File folder = new File(directoryName);
         File[] listOfFiles = folder.listFiles();
-        int count = 0;
 
         if (listOfFiles != null) {
-            for (File file : listOfFiles) {
-                if (file.isFile() && file.getName().endsWith(".csv")) {
-                    count++;
-                }
-            }
+            return (int) listOfFiles.length;
         }
-        return count;
+        return 0;
     }
 
 
     @Override
     public Itinerary selectItinerary(int tripId, int itineraryId) {
-        try {
-            List<String> lines = Files.lines(Paths.get(tripId + ".csv")).collect(Collectors.toList());
-            for (int i = 1; i < lines.size(); i++) {
-                String[] itineraryData = lines.get(i).split(",");
-                if (Integer.parseInt(itineraryData[0]) == itineraryId) {
+        String fileName = tripId + ".csv";
+        String fullPath = directoryName + "/" + fileName;
 
-                    // DateTime으로 변환
-                    DateTime departureTime = (DateTime) DateTime.fromString(itineraryData[3]);
-                    DateTime arrivalTime = (DateTime) DateTime.fromString(itineraryData[4]);
-                    DateTime checkIn = (DateTime) DateTime.fromString(itineraryData[5]);
-                    DateTime checkOut = (DateTime) DateTime.fromString(itineraryData[6]);
+        try (BufferedReader reader = new BufferedReader(new FileReader(fullPath))) {
+            String line;
+            reader.readLine();  // Skip header
 
-                    return new Itinerary(Integer.parseInt(itineraryData[0]), itineraryData[1], itineraryData[2],
-                            departureTime, arrivalTime, checkIn, checkOut);
+            int currentItineraryId = 1;
+
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
+                if (currentItineraryId == itineraryId) {
+                    int id = Integer.parseInt(values[0]);
+                    String departurePlace = values[1];
+                    String destination = values[2];
+                    DateTime departureTime = DateTime.ofString(values[3]);
+                    DateTime arrivalTime = DateTime.ofString(values[4]);
+                    DateTime checkIn = DateTime.ofString(values[5]);
+                    DateTime checkOut = DateTime.ofString(values[6]);
+                    return new Itinerary(id, departurePlace, destination, departureTime, arrivalTime, checkIn, checkOut);
                 }
+                currentItineraryId++;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
+
+
+
+
 }

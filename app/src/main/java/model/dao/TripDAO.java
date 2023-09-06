@@ -1,5 +1,6 @@
 package model.dao;
 
+import model.Date;
 import model.Itinerary;
 
 
@@ -9,8 +10,18 @@ import model.Itinerary;
 import java.util.List;
 
 public interface TripDAO {
-    void createTrip(Trip trip);
-    void insertItinerary(int tripId, Itinerary itinerary);
+
+
+    void createTrip(String tripName, String startDateStr, String endDateStr);
+
+    void insertItinerary(int tripId,
+                         String departurePlace,
+                         String destination,
+                         String departureTimeString,
+                         String arrivalTimeString,
+                         String checkInString,
+                         String checkOutString);
+
     List<Trip> selectTripList();
     Trip selectTrip(int tripId);
     int countTripFiles();
