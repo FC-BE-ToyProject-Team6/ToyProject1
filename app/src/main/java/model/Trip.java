@@ -3,6 +3,7 @@ package model;
 import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -22,9 +23,16 @@ public class Trip {
         this.itineraries = itineraries;
     }
 
+    public Trip(String tripName, Date startDate, Date endDate) {
+        this.tripName = tripName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public Trip() {
 
     }
+
 
     public Itineraries getItineraries() {
         return itineraries;

@@ -21,28 +21,26 @@ public class TripJsonDAO implements TripDAO {
     private String directoryName = "./trip_json_files/";
 
     @Override
-    public void createTrip(String tripName, String startDateStr, String endDateStr) {
+    public void createTrip(Trip trip) {
 
         File dir = new File(directoryName);
         if (!dir.exists()) {
             dir.mkdirs();
         }
         int tripId = countTripFiles() + 1;
-        Date startDate = Date.ofString(startDateStr);
-        Date endDate = Date.ofString(endDateStr);
 
-        Trip trip = new Trip();
-        trip.setTripId(tripId);
-        trip.setTripName(tripName);
-        trip.setStartDate(startDate);
-        trip.setEndDate(endDate);
-        trip.setItineraries(new Itineraries());
+        Trip newTrip = new Trip();
+        newTrip.setTripId(tripId);
+        newTrip.setTripName(trip.getTripName());
+        newTrip.setStartDate(trip.getStartDate());
+        newTrip.setEndDate(trip.getEndDate());
+        newTrip.setItineraries(new Itineraries());
 
         String fileName = "travel_"+ tripId+ ".json";
         String fullPath = directoryName + "/" + fileName;
 
         try (FileWriter writer = new FileWriter(fullPath)) {
-            gson.toJson(trip, writer);
+            gson.toJson(newTrip, writer);
             System.out.println("File created at: " + new File(fullPath).getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,13 +51,7 @@ public class TripJsonDAO implements TripDAO {
 
 
     @Override
-    public void insertItinerary(int tripId,
-                                String departurePlace,
-                                String destination,
-                                String departureTimeString,
-                                String arrivalTimeString,
-                                String checkInString,
-                                String checkOutString) {
+    public void insertItinerary(int tripId, Itinerary itinerary) {
         String fileName = "travel_"+ tripId+ ".json";
         String fullPath = directoryName + "/" + fileName;
 
@@ -69,15 +61,15 @@ public class TripJsonDAO implements TripDAO {
                 trip.setItineraries(new Itineraries());
             }
             int itineraryId = trip.getItineraries().size() + 1;
-            DateTime departureTime = DateTime.ofString(departureTimeString);
-            DateTime arrivalTime = DateTime.ofString(arrivalTimeString);
-            DateTime checkIn = DateTime.ofString(checkInString);
-            DateTime checkOut = DateTime.ofString(checkOutString);
+            DateTime departureTime = itinerary.getDepartureTime();
+            DateTime arrivalTime = itinerary.getArrivalTime();
+            DateTime checkIn = itinerary.getCheckIn();
+            DateTime checkOut = itinerary.getCheckOut();
 
             Itinerary newItinerary = new Itinerary();
             newItinerary.setItineraryId(itineraryId);
-            newItinerary.setDeparturePlace(departurePlace);
-            newItinerary.setDestination(destination);
+            newItinerary.setDeparturePlace(itinerary.getDeparturePlace());
+            newItinerary.setDestination(itinerary.getDestination());
             newItinerary.setDepartureTime(departureTime);
             newItinerary.setArrivalTime(arrivalTime);
             newItinerary.setCheckIn(checkIn);

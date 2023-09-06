@@ -10,42 +10,25 @@ import model.DateTime;
 import model.Itineraries;
 import model.Itinerary;
 import model.Trip;
+import model.dao.TripCsvDAO;
+import model.dao.TripJsonDAO;
+import view.TripInputView;
 
 public class TripInputController {
 
-    public Trip createTrip(String tripName, String startDate, String endDate) {
-        int tripId = UUID.randomUUID().toString()
-            .replace("-", "").chars()
-            .mapToObj(c -> Character.toString((char) c))
-            .reduce
-                (BigInteger.ZERO,
-                    (acc, s) ->
-                        acc.multiply(BigInteger.valueOf(16)).add(new BigInteger(s, 16)),
-                    BigInteger::add
-                )
-            .mod(BigInteger.valueOf(Integer.MAX_VALUE))
-            .intValue();
+    private TripInputView view;
+    private TripCsvDAO csvDAO;
+    private TripJsonDAO jsonDAO;
 
-        List<Itinerary> itineraries = new ArrayList<>();
-
-        return new Trip(
-            tripId,
-            tripName,
-            stringToDate(startDate),
-            stringToDate(endDate),
-            (Itineraries) itineraries
-        );
-
+    public TripInputController() {
+        view = new TripInputView();
+        csvDAO = new TripCsvDAO();
+        jsonDAO = new TripJsonDAO();
     }
 
-    public Date stringToDate(String dateString) {
-        String[] dateArray = dateString.split("-");
-
-        return new Date(
-            Integer.parseInt(dateArray[0]), // 년도
-            Integer.parseInt(dateArray[1]), // 월
-            Integer.parseInt(dateArray[2])  // 일
-        );
+    public void createTrip() {
+        csvDAO.createTrip(view.inputTrip());
+        jsonDAO.createTrip(view.inputTrip());
     }
 
 

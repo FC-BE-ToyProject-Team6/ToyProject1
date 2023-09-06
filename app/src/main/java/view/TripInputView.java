@@ -5,6 +5,9 @@ import controller.TripInputController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import model.Date;
+import model.DateTime;
+import model.Itineraries;
 import model.Itinerary;
 import model.Trip;
 
@@ -30,7 +33,7 @@ public class TripInputView implements ConsoleView{
 
     }
 
-    public Trip inputTrip(){
+    public Trip inputTrip() {
         System.out.println("여행 이름: ");
         String tripName = scanner.nextLine();
 
@@ -40,7 +43,11 @@ public class TripInputView implements ConsoleView{
         System.out.println("종료 날짜: ");
         String endDate = scanner.nextLine();
 
-        return tripController.createTrip(tripName, startDate, endDate);
+        return new Trip(
+            tripName,
+            Date.ofString(startDate),
+            Date.ofString(endDate)
+        );
     }
 
     public List<Itinerary> inputItinerary(){
@@ -68,9 +75,10 @@ public class TripInputView implements ConsoleView{
             String checkOut = scanner.nextLine();
 
             itineraries.add(
-                itineraryController.createItinerary(
-                    departurePlace, destination, departureTime,
-                    arrivalTime, checkIn, checkOut
+                new Itinerary(
+                    departurePlace, destination,
+                    DateTime.ofString(departureTime), DateTime.ofString(arrivalTime),
+                    DateTime.ofString(checkIn), DateTime.ofString(checkOut)
                 )
             );
 
