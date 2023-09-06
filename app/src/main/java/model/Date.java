@@ -78,9 +78,5 @@ public class Date {
         return year + "-" + month + "-" + day;
     }
 
-    @Override
-    public String toString() {
-        return year + "-" + month + "-" + day;
-    }
 
 }

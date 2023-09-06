@@ -28,15 +28,15 @@ public class Itinerary {
     public Itinerary() {
     }
 
-    public Itinerary(String departurePlace, String destination, DateTime departureTime,
-        DateTime arrivalTime, DateTime checkIn, DateTime checkOut) {
+    public Itinerary(String departurePlace, String destination, String departureTime,
+        String arrivalTime, String checkIn, String checkOut) {
 
         this.departurePlace = departurePlace;
         this.destination = destination;
-        this.departureTime = departureTime;
-        this.arrivalTime = arrivalTime;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
+        this.departureTime = DateTime.ofString(departureTime);
+        this.arrivalTime = DateTime.ofString(arrivalTime);
+        this.checkIn = DateTime.ofString(checkIn);
+        this.checkOut = DateTime.ofString(checkOut);
     }
 
 

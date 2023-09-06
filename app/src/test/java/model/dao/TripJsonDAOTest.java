@@ -24,11 +24,8 @@ class TripJsonDAOTest {
     void createTrip() {
 
             String tripName = "일본여행";
-            String startDateStr = "2023-09-04";
-            String endDateStr = "2023-09-10";
-
-            Date startDate = Date.ofString(startDateStr);
-            Date endDate = Date.ofString(endDateStr);
+            String startDate = "2023-09-04";
+            String endDate = "2023-09-10";
 
             Trip newTrip = new Trip(tripName, startDate, endDate);
 
