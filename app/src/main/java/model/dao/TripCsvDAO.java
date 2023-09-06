@@ -7,6 +7,8 @@ import java.util.List;
 
 
 public class TripCsvDAO implements TripDAO {
+
+
     private Trip trip;
     private Itinerary itinerary;
     private String directoryName = "./trip_csv_files/";
@@ -22,7 +24,8 @@ public class TripCsvDAO implements TripDAO {
         Date startDate = trip.getStartDate();
         Date endDate = trip.getEndDate();
 
-        String fileName = tripId + ".csv";
+
+        String fileName = "travel_"+tripId + ".csv";
         String fullPath = directoryName + "/"+ fileName;
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath))) {
@@ -38,6 +41,8 @@ public class TripCsvDAO implements TripDAO {
         return tripId;
     }
 
+
+
     @Override
     public void insertItinerary(int tripId, Itinerary itinerary) {
 
@@ -47,7 +52,7 @@ public class TripCsvDAO implements TripDAO {
         DateTime checkIn = itinerary.getCheckIn();
         DateTime checkOut = itinerary.getCheckOut();
 
-        String fileName = tripId + ".csv";
+        String fileName = "travel_"+tripId + ".csv";
         String fullPath = directoryName + "/" + fileName;
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath, true))) {
@@ -70,7 +75,7 @@ public class TripCsvDAO implements TripDAO {
 
     @Override
     public Trip selectTrip(int tripId) {
-        String fileName = tripId + ".csv";
+        String fileName = "travel_"+tripId+ ".csv";
         String fullPath = directoryName + "/" + fileName;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fullPath))) {
@@ -106,7 +111,7 @@ public class TripCsvDAO implements TripDAO {
 
     @Override
     public Itinerary selectItinerary(int tripId, int itineraryId) {
-        String fileName = tripId + ".csv";
+        String fileName = "travel_"+tripId + ".csv";
         String fullPath = directoryName + "/" + fileName;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(fullPath))) {
