@@ -43,6 +43,8 @@ public class TripInputView implements ConsoleView{
         System.out.println("종료 날짜: ");
         String endDate = scanner.nextLine();
 
+        scanner.close();
+
         return new Trip(
             tripName,
             startDate,
@@ -85,8 +87,10 @@ public class TripInputView implements ConsoleView{
             System.out.println("Q. 다음 여정을 입력 하시겠습니까?(Y/N) : ");
             String input = scanner.nextLine();
             if (input.equalsIgnoreCase("N")) break;
-
+            //반복문 전 개행 문자 제거
+            scanner.nextLine();
         }
+        scanner.close();
         return itineraries;
     }
 }
