@@ -2,7 +2,6 @@ package view;
 
 public interface ConsoleView {
 
-    ConsoleView print();
+    void print();
 
-    boolean isEnd();
 }

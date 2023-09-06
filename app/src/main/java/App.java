@@ -12,9 +12,7 @@ public class App {
     private static void run() {
 
         ConsoleView consoleView = new MainMenuView();
-        while (!consoleView.isEnd()) {
-            consoleView = consoleView.print();
-        }
+        consoleView.print();
 
     }
 }

@@ -13,20 +13,21 @@ public class MainMenuView implements ConsoleView {
 
 
     @Override
-    public ConsoleView print() {
+    public void print() {
         printTitle();
         printDivider();
         printMenuList();
         printDivider();
         inputMenuNumber();
-        return moveNextMenu();
+        moveNextMenu();
     }
 
 
-    //이 메소드는 Factory 패턴을 이용해 개선 할 수 있을것 같습니다.
+    //이 메소드에 대해 개선 필요성이 있는거 같습니다.
     private ConsoleView moveNextMenu() {
         if (status == 1) {
-            // return 여행 입력 화면 인스턴스
+            ConsoleView cv = new TripInputView();
+            cv.print();
         }
         if (status == 2) {
             // return 여정 입력 화면 인스턴스
@@ -38,7 +39,8 @@ public class MainMenuView implements ConsoleView {
             // return 여정 조회 화면 인스턴스
         }
         if (status == 5) {
-            return new ProgramExit();
+            System.out.println("\n프로그램을 종료합니다.");
+            System.exit(0);
         }
 
         throw new IllegalArgumentException("잘 못 된 입력 입니다.");
