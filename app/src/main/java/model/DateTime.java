@@ -3,6 +3,8 @@ package model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -53,6 +55,10 @@ public class DateTime extends Date {
             throw new IllegalArgumentException("분은 0~59 사이 여야 합니다.");
         }
         return minute;
+    }
+    public static String dateTimeToString(DateTime dateTime) {
+
+        return dateTime.toString();
     }
 
 

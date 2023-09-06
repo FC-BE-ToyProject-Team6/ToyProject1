@@ -1,14 +1,37 @@
 package model;
 
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
+@Setter
 public class Trip {
-    private final int tripId;
-    private final String tripName;
-    private final Date startDate;
-    private final Date endDate;
-    private final Itineraries itineraries;
+    private int tripId;
+    private String tripName;
+    private Date startDate;
+    private Date endDate;
+    private Itineraries itineraries;
+
+    public Trip(int tripId, String tripName, Date startDate, Date endDate, Itineraries itineraries) {
+        this.tripId = tripId;
+        this.tripName = tripName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.itineraries = itineraries;
+    }
+
+    public Trip() {
+
+    }
+
+    public Itineraries getItineraries() {
+        return itineraries;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 }

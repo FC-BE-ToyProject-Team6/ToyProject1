@@ -1,16 +1,36 @@
 package model;
 
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
+@Setter
 public class Itinerary {
-    private final int itineraryId;
-    private final String departurePlace;
-    private final String destination;
-    private final DateTime departureTime;
-    private final DateTime arrivalTime;
-    private final DateTime checkIn;
-    private final DateTime checkOut;
+    private int itineraryId;
+    private String departurePlace;
+    private String destination;
+    private DateTime departureTime;
+    private DateTime arrivalTime;
+    private DateTime checkIn;
+    private DateTime checkOut;
+
+    public Itinerary(int itineraryId, String departurePlace, String destination, DateTime departureTime, DateTime arrivalTime, DateTime checkIn, DateTime checkOut) {
+        this.itineraryId = itineraryId;
+        this.departurePlace = departurePlace;
+        this.destination = destination;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+    }
+    public Itinerary() {
+    }
+
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 }
