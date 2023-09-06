@@ -60,6 +60,7 @@ public class DateTimeTest {
             .hasMessageContaining("분은 0~59 사이 여야 합니다.");
     }
 
+
     @Test
     public void DateTimeToString(){
         DateTime dateTime = DateTime.ofString("2020-12-12 13:14");
