@@ -19,12 +19,23 @@ public class ItineraryInputController {
         csvDAO = new TripCsvDAO();
         jsonDAO = new TripJsonDAO();
     }
+    //처음에 여행 생성시 여정 기록화면
     public void createItinerary() {
         int tripId = jsonDAO.getLastTripId();
         for (Itinerary itinerary: view.inputItinerary()) {
             csvDAO.insertItinerary(tripId, itinerary);
             jsonDAO.insertItinerary(tripId, itinerary);
         }
+    }
+
+    // 여정 기록 화면
+    public void addItinerary(int tripId){
+        for (Itinerary itinerary: view.inputItinerary()) {
+            csvDAO.insertItinerary(tripId, itinerary);
+            jsonDAO.insertItinerary(tripId, itinerary);
+        }
+
+
     }
 
 }
