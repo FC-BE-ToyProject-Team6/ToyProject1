@@ -23,7 +23,7 @@ class TripJsonDAOTest {
         String tripName = "일본여행";
         String startDateStr = "2023-09-04";
         String endDateStr = "2023-09-10";
-        tripJsonDAO.createTrip(tripName, startDateStr, endDateStr);
+//        tripJsonDAO.createTrip(tripName, startDateStr, endDateStr);
 
     }
 

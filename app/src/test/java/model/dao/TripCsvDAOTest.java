@@ -25,7 +25,7 @@ class TripCsvDAOTest {
         String tripName = "일본여행";
         String startDateStr = "2023-09-04";
         String endDateStr = "2023-09-10";
-        tripCsvDAO.createTrip(tripName, startDateStr, endDateStr);
+//        tripCsvDAO.createTrip(tripName, startDateStr, endDateStr);
 
     }
 

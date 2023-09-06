@@ -12,15 +12,9 @@ import java.util.List;
 public interface TripDAO {
 
 
-    void createTrip(String tripName, String startDateStr, String endDateStr);
+    void createTrip(Trip trip);
 
-    void insertItinerary(int tripId,
-                         String departurePlace,
-                         String destination,
-                         String departureTimeString,
-                         String arrivalTimeString,
-                         String checkInString,
-                         String checkOutString);
+    void insertItinerary(int tripId, Itinerary itinerary);
 
     List<Trip> selectTripList();
     Trip selectTrip(int tripId);

@@ -28,6 +28,17 @@ public class Itinerary {
     public Itinerary() {
     }
 
+    public Itinerary(String departurePlace, String destination, DateTime departureTime,
+        DateTime arrivalTime, DateTime checkIn, DateTime checkOut) {
+
+        this.departurePlace = departurePlace;
+        this.destination = destination;
+        this.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+    }
+
 
     @Override
     public String toString() {

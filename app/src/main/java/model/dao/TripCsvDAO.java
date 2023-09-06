@@ -12,14 +12,15 @@ public class TripCsvDAO implements TripDAO {
     private String directoryName = "./trip_csv_files/";
 
     @Override
-    public void createTrip(String tripName, String startDateStr, String endDateStr) {
+    public void createTrip(Trip trip) {
         File dir = new File(directoryName);
         if (!dir.exists()) {
             dir.mkdirs();
         }
         int tripId = countTripFiles() + 1;
-        Date startDate = Date.ofString(startDateStr);
-        Date endDate = Date.ofString(endDateStr);
+
+        Date startDate = trip.getStartDate();
+        Date endDate = trip.getEndDate();
 
         String fileName = tripId + ".csv";
         String fullPath = directoryName + "/"+ fileName;
@@ -28,7 +29,7 @@ public class TripCsvDAO implements TripDAO {
             writer.write("trip_id,trip_name,start_date,end_date,itinerary_id,departure,destination,departure_ti\n" +
                     "me,arrival_time,accommodation,check_in,check_out");
             writer.newLine();
-            writer.write(tripId + "," + tripName + "," + startDate + "," + endDate);
+            writer.write(tripId + "," + trip.getTripName() + "," + startDate + "," + endDate);
             writer.newLine();
             System.out.println("File created at: " + new File(fullPath).getAbsolutePath());
         } catch (IOException e) {
@@ -37,25 +38,19 @@ public class TripCsvDAO implements TripDAO {
     }
 
     @Override
-    public void insertItinerary(int tripId,
-                                String departurePlace,
-                                String destination,
-                                String departureTimeString,
-                                String arrivalTimeString,
-                                String checkInString,
-                                String checkOutString) {
+    public void insertItinerary(int tripId, Itinerary itinerary) {
 
 
-        DateTime departureTime = DateTime.ofString(departureTimeString);
-        DateTime arrivalTime = DateTime.ofString(arrivalTimeString);
-        DateTime checkIn = DateTime.ofString(checkInString);
-        DateTime checkOut = DateTime.ofString(checkOutString);
+        DateTime departureTime = itinerary.getDepartureTime();
+        DateTime arrivalTime = itinerary.getArrivalTime();
+        DateTime checkIn = itinerary.getCheckIn();
+        DateTime checkOut = itinerary.getCheckOut();
 
         String fileName = tripId + ".csv";
         String fullPath = directoryName + "/" + fileName;
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath, true))) {
-            writer.write(tripId + "," + departurePlace + "," + destination + "," +
+            writer.write(tripId + "," + itinerary.getDeparturePlace() + "," + itinerary.getDestination() + "," +
                     departureTime + "," + arrivalTime + "," + checkIn + "," + checkOut);
             writer.newLine();
         } catch (IOException e) {
