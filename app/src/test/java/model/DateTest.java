@@ -101,4 +101,10 @@ public class DateTest {
             .hasMessageContaining("일은 1 ~ 29 사이 여야 합니다.");
     }
 
+    @Test
+    public void dateToString(){
+        Date date = Date.ofString("2020-12-12");
+        assertThat(date.toString()).isEqualTo("2020-12-12");
+    }
+
 }

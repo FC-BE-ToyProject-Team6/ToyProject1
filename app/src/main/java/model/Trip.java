@@ -2,6 +2,7 @@ package model;
 
 import com.google.gson.Gson;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -27,6 +28,12 @@ public class Trip {
         this.startDate = Date.ofString(startDate);
         this.endDate = Date.ofString(endDate);
         this.itineraries = itineraries;
+  
+    public Trip(String tripName, Date startDate, Date endDate) {
+        this.tripName = tripName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+
     }
 
     public Trip() {
