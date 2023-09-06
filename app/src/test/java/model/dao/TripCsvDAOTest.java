@@ -3,12 +3,17 @@ package model.dao;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import model.Date;
 import model.Itinerary;
 import model.Trip;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 class TripCsvDAOTest {
@@ -25,13 +30,24 @@ class TripCsvDAOTest {
         String tripName = "일본여행";
         String startDateStr = "2023-09-04";
         String endDateStr = "2023-09-10";
-//        tripCsvDAO.createTrip(tripName, startDateStr, endDateStr);
+
+        Trip trip = new Trip();
+        trip.setTripName(tripName);
+        trip.setStartDate(Date.ofString(startDateStr));
+        trip.setEndDate(Date.ofString(endDateStr));
+
+
+        int createdTripId = tripCsvDAO.createTrip(trip);
+        System.out.println("createdTripId = " + createdTripId);
+        String expectedFilePath = tripFilesFolder + "/travel_" + createdTripId + ".csv";
+
+
 
     }
 
     @Test
     void insertItinerary() {
-        int tripId = 1;
+        int tripId = 6;
         String departurePlace = "Tokyo";
         String destination = "Osaka";
         String departureTimeString = "2023-07-04 12:30";
@@ -50,21 +66,22 @@ class TripCsvDAOTest {
     @Test
     void selectTripList() {
         List<Trip> tripList = tripCsvDAO.selectTripList();
+        System.out.println("tripList = " + tripList);
     }
 
     @Test
     void selectTrip() {
-        Trip selectedTrip = tripCsvDAO.selectTrip(1);
+        Trip selectedTrip = tripCsvDAO.selectTrip(6);
     }
 
     @Test
     void countTripFiles() {
         int count = tripCsvDAO.countTripFiles();
-        assertEquals(1, count);
+        assertEquals(7, count);
     }
 
     @Test
     void selectItinerary() {
-        Itinerary selectedItinerary = tripCsvDAO.selectItinerary(1, 1);
+        Itinerary selectedItinerary = tripCsvDAO.selectItinerary(7, 1);
     }
 }

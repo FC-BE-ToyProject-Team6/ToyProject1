@@ -27,7 +27,7 @@ public class Trip {
         this.tripName = tripName;
         this.startDate = Date.ofString(startDate);
         this.endDate = Date.ofString(endDate);
-        this.itineraries = itineraries;
+        this.itineraries = itineraries;}
   
     public Trip(String tripName, Date startDate, Date endDate) {
         this.tripName = tripName;
