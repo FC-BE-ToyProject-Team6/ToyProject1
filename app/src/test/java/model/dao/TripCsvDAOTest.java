@@ -33,16 +33,23 @@ class TripCsvDAOTest {
     }
     @Test
     void insertItinerary() {
-        int tripId = 6;
+        int tripId = 1;
         String departurePlace = "Tokyo";
         String destination = "Osaka";
         String departureTimeString = "2023-07-04 12:30";
         String arrivalTimeString = "2023-08-04 15:30";
         String checkInString = "2023-09-04 16:00";
         String checkOutString = "2023-09-10 11:00";
+
+        Itinerary itinerary = new Itinerary(
+          departurePlace,destination,
+          departureTimeString,arrivalTimeString,
+          checkInString,checkOutString
+        );
+
         tripCsvDAO.insertItinerary(
             tripId,
-            new Itinerary()
+            itinerary
         );
         Trip updatedTrip = tripCsvDAO.selectTrip(tripId);
     }

@@ -1,10 +1,11 @@
 package model.dao;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,11 +16,6 @@ import model.DateTime;
 import model.Itineraries;
 import model.Itinerary;
 import model.Trip;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 public class TripCsvDAO implements TripDAO {
     private Trip trip;
     private Itinerary itinerary;
@@ -36,10 +32,11 @@ public class TripCsvDAO implements TripDAO {
         String fileName = "travel_"+tripId + ".csv";
         String fullPath = directoryName + "/"+ fileName;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath))) {
-            writer.write("trip_id,trip_name,start_date,end_date,itinerary_id,departure,destination,departure_ti\n" +
-                "me,arrival_time,check_in,check_out");
+            writer.write("trip_id,trip_name,start_date,end_date,itinerary_id,departure,"
+                + "destination,departure_time,arrival_time,check_in,check_out");
             writer.newLine();
-            writer.write(tripId + "," + trip.getTripName() + "," + startDate + "," + endDate);
+            writer.write(tripId + "," + trip.getTripName() + "," + startDate + "," + endDate+
+                ","+","+","+","+","+","+",");
             writer.newLine();
             System.out.println("File created at: " + new File(fullPath).getAbsolutePath());
         } catch (IOException e) {
@@ -50,34 +47,39 @@ public class TripCsvDAO implements TripDAO {
     @Override
     public void insertItinerary(int tripId, Itinerary itinerary) {
         try {
-            String fileName = "travel_" + tripId + ".csv";
-            FileInputStream fileInput = new FileInputStream
-                (new File(fileName));
-            Workbook workbook = WorkbookFactory.create(fileInput);
-            Sheet sheet = workbook.getSheetAt(0);
+            String fileName = directoryName + "travel_" + tripId + ".csv";
+            FileReader fileReader = new FileReader(fileName);
+            CSVReader csvReader = new CSVReader(fileReader);
+            List<String[]> csvData = csvReader.readAll();
 
-            for (Row row: sheet) {
-                Cell cell = row.getCell(0);
-                //tripId가 동일하면 5열부터 여정 추가
-                if(cell.toString().equals(tripId)){
+
+            for (String[] row : csvData) {
+                /*
+                    tripId와 itinerary 아이디가 동일하면 5열부터 여정 추가로 변경해야 함
+                * */
+                if (row[0].equals(String.valueOf(tripId))) {
                     // itinerary.getItineraryId()은 아직 null
-                    row.createCell(5).setCellValue(tripId);
-                    row.createCell(6).setCellValue(itinerary.getDeparturePlace());
-                    row.createCell(7).setCellValue(itinerary.getDestination());
-                    row.createCell(8).setCellValue(itinerary.getDepartureTime().toString());
-                    row.createCell(9).setCellValue(itinerary.getArrivalTime().toString());
-                    row.createCell(10).setCellValue(itinerary.getCheckIn().toString());
-                    row.createCell(10).setCellValue(itinerary.getCheckOut().toString());
+                    row[4] = String.valueOf(tripId);
+                    row[5] = itinerary.getDeparturePlace();
+                    row[6] = itinerary.getDestination();
+                    row[7] = itinerary.getDepartureTime().toString();
+                    row[8] = itinerary.getArrivalTime().toString();
+                    row[9] = itinerary.getCheckIn().toString();
+                    row[10] = itinerary.getCheckOut().toString();
+
                 }
             }
-            FileOutputStream fileOut = new FileOutputStream(fileInput.getFD());
-            workbook.write(fileOut);
 
-            workbook.close();
-            fileOut.close();
-            fileInput.close();
+            FileWriter fileWriter = new FileWriter(fileName);
+            CSVWriter csvWriter = new CSVWriter(fileWriter);
+            csvWriter.writeAll(csvData);
+
+            csvReader.close();
+            csvWriter.close();
 
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvException e) {
             e.printStackTrace();
         }
     }
