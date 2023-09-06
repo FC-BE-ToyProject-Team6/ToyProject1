@@ -6,7 +6,6 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 @Getter
 @EqualsAndHashCode(callSuper = true)
 public class DateTime extends Date {
@@ -60,6 +59,12 @@ public class DateTime extends Date {
     public static String dateTimeToString(DateTime dateTime) {
 
         return dateTime.toString();
+    }
+
+
+    @Override
+    public String toString() {
+        return super.toString() + " " + hour + ":" + minute;
     }
 
 }
