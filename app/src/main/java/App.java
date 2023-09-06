@@ -1,9 +1,18 @@
+import view.ConsoleView;
+import view.MainMenuView;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+
+        run();
+
+    }
+
+    private static void run() {
+
+        ConsoleView consoleView = new MainMenuView();
+        consoleView.print();
+
     }
 }
