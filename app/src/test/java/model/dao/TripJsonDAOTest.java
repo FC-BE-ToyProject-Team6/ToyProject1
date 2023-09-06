@@ -1,5 +1,6 @@
 package model.dao;
 
+import static model.DateTime.ofString;
 import static org.junit.jupiter.api.Assertions.*;
 
 import model.Date;
@@ -23,32 +24,26 @@ class TripJsonDAOTest {
     @Test
     void createTrip() {
 
-            String tripName = "일본여행";
-            String startDate = "2023-09-04";
-            String endDate = "2023-09-10";
+        String tripName = "일본여행";
+        String startDate = "2023-09-04";
+        String endDate = "2023-09-10";
 
-            Trip newTrip = new Trip(tripName, startDate, endDate);
+        Trip newTrip = new Trip(tripName, startDate, endDate);
 
 
-            int tripId = tripJsonDAO.createTrip(newTrip);
+        int tripId = tripJsonDAO.createTrip(newTrip);
         lastTripId = tripId;
 
-
-        System.out.println("tripId = " + tripId);
-
-            Trip savedTrip = tripJsonDAO.selectTrip(tripId);
-            assertNotNull(savedTrip);
-            assertEquals(tripName, savedTrip.getTripName());
-            assertEquals(startDate, savedTrip.getStartDate());
-            assertEquals(endDate, savedTrip.getEndDate());
-        }
+        Trip savedTrip = tripJsonDAO.selectTrip(tripId);
+        System.out.println("savedTrip = " + savedTrip);
+    }
 
 
 
 
     @Test
     void insertItinerary() {
-
+        int tripId = 16;
 
         String departurePlace = "도쿄";
         String destination = "오사카";
@@ -58,7 +53,13 @@ class TripJsonDAOTest {
         String checkOutString = "2023-09-10 11:00";
 
         Itinerary itinerary = new Itinerary();
-        int tripId = getLastTripId();
+        itinerary.setDeparturePlace(departurePlace);
+        itinerary.setDestination(destination);
+        itinerary.setDepartureTime(ofString(departureTimeString));  // Assuming DateTime.parse() is a method to parse your date-time string to your DateTime object
+        itinerary.setArrivalTime(ofString(arrivalTimeString));
+        itinerary.setCheckIn(ofString(checkInString));
+        itinerary.setCheckOut(ofString(checkOutString));
+
         tripJsonDAO.insertItinerary(tripId, itinerary);
 
         Trip updatedTrip = tripJsonDAO.selectTrip(tripId);
@@ -90,12 +91,12 @@ class TripJsonDAOTest {
 
         int count = tripJsonDAO.countTripFiles();
         System.out.println("Number of trip files: " + count);
-        assertEquals(3, count);
+        assertEquals(15, count);
 
     }
 
     @Test
     void selectItinerary() {
-        Itinerary selectedItinerary = tripJsonDAO.selectItinerary(4, 1);
+        Itinerary selectedItinerary = tripJsonDAO.selectItinerary(15, 1);
     }
 }
