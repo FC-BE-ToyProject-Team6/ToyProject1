@@ -27,12 +27,13 @@ public class Trip {
         this.tripName = tripName;
         this.startDate = Date.ofString(startDate);
         this.endDate = Date.ofString(endDate);
-        this.itineraries = itineraries;}
+        this.itineraries = itineraries;
+    }
   
-    public Trip(String tripName, Date startDate, Date endDate) {
+    public Trip(String tripName, String startDate, String endDate) {
         this.tripName = tripName;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDate = Date.ofString(startDate);
+        this.endDate = Date.ofString(endDate);
 
     }
 

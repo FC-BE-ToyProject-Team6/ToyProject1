@@ -45,8 +45,8 @@ public class TripInputView implements ConsoleView{
 
         return new Trip(
             tripName,
-            Date.ofString(startDate),
-            Date.ofString(endDate)
+            startDate,
+            endDate
         );
     }
 
@@ -77,8 +77,8 @@ public class TripInputView implements ConsoleView{
             itineraries.add(
                 new Itinerary(
                     departurePlace, destination,
-                    DateTime.ofString(departureTime), DateTime.ofString(arrivalTime),
-                    DateTime.ofString(checkIn), DateTime.ofString(checkOut)
+                    departureTime, arrivalTime,
+                    checkIn, checkOut
                 )
             );
 
