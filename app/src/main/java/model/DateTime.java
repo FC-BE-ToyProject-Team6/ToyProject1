@@ -6,7 +6,6 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-
 @Getter
 @EqualsAndHashCode(callSuper = true)
 public class DateTime extends Date {

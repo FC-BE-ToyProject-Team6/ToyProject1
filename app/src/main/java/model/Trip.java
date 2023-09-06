@@ -1,7 +1,6 @@
 package model;
 
 import com.google.gson.Gson;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -23,10 +22,18 @@ public class Trip {
         this.itineraries = itineraries;
     }
 
+    public Trip(int tripId, String tripName, String startDate, String endDate, Itineraries itineraries) {
+        this.tripId = tripId;
+        this.tripName = tripName;
+        this.startDate = Date.ofString(startDate);
+        this.endDate = Date.ofString(endDate);
+        this.itineraries = itineraries;
+  
     public Trip(String tripName, Date startDate, Date endDate) {
         this.tripName = tripName;
         this.startDate = startDate;
         this.endDate = endDate;
+
     }
 
     public Trip() {
@@ -38,8 +45,14 @@ public class Trip {
         return itineraries;
     }
 
+
+
     @Override
     public String toString() {
         return new Gson().toJson(this);
+    }
+
+    public boolean isIdEquals(int tripId) {
+        return this.tripId == tripId;
     }
 }

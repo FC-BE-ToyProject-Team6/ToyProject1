@@ -73,6 +73,10 @@ public class Date {
         return timesInt;
     }
 
+    @Override
+    public String toString() {
+        return year + "-" + month + "-" + day;
+    }
 
     @Override
     public String toString() {
