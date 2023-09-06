@@ -41,12 +41,7 @@ class TripCsvDAOTest {
 
         tripCsvDAO.insertItinerary(
                 tripId,
-                departurePlace,
-                destination,
-                departureTimeString,
-                arrivalTimeString,
-                checkInString,
-                checkOutString
+                new Itinerary()
         );
 
         Trip updatedTrip = tripCsvDAO.selectTrip(tripId);

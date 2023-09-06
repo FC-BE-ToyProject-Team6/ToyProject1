@@ -12,7 +12,7 @@ public class TripCsvDAO implements TripDAO {
     private String directoryName = "./trip_csv_files/";
 
     @Override
-    public void createTrip(Trip trip) {
+    public int createTrip(Trip trip) {
         File dir = new File(directoryName);
         if (!dir.exists()) {
             dir.mkdirs();
@@ -35,6 +35,7 @@ public class TripCsvDAO implements TripDAO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return tripId;
     }
 
     @Override
