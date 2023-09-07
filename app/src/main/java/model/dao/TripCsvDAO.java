@@ -51,23 +51,17 @@ public class TripCsvDAO implements TripDAO {
             FileReader fileReader = new FileReader(fileName);
             CSVReader csvReader = new CSVReader(fileReader);
             List<String[]> csvData = csvReader.readAll();
+            int itinerayId = csvData.size();
 
-
+            //파일 당 여행 1개라 여행 id가 같은지 비교할 필요 없음
             for (String[] row : csvData) {
-                /*
-                    tripId와 itinerary 아이디가 동일하면 5열부터 여정 추가로 변경해야 함
-                * */
-                if (row[0].equals(String.valueOf(tripId))) {
-                    // itinerary.getItineraryId()은 아직 null
-                    row[4] = String.valueOf(tripId);
+                    row[4] = String.valueOf(itinerayId++);
                     row[5] = itinerary.getDeparturePlace();
                     row[6] = itinerary.getDestination();
                     row[7] = itinerary.getDepartureTime().toString();
                     row[8] = itinerary.getArrivalTime().toString();
                     row[9] = itinerary.getCheckIn().toString();
                     row[10] = itinerary.getCheckOut().toString();
-
-                }
             }
 
             FileWriter fileWriter = new FileWriter(fileName);
