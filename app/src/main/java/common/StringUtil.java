@@ -1,4 +1,4 @@
-package view;
+package common;
 
 import java.util.List;
 import java.util.Scanner;
@@ -7,7 +7,7 @@ import model.Itinerary;
 import model.Trip;
 import model.Trips;
 
-public class ConsoleUtil {
+public class StringUtil {
 
     private static final Scanner sc;
 

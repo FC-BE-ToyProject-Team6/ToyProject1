@@ -1,22 +1,24 @@
 package view;
 
+import common.StringUtil;
 import java.util.Scanner;
 import model.dao.TripJsonDAO;
 
 public class MainMenu implements ConsoleView {
 
     private final Scanner sc;
-
+    private SimpleViewFactory svf;
     public MainMenu() {
-        this.sc = ConsoleUtil.getScanner();
+        this.sc = StringUtil.getScanner();
+        svf = new SimpleViewFactory();
     }
 
 
     @Override
     public ConsoleView print() {
-        ConsoleUtil.printTitle("여행 여정을 기록하고 관리하는 SNS 서비스");
+        StringUtil.printTitle("여행 여정을 기록하고 관리하는 SNS 서비스");
         printMenuList();
-        ConsoleUtil.printDivier();
+        StringUtil.printDivier();
         return inputNextMenu();
     }
 
@@ -26,20 +28,7 @@ public class MainMenu implements ConsoleView {
         System.out.print("시작 할 메뉴 번호를 입력하세요 : ");
 
         int status = Integer.parseInt(sc.nextLine());
-
-        if (status == 1) {
-            return new TripInput();
-        } else if (status == 2) {
-            return new ItineraryInput();
-        } else if (status == 3) {
-            return new TripsSelect(new TripJsonDAO());
-        } else if (status == 4) {
-            return new ItinerarySelect();
-        } else if (status == 5) {
-            return new ProgramExit();
-        }
-
-        throw new IllegalArgumentException("잘 못 된 입력 입니다.");
+        return svf.selectView(status);
     }
 
 
