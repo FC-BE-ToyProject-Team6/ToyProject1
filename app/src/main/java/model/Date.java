@@ -35,6 +35,21 @@ public class Date {
 
     }
 
+    static int[] parseTimeInt(String[] times) {
+
+        int[] timesInt = new int[times.length];
+
+        for (int i = 0; i < times.length; i++) {
+            try {
+                timesInt[i] = Integer.parseInt(times[i]);
+            } catch (NumberFormatException e) {
+                throw new NumberFormatException("날짜 입력 형식이 올바르지 않습니다.");
+            }
+        }
+
+        return timesInt;
+    }
+
     private int validateYear(int year) {
         if (!(1 <= year)) {
             throw new IllegalArgumentException("년도는 1보다 커야 합니다.");
@@ -56,21 +71,6 @@ public class Date {
                 "일은 1 ~ " + yearMonth.lengthOfMonth() + " 사이 여야 합니다.");
         }
         return day;
-    }
-
-    static int[] parseTimeInt(String[] times) {
-
-        int[] timesInt = new int[times.length];
-
-        for (int i = 0; i < times.length; i++) {
-            try {
-                timesInt[i] = Integer.parseInt(times[i]);
-            } catch (NumberFormatException e) {
-                throw new NumberFormatException("날짜 입력 형식이 올바르지 않습니다.");
-            }
-        }
-
-        return timesInt;
     }
 
     @Override

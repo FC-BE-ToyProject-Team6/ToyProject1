@@ -2,33 +2,34 @@ package view;
 
 
 import controller.ItinerarySelectController;
-import controller.TripInputController;
-import model.*;
-import model.dao.TripDAO;
-import model.dao.TripJsonDAO;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Optional;
+import model.Itineraries;
+import model.Itinerary;
+import model.Trip;
 
 
-public class ItinerarySelectView implements ConsoleView {
+public class ItinerarySelect implements ConsoleView {
+
     private static final int CSV_NUMBER = 1, JSON_NUMBER = 2;
     private static BufferedReader br;
     private static ItinerarySelectController itinerarySelectController;
-//    private Trips trips;
-    private List<Trip> trips;
+    //    private Trips trips;
+//    private List<Trip> trips;
     private Itineraries itineraries;
     private int searchTripId, searchItId;
 
 
-    public ItinerarySelectView() {
+    public ItinerarySelect() {
         br = new BufferedReader(new InputStreamReader(System.in));
     }
 
     @Override
-    public void print() {
+    public ConsoleView print() {
+
+        ConsoleUtil.printTitle("여정 조회");
 
         /**
          * 1. csv OR json 선택.
@@ -84,17 +85,16 @@ public class ItinerarySelectView implements ConsoleView {
         printItinerariesBySearchItId();
         //closeBr();
 
-        ConsoleView moveMainView = new MainMenuView();
-        moveMainView.print();
+        return new MainMenu();
     }
 
     private void askToSelectCSVOrJSON() {
         try {
-            System.out.print("Q. 조회 방식을 선택하세요 (1: CSV, 2: JSON): ");
+            ConsoleUtil.inputValue("Q. 조회 방식을 선택하세요 (1: CSV, 2: JSON): ");
             String input = br.readLine();
 
             while (!isCorrectChoice(input)) {
-                System.out.print("Q. 입력 방식이 틀렸습니다. 다시 조회 방식을 선택하세요 (1: CSV, 2: JSON): ");
+                ConsoleUtil.inputValue("Q. 입력 방식이 틀렸습니다. 다시 조회 방식을 선택하세요 (1: CSV, 2: JSON): ");
                 input = br.readLine();
             }
             itinerarySelectController = new ItinerarySelectController(Integer.parseInt(input));
@@ -106,28 +106,31 @@ public class ItinerarySelectView implements ConsoleView {
 
     private boolean printTripList() {
 
-        System.out.println("# 여행 목록 #");
-        System.out.println("ID\t| 여행 이름\t\t");
+        List<Trip> trips = itinerarySelectController.getTrips();
+        return ConsoleUtil.printTripsTable(trips);
 
-        trips = itinerarySelectController.getTrips();
-        if (trips.size() == 0) {
-            System.out.println("여행 정보가 없습니다. 여행 입력으로 이동합니다.");
-            return false;
-        }
-
-        for (Trip trip : trips) {
-            System.out.println(trip.getTripId()+"\t| "+trip.getTripName());
-        }
-
-        return true;
+//        System.out.println("# 여행 목록 #");
+//        System.out.println("ID\t| 여행 이름\t\t");
+//
+//        if (trips.size() == 0) {
+//            System.out.println("여행 정보가 없습니다. 여행 입력으로 이동합니다.");
+//            return false;
+//        }
+//
+//        for (Trip trip : trips) {
+//            System.out.println(trip.getTripId() + "\t| " + trip.getTripName());
+//        }
+//
+//        return true;
     }
+
     private int askIdToSelectTrip() {
         int ans = 0;
         try {
-            System.out.print("\nQ. 조회할 여행의 아이디를 입력하세요: ");
+            ConsoleUtil.inputValue("\nQ. 조회할 여행의 아이디를 입력하세요");
             String input = br.readLine();
             while (!isCorrectAnswer(input)) {
-                System.out.print("Q. 입력 방식이 틀렸습니다. 조회할 여행의 아이디를 입력하세요: ");
+                ConsoleUtil.inputValue("Q. 입력 방식이 틀렸습니다. 조회할 여행의 아이디를 입력하세요");
                 input = br.readLine();
             }
             ans = Integer.parseInt(input);
@@ -149,27 +152,31 @@ public class ItinerarySelectView implements ConsoleView {
         }
 
         Trip trip = optional.get();
-        System.out.println("\n["+trip.getTripName()+"] 여행의 여정 정보입니다.");
+        System.out.println("\n[" + trip.getTripName() + "] 여행의 여정 정보입니다.");
 
-        Optional<Itineraries> optionalIt = itinerarySelectController.getItinerariesByTrip(trip.getTripId());
+        Optional<Itineraries> optionalIt = itinerarySelectController.getItinerariesByTrip(
+            trip.getTripId());
 
         if (optionalIt.isEmpty()) {
             System.out.println("조회된 여정들의 정보가 없습니다. ");
         } else {
             itineraries = optionalIt.get();
             for (Itinerary it : itineraries.getList()) {
-                System.out.println("ID " + it.getItineraryId() + "\t: " + it.getDeparturePlace() + " -> " + it.getDestination());
+                System.out.println(
+                    "ID " + it.getItineraryId() + "\t: " + it.getDeparturePlace() + " -> "
+                        + it.getDestination());
             }
         }
 
     }
+
     private int askIdToSelectItinerary() {
         int ans = 0;
         try {
-            System.out.print("\nQ. 조회할 여정의 아이디를 입력하세요: ");
+            ConsoleUtil.inputValue("\nQ. 조회할 여정의 아이디를 입력하세요");
             String input = br.readLine();
             while (!isCorrectAnswer(input)) {
-                System.out.print("Q. 입력 방식이 틀렸습니다. 조회할 여정의 아이디를 입력해주세요: ");
+                ConsoleUtil.inputValue("Q. 입력 방식이 틀렸습니다. 조회할 여정의 아이디를 입력해주세요");
                 input = br.readLine();
             }
             ans = Integer.parseInt(input);
@@ -183,7 +190,8 @@ public class ItinerarySelectView implements ConsoleView {
 
     private void printItinerariesBySearchItId() {
 
-        Optional<Itinerary> optional = itinerarySelectController.getItineraryBySearchId(searchTripId, searchItId);
+        Optional<Itinerary> optional = itinerarySelectController.getItineraryBySearchId(
+            searchTripId, searchItId);
         while (optional.isEmpty()) {
             System.out.println("조회 정보가 없습니다. 다시 여정 아이디 검색을 진행합니다.");
             searchItId = askIdToSelectItinerary();
@@ -191,7 +199,8 @@ public class ItinerarySelectView implements ConsoleView {
         }
 
         Itinerary it = optional.get();
-        System.out.println("\n["+it.getDeparturePlace()+" -> " + it.getDestination()+"] 여정의 상세 정보입니다.");
+        System.out.println(
+            "\n[" + it.getDeparturePlace() + " -> " + it.getDestination() + "] 여정의 상세 정보입니다.");
         System.out.println("출발 시간\t: " + it.getDepartureTime());
         System.out.println("도착 시간\t: " + it.getArrivalTime());
         System.out.println("체크 인\t: " + it.getCheckIn());
@@ -212,16 +221,20 @@ public class ItinerarySelectView implements ConsoleView {
         return true;
 
     }
+
     private boolean isCorrectChoice(String input) {
-        if (!isCorrectAnswer(input)) return false;
+        if (!isCorrectAnswer(input)) {
+            return false;
+        }
         int ans = Integer.parseInt(input);
-        if (ans != CSV_NUMBER && ans != JSON_NUMBER) return false;
-        return true;
+        return ans == CSV_NUMBER || ans == JSON_NUMBER;
     }
 
     private void closeBr() {
         try {
-            if (br != null) br.close();
+            if (br != null) {
+                br.close();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

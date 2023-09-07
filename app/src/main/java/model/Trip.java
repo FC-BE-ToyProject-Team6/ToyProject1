@@ -2,19 +2,21 @@ package model;
 
 import com.google.gson.Gson;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class Trip {
+
     private int tripId;
     private String tripName;
     private Date startDate;
     private Date endDate;
+    @Getter
     private Itineraries itineraries;
 
-    public Trip(int tripId, String tripName, Date startDate, Date endDate, Itineraries itineraries) {
+    public Trip(int tripId, String tripName, Date startDate, Date endDate,
+        Itineraries itineraries) {
         this.tripId = tripId;
         this.tripName = tripName;
         this.startDate = startDate;
@@ -22,14 +24,15 @@ public class Trip {
         this.itineraries = itineraries;
     }
 
-    public Trip(int tripId, String tripName, String startDate, String endDate, Itineraries itineraries) {
+    public Trip(int tripId, String tripName, String startDate, String endDate,
+        Itineraries itineraries) {
         this.tripId = tripId;
         this.tripName = tripName;
         this.startDate = Date.ofString(startDate);
         this.endDate = Date.ofString(endDate);
         this.itineraries = itineraries;
     }
-  
+
     public Trip(String tripName, String startDate, String endDate) {
         this.tripName = tripName;
         this.startDate = Date.ofString(startDate);
@@ -40,12 +43,6 @@ public class Trip {
     public Trip() {
 
     }
-
-
-    public Itineraries getItineraries() {
-        return itineraries;
-    }
-
 
 
     @Override

@@ -1,15 +1,18 @@
 package controller;
 
-import model.*;
-import model.dao.*;
-
 import java.util.List;
 import java.util.Optional;
+import model.Itineraries;
+import model.Itinerary;
+import model.Trip;
+import model.dao.TripCsvDAO;
+import model.dao.TripDAO;
+import model.dao.TripJsonDAO;
 
 public class ItinerarySelectController {
 
-    private static TripDAO tripDAO;
     private static final int CSV_NUMBER = 1, JSON_NUMBER = 2;
+    private static TripDAO tripDAO;
 
     public ItinerarySelectController(int searchMethod) {
         if (searchMethod == CSV_NUMBER) {
@@ -51,7 +54,7 @@ public class ItinerarySelectController {
 //    }
 
     public Optional<Itinerary> getItineraryBySearchId(int tripId, int itId) {
-        Optional<Itinerary> itinerary = Optional.ofNullable(tripDAO.selectItinerary(tripId,itId));
+        Optional<Itinerary> itinerary = Optional.ofNullable(tripDAO.selectItinerary(tripId, itId));
         return itinerary;
     }
 
