@@ -9,19 +9,20 @@ import java.util.Scanner;
 import model.dao.TripJsonDAO;
 
 public class TripView implements ConsoleView {
+
     private TripDAO tripDAO;
+
 
     public TripView(TripDAO tripDAO) {
         this.tripDAO = tripDAO;
+
     }
 
     @Override
     public void print() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Choose data storage format:");
-        System.out.println("1. CSV");
-        System.out.println("2. JSON");
+        System.out.println("조회 방식을 선택하세요 (1 : CSV, 2 : JSON):");
         int choice = scanner.nextInt();
 
         if (choice == 1) {
@@ -29,7 +30,7 @@ public class TripView implements ConsoleView {
         } else if (choice == 2) {
             tripDAO = new TripJsonDAO();
         } else {
-            System.out.println("Invalid choice. Exiting.");
+            System.out.println("잘못된 선택입니다.");
             return;
         }
 
@@ -41,7 +42,7 @@ public class TripView implements ConsoleView {
         List<Trip> tripList = tripDAO.selectTripList();
 
         if (tripList.isEmpty()) {
-            System.out.println("No trips found.");
+            System.out.println("여행을 찾을 수 없습니다.");
         } else {
             for (Trip trip : tripList) {
                 System.out.printf("%d.   %s  | %s| %s|\n",
@@ -62,7 +63,7 @@ public class TripView implements ConsoleView {
         if (selectedTrip != null) {
             System.out.println("= 선택한 여행 정보 =");
 
-            System.out.print( selectedTrip.getTripName());
+            System.out.print(selectedTrip.getTripName());
             System.out.print(", 출발일 : " + selectedTrip.getStartDate());
             System.out.print(" 도착일 : " + selectedTrip.getEndDate());
         } else {
