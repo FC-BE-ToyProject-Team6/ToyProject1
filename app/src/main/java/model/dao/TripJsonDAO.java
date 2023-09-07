@@ -3,6 +3,7 @@ package model.dao;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import model.*;
 
@@ -106,7 +107,12 @@ public class TripJsonDAO implements TripDAO {
                     try (FileReader reader = new FileReader(file)) {
                         Trip trip = gson.fromJson(reader, tripType);
                         tripList.add(trip);
-                    } catch (IOException e) {
+                    }
+                    catch (JsonSyntaxException ex) {
+                        /** Json 형태 유효성 검사 */
+                        System.out.println("잘못된 JSON 형식입니다.");
+                        return null;
+                    }catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
@@ -119,9 +125,12 @@ public class TripJsonDAO implements TripDAO {
     @Override
     public Trip selectTrip(int tripId) {
         try (FileReader reader = new FileReader(directoryName+"travel_"+tripId + ".json")) {
-            return gson.fromJson(reader, Trip.class);
+          return gson.fromJson(reader, Trip.class);
+        } catch (JsonSyntaxException ex) {
+                /** Json 형태 유효성 검사 */
+            System.out.println("잘못된 JSON 형식입니다.");
+            return null;
         } catch (Exception e) {
-            //e.printStackTrace();
             return null;
         }
 
@@ -153,8 +162,12 @@ public class TripJsonDAO implements TripDAO {
             //System.out.println(gson.toJson(selectedItinerary));
             return selectedItinerary;
 
-        } catch (Exception e) {
-            //e.printStackTrace();
+        } catch (JsonSyntaxException ex) {
+            /** Json 형태 유효성 검사 */
+            System.out.println("잘못된 JSON 형식입니다.");
+            return null;
+        }
+        catch (Exception e) {
             return null;
         }
     }
