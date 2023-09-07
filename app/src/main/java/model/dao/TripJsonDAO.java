@@ -1,6 +1,8 @@
 package model.dao;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import model.*;
@@ -18,7 +20,9 @@ import java.util.List;
 
 public class TripJsonDAO implements TripDAO {
     private int lastTripId;
-    private Gson gson = new Gson();
+    private Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
     private String directoryName = "app/trip_json_files/";
 
 
@@ -121,15 +125,12 @@ public class TripJsonDAO implements TripDAO {
     @Override
     public Trip selectTrip(int tripId) {
         try (FileReader reader = new FileReader(directoryName+"travel_"+tripId + ".json")) {
-            try{
-                return gson.fromJson(reader, Trip.class);
+          return gson.fromJson(reader, Trip.class);
         } catch (JsonSyntaxException ex) {
                 /** Json 형태 유효성 검사 */
             System.out.println("잘못된 JSON 형식입니다.");
             return null;
-        }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
             return null;
         }
 
@@ -158,17 +159,15 @@ public class TripJsonDAO implements TripDAO {
             Trip trip = gson.fromJson(reader, Trip.class);
 
             Itinerary selectedItinerary = trip.getItineraries().get(itineraryId - 1);
-            System.out.println(gson.toJson(selectedItinerary));
+            //System.out.println(gson.toJson(selectedItinerary));
             return selectedItinerary;
 
-        }
-        catch (JsonSyntaxException ex) {
+        } catch (JsonSyntaxException ex) {
             /** Json 형태 유효성 검사 */
             System.out.println("잘못된 JSON 형식입니다.");
             return null;
         }
-        catch (IOException e) {
-            e.printStackTrace();
+        catch (Exception e) {
             return null;
         }
     }
