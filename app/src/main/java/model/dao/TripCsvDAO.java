@@ -21,7 +21,8 @@ import model.Trip;
 public class TripCsvDAO implements TripDAO {
     private Trip trip;
     private Itinerary itinerary;
-    private String directoryName = "./trip_csv_files/";
+    private String directoryName = "app/trip_csv_files/";
+
     @Override
     public int createTrip(Trip trip) {
         int tripId = countTripFiles() + 1;

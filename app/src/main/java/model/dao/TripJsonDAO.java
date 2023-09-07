@@ -18,7 +18,8 @@ import java.util.List;
 public class TripJsonDAO implements TripDAO {
     private int lastTripId;
     private Gson gson = new Gson();
-    private String directoryName = "./trip_json_files/";
+    private String directoryName = "app/trip_json_files/";
+
 
     @Override
     public int createTrip(Trip trip) {
@@ -37,7 +38,6 @@ public class TripJsonDAO implements TripDAO {
 
         try (FileWriter writer = new FileWriter(fullPath)) {
             gson.toJson(trip, writer);
-            System.out.println("File created at: " + new File(fullPath).getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,6 @@ public class TripJsonDAO implements TripDAO {
 
         String fileName = "travel_"+ tripId+ ".json";
         String fullPath = directoryName+"/"+ fileName;
-        System.out.println("Attempting to read from path: " + fullPath);
 
         try (FileReader reader = new FileReader(fullPath)) {
             Trip trip = gson.fromJson(reader, Trip.class);
@@ -109,10 +108,6 @@ public class TripJsonDAO implements TripDAO {
                 }
             }
         }
-        for (Trip trip : tripList) {
-            System.out.println(gson.toJson(trip));
-        }
-
         return tripList;
     }
 

@@ -44,4 +44,8 @@ public class Itinerary {
     public String toString() {
         return new Gson().toJson(this);
     }
+
+
+    public void add(Itinerary itinerary) {
+    }
 }

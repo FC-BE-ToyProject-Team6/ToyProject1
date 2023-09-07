@@ -1,12 +1,12 @@
 package controller;
 
-import java.math.BigInteger;
-import java.util.UUID;
-import model.DateTime;
 import model.Itinerary;
+import model.Trip;
 import model.dao.TripCsvDAO;
 import model.dao.TripJsonDAO;
 import view.TripInputView;
+
+import java.util.List;
 
 public class ItineraryInputController {
 
@@ -29,11 +29,17 @@ public class ItineraryInputController {
     }
 
     // 여정 기록 화면
-    public void addItinerary(int tripId){
-        for (Itinerary itinerary: view.inputItinerary()) {
-            csvDAO.insertItinerary(tripId, itinerary);
-            jsonDAO.insertItinerary(tripId, itinerary);
+    public void addItinerary(Itinerary itinerary, int tripId){
+//        csvDAO.insertItinerary(tripId, itinerary);
+        jsonDAO.insertItinerary(tripId, itinerary);
+    }
+    public List<Trip> getTrips() {
+        return jsonDAO.selectTripList();
+
         }
+    public Trip selectTrip(int tripId) {
+        return jsonDAO.selectTrip(tripId);
+    }
 
 
-    }}
+}

@@ -13,7 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 class TripCsvDAOTest {
     private TripCsvDAO tripCsvDAO;
-    private final String tripFilesFolder = "./trip_csv_files/";
+    private final String tripFilesFolder = "app/trip_csv_files/";
+
     @BeforeEach
     void setUp() {
         tripCsvDAO = new TripCsvDAO();
@@ -33,7 +34,7 @@ class TripCsvDAOTest {
     }
     @Test
     void insertItinerary() {
-        int tripId = 1;
+        int tripId = 12;
         String departurePlace = "Tokyo";
         String destination = "Osaka";
         String departureTimeString = "2023-07-04 12:30";
