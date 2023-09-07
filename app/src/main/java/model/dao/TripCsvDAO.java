@@ -4,11 +4,13 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import model.Date;
@@ -22,23 +24,35 @@ public class TripCsvDAO implements TripDAO {
     private String directoryName = "./trip_csv_files/";
     @Override
     public int createTrip(Trip trip) {
-        File dir = new File(directoryName);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
         int tripId = countTripFiles() + 1;
-        Date startDate = trip.getStartDate();
-        Date endDate = trip.getEndDate();
-        String fileName = "travel_"+tripId + ".csv";
-        String fullPath = directoryName + "/"+ fileName;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath))) {
-            writer.write("trip_id,trip_name,start_date,end_date,itinerary_id,departure,"
-                + "destination,departure_time,arrival_time,check_in,check_out");
-            writer.newLine();
-            writer.write(tripId + "," + trip.getTripName() + "," + startDate + "," + endDate+
-                ","+","+","+","+","+","+",");
-            writer.newLine();
-            System.out.println("File created at: " + new File(fullPath).getAbsolutePath());
+
+        try {
+            File dir = new File(directoryName);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            String fileName = directoryName + "/" + "travel_" + tripId + ".csv";
+            FileOutputStream fileStream = new FileOutputStream(fileName);
+            OutputStreamWriter fileWriter = new OutputStreamWriter(fileStream, "UTF-8");
+            CSVWriter csvWriter = new CSVWriter(fileWriter);
+
+            List<String[]> rowList = new ArrayList<>();
+            rowList.add(new String[]{
+                "trip_id", "trip_name", "start_date", "end_date",
+                "itinerary_id", "departure", "destination", "departure_time", "arrival_time",
+                "check_in", "check_out"
+            });
+            rowList.add(new String[]{
+                String.valueOf(tripId), trip.getTripName(),
+                trip.getStartDate().toString(), trip.getEndDate().toString(),
+                "", "", "", "", "", "", ""
+            });
+            csvWriter.writeAll(rowList, true);
+
+            csvWriter.close();
+            fileWriter.close();
+            fileStream.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,18 +65,19 @@ public class TripCsvDAO implements TripDAO {
             FileReader fileReader = new FileReader(fileName);
             CSVReader csvReader = new CSVReader(fileReader);
             List<String[]> csvData = csvReader.readAll();
-            int itinerayId = csvData.size();
 
-            //파일 당 여행 1개라 여행 id가 같은지 비교할 필요 없음
-            for (String[] row : csvData) {
-                    row[4] = String.valueOf(itinerayId++);
-                    row[5] = itinerary.getDeparturePlace();
-                    row[6] = itinerary.getDestination();
-                    row[7] = itinerary.getDepartureTime().toString();
-                    row[8] = itinerary.getArrivalTime().toString();
-                    row[9] = itinerary.getCheckIn().toString();
-                    row[10] = itinerary.getCheckOut().toString();
-            }
+            int itinerayId = csvData.size();
+            String[] newRow = new String[11];
+
+            newRow[4] = String.valueOf(itinerayId++);
+            newRow[5] = itinerary.getDeparturePlace();
+            newRow[6] = itinerary.getDestination();
+            newRow[7] = itinerary.getDepartureTime().toString();
+            newRow[8] = itinerary.getArrivalTime().toString();
+            newRow[9] = itinerary.getCheckIn().toString();
+            newRow[10] = itinerary.getCheckOut().toString();
+
+            csvData.add(newRow);
 
             FileWriter fileWriter = new FileWriter(fileName);
             CSVWriter csvWriter = new CSVWriter(fileWriter);
