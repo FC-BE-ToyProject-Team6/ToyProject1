@@ -1,16 +1,25 @@
 package model.dao;
-import model.*;
 
-import java.io.*;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-
+import model.Date;
+import model.DateTime;
+import model.Itineraries;
+import model.Itinerary;
+import model.Trip;
 public class TripCsvDAO implements TripDAO {
     private Trip trip;
     private Itinerary itinerary;
     private String directoryName = "./trip_csv_files/";
-
     @Override
     public int createTrip(Trip trip) {
         File dir = new File(directoryName);
@@ -18,18 +27,16 @@ public class TripCsvDAO implements TripDAO {
             dir.mkdirs();
         }
         int tripId = countTripFiles() + 1;
-
         Date startDate = trip.getStartDate();
         Date endDate = trip.getEndDate();
-
-        String fileName = tripId + ".csv";
+        String fileName = "travel_"+tripId + ".csv";
         String fullPath = directoryName + "/"+ fileName;
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath))) {
-            writer.write("trip_id,trip_name,start_date,end_date,itinerary_id,departure,destination,departure_ti\n" +
-                    "me,arrival_time,accommodation,check_in,check_out");
+            writer.write("trip_id,trip_name,start_date,end_date,itinerary_id,departure,"
+                + "destination,departure_time,arrival_time,check_in,check_out");
             writer.newLine();
-            writer.write(tripId + "," + trip.getTripName() + "," + startDate + "," + endDate);
+            writer.write(tripId + "," + trip.getTripName() + "," + startDate + "," + endDate+
+                ","+","+","+","+","+","+",");
             writer.newLine();
             System.out.println("File created at: " + new File(fullPath).getAbsolutePath());
         } catch (IOException e) {
@@ -37,46 +44,69 @@ public class TripCsvDAO implements TripDAO {
         }
         return tripId;
     }
-
     @Override
     public void insertItinerary(int tripId, Itinerary itinerary) {
+        try {
+            String fileName = directoryName + "travel_" + tripId + ".csv";
+            FileReader fileReader = new FileReader(fileName);
+            CSVReader csvReader = new CSVReader(fileReader);
+            List<String[]> csvData = csvReader.readAll();
 
 
-        DateTime departureTime = itinerary.getDepartureTime();
-        DateTime arrivalTime = itinerary.getArrivalTime();
-        DateTime checkIn = itinerary.getCheckIn();
-        DateTime checkOut = itinerary.getCheckOut();
+            for (String[] row : csvData) {
+                /*
+                    tripId와 itinerary 아이디가 동일하면 5열부터 여정 추가로 변경해야 함
+                * */
+                if (row[0].equals(String.valueOf(tripId))) {
+                    // itinerary.getItineraryId()은 아직 null
+                    row[4] = String.valueOf(tripId);
+                    row[5] = itinerary.getDeparturePlace();
+                    row[6] = itinerary.getDestination();
+                    row[7] = itinerary.getDepartureTime().toString();
+                    row[8] = itinerary.getArrivalTime().toString();
+                    row[9] = itinerary.getCheckIn().toString();
+                    row[10] = itinerary.getCheckOut().toString();
 
-        String fileName = tripId + ".csv";
-        String fullPath = directoryName + "/" + fileName;
+                }
+            }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fullPath, true))) {
-            writer.write(tripId + "," + itinerary.getDeparturePlace() + "," + itinerary.getDestination() + "," +
-                    departureTime + "," + arrivalTime + "," + checkIn + "," + checkOut);
-            writer.newLine();
+            FileWriter fileWriter = new FileWriter(fileName);
+            CSVWriter csvWriter = new CSVWriter(fileWriter);
+            csvWriter.writeAll(csvData);
+
+            csvReader.close();
+            csvWriter.close();
+
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (CsvException e) {
             e.printStackTrace();
         }
     }
 
-
+    @Override
+    public int countTripFiles() {
+        File folder = new File(directoryName);
+        File[] listOfFiles = folder.listFiles();
+        if (listOfFiles != null) {
+            return (int) listOfFiles.length;
+        }
+        return 0;
+    }
 
     @Override
     public List<Trip> selectTripList() {
         List<Trip> tripList = new ArrayList<>();
-
         return tripList;
     }
 
     @Override
     public Trip selectTrip(int tripId) {
-        String fileName = tripId + ".csv";
+        String fileName = "travel_" + tripId + ".csv";
         String fullPath = directoryName + "/" + fileName;
-
         try (BufferedReader reader = new BufferedReader(new FileReader(fullPath))) {
             String line = reader.readLine();
             line = reader.readLine();
-
             if (line != null) {
                 String[] values = line.split(",");
                 int id = Integer.parseInt(values[0]);
@@ -85,36 +115,19 @@ public class TripCsvDAO implements TripDAO {
                 Date endDate = Date.ofString(values[3]);
                 return new Trip(id, name, startDate, endDate, new Itineraries());
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
-
-    @Override
-    public int countTripFiles() {
-        File folder = new File(directoryName);
-        File[] listOfFiles = folder.listFiles();
-
-        if (listOfFiles != null) {
-            return (int) listOfFiles.length;
-        }
-        return 0;
-    }
-
-
     @Override
     public Itinerary selectItinerary(int tripId, int itineraryId) {
-        String fileName = tripId + ".csv";
+        String fileName = "travel_"+tripId + ".csv";
         String fullPath = directoryName + "/" + fileName;
-
         try (BufferedReader reader = new BufferedReader(new FileReader(fullPath))) {
             String line;
             reader.readLine();  // Skip header
-
             int currentItineraryId = 1;
-
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",");
                 if (currentItineraryId == itineraryId) {
@@ -134,8 +147,4 @@ public class TripCsvDAO implements TripDAO {
         }
         return null;
     }
-
-
-
-
 }

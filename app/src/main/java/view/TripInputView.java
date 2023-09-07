@@ -1,26 +1,17 @@
 package view;
 
-import controller.ItineraryInputController;
-import controller.TripInputController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import model.Date;
-import model.DateTime;
-import model.Itineraries;
 import model.Itinerary;
 import model.Trip;
 
 public class TripInputView implements ConsoleView{
     private Scanner scanner;
-    private TripInputController tripController;
-    private ItineraryInputController itineraryController;
 
     //지금은 view랑 controller가 1대1 관계라 매개변수 안 넣음
     public TripInputView(){
         scanner = new Scanner(System.in);
-        tripController = new TripInputController();
-        itineraryController = new ItineraryInputController();
     }
 
     @Override
@@ -30,6 +21,7 @@ public class TripInputView implements ConsoleView{
         System.out.println("여행 정보가 저장됐습니다.");
 
         inputItinerary();
+        scanner.close();
 
     }
 
@@ -45,8 +37,8 @@ public class TripInputView implements ConsoleView{
 
         return new Trip(
             tripName,
-            Date.ofString(startDate),
-            Date.ofString(endDate)
+            startDate,
+            endDate
         );
     }
 
@@ -77,15 +69,16 @@ public class TripInputView implements ConsoleView{
             itineraries.add(
                 new Itinerary(
                     departurePlace, destination,
-                    DateTime.ofString(departureTime), DateTime.ofString(arrivalTime),
-                    DateTime.ofString(checkIn), DateTime.ofString(checkOut)
+                    departureTime, arrivalTime,
+                    checkIn, checkOut
                 )
             );
 
             System.out.println("Q. 다음 여정을 입력 하시겠습니까?(Y/N) : ");
             String input = scanner.nextLine();
             if (input.equalsIgnoreCase("N")) break;
-
+            //반복문 전 개행 문자 제거
+            scanner.nextLine();
         }
         return itineraries;
     }
