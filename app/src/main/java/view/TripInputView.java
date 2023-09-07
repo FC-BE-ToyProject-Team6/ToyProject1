@@ -16,9 +16,10 @@ public class TripInputView implements ConsoleView{
 
     @Override
     public void print() {
+        System.out.println();
         System.out.println("여행 정보를 입력해주세요.");
         inputTrip();
-        System.out.println("여행 정보가 저장됐습니다.");
+        System.out.println("여행 정보가 저장됐습니다.\n");
 
         inputItinerary();
         scanner.close();
@@ -26,13 +27,13 @@ public class TripInputView implements ConsoleView{
     }
 
     public Trip inputTrip() {
-        System.out.println("여행 이름: ");
+        System.out.print("여행 이름: ");
         String tripName = scanner.nextLine();
 
-        System.out.println("시작 날짜: ");
+        System.out.print("시작 날짜: ");
         String startDate = scanner.nextLine();
 
-        System.out.println("종료 날짜: ");
+        System.out.print("종료 날짜: ");
         String endDate = scanner.nextLine();
 
         return new Trip(
@@ -48,22 +49,22 @@ public class TripInputView implements ConsoleView{
         while (true){
             System.out.println("여정 정보를 입력해주세요.");
 
-            System.out.println("출발지: ");
+            System.out.print("출발지: ");
             String departurePlace = scanner.nextLine();
 
-            System.out.println("도착지: ");
+            System.out.print("도착지: ");
             String destination = scanner.nextLine();
 
-            System.out.println("출발 시간: ");
+            System.out.print("출발 시간: ");
             String departureTime = scanner.nextLine();
 
-            System.out.println("도착 시간: ");
+            System.out.print("도착 시간: ");
             String arrivalTime = scanner.nextLine();
 
-            System.out.println("체크 인: ");
+            System.out.print("체크 인: ");
             String checkIn = scanner.nextLine();
 
-            System.out.println("체크 아웃: ");
+            System.out.print("체크 아웃: ");
             String checkOut = scanner.nextLine();
 
             itineraries.add(
@@ -74,7 +75,8 @@ public class TripInputView implements ConsoleView{
                 )
             );
 
-            System.out.println("Q. 다음 여정을 입력 하시겠습니까?(Y/N) : ");
+            System.out.println();
+            System.out.print("Q. 다음 여정을 입력 하시겠습니까?(Y/N 후 엔터 입력) : ");
             String input = scanner.nextLine();
             if (input.equalsIgnoreCase("N")) break;
             //반복문 전 개행 문자 제거
