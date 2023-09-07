@@ -1,4 +1,3 @@
-import view.ConsoleView;
 import view.MainMenuView;
 
 public class App {
@@ -11,8 +10,10 @@ public class App {
 
     private static void run() {
 
-        ConsoleView consoleView = new MainMenuView();
-        consoleView.print();
+        MainMenuView mainMenuView = new MainMenuView();
+        while(mainMenuView.isContinue()){
+            mainMenuView.print();
+        }
 
     }
 }
