@@ -1,6 +1,8 @@
 package model.dao;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import model.*;
 
@@ -17,7 +19,9 @@ import java.util.List;
 
 public class TripJsonDAO implements TripDAO {
     private int lastTripId;
-    private Gson gson = new Gson();
+    private Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
     private String directoryName = "app/trip_json_files/";
 
 
@@ -116,8 +120,8 @@ public class TripJsonDAO implements TripDAO {
     public Trip selectTrip(int tripId) {
         try (FileReader reader = new FileReader(directoryName+"travel_"+tripId + ".json")) {
             return gson.fromJson(reader, Trip.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            //e.printStackTrace();
             return null;
         }
 
@@ -146,11 +150,11 @@ public class TripJsonDAO implements TripDAO {
             Trip trip = gson.fromJson(reader, Trip.class);
 
             Itinerary selectedItinerary = trip.getItineraries().get(itineraryId - 1);
-            System.out.println(gson.toJson(selectedItinerary));
+            //System.out.println(gson.toJson(selectedItinerary));
             return selectedItinerary;
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            //e.printStackTrace();
             return null;
         }
     }
