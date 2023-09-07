@@ -17,6 +17,11 @@ public class ItineraryInputView implements ConsoleView {
 
     public static void displayTrips() {
         List<Trip> trips = itineraryInputController.getTrips();
+        /** 예외 : 만약 생성된 여행 정보가 없다면, 여정 기록은 종료.*/
+        if (trips == null || trips.isEmpty()) {
+            System.out.println("현재 기록된 여행 정보가 없습니다. 먼저 여행을 기록해주세요.");
+            return;
+        }
         Collections.sort(trips, new Comparator<Trip>() {
             @Override
             public int compare(Trip trip1, Trip trip2) {
@@ -34,14 +39,14 @@ public class ItineraryInputView implements ConsoleView {
         Trip selectedTrip = itineraryInputController.selectTrip(tripId);
         Itineraries itineraries = selectedTrip.getItineraries();
         if (selectedTrip != null) {
-            System.out.println("= 선택한 여행정보 =");
+            System.out.println("================== 선택한 여행정보 ==================");
             System.out.printf("여행 이름: %s, 출발일: %s, 도착일: %s\n",
                     selectedTrip.getTripName(),
                     selectedTrip.getStartDate(),
                     selectedTrip.getEndDate());
 
             System.out.println();
-            System.out.println("[ 여정 목록 ]");
+            System.out.println("                                     [ 여정 목록 ]               ");
             System.out.println("ID   출발지   도착지             출발시간           도착시간          체크인            체크아웃");
             List<Itinerary> itineraryList = itineraries.getList();
 
@@ -74,6 +79,12 @@ public class ItineraryInputView implements ConsoleView {
         while (true) {
             System.out.print("Q. 여정을 추가 하시겠습니까?(Y/N): ");
             String choice = scanner.nextLine();
+            /** Y/N 유효성 검사 **/
+            while (!(choice.equalsIgnoreCase("Y") || choice.equalsIgnoreCase("N"))) {
+                System.out.println("잘못된 입력입니다. Y 또는 N만 입력해주세요.");
+                System.out.print("Q. 여정을 추가 하시겠습니까?(Y/N): ");
+                choice = scanner.nextLine();
+            }
 
             if (choice.equalsIgnoreCase("N")) break;
 
@@ -105,6 +116,8 @@ public class ItineraryInputView implements ConsoleView {
                         );
 
                 itineraryInputController.addItinerary(itineraries, tripId);
+            System.out.println();
+            System.out.println("여정 기록이 완료되었습니다!\n");
             }
 
 
