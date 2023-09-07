@@ -15,7 +15,8 @@ class TripJsonDAOTest {
     private int lastTripId;
 
     private TripJsonDAO tripJsonDAO;
-    private final String tripFilesFolder = "./trip_json_files/";
+    private final String tripFilesFolder = "app/trip_json_files/";
+
 
     @BeforeEach
     void setUp() {
@@ -24,9 +25,9 @@ class TripJsonDAOTest {
     @Test
     void createTrip() {
 
-        String tripName = "일본여행";
-        String startDate = "2023-09-04";
-        String endDate = "2023-09-10";
+        String tripName = "영국여행";
+        String startDate = "2023-08-04";
+        String endDate = "2023-08-10";
 
         Trip newTrip = new Trip(tripName, startDate, endDate);
 
@@ -43,14 +44,14 @@ class TripJsonDAOTest {
 
     @Test
     void insertItinerary() {
-        int tripId = 16;
+        int tripId = 2;
 
-        String departurePlace = "도쿄";
-        String destination = "오사카";
-        String departureTimeString = "2023-07-04 12:30";
-        String arrivalTimeString = "2023-08-04 15:30";
-        String checkInString = "2023-09-04 16:00";
-        String checkOutString = "2023-09-10 11:00";
+        String departurePlace = "뉴욕";
+        String destination = "워싱턴";
+        String departureTimeString = "2023-09-20 12:30";
+        String arrivalTimeString = "2023-09-20 15:30";
+        String checkInString = "2023-09-20 16:00";
+        String checkOutString = "2023-09-30 11:00";
 
         Itinerary itinerary = new Itinerary();
         itinerary.setDeparturePlace(departurePlace);
@@ -75,6 +76,7 @@ class TripJsonDAOTest {
 
     @Test
     void selectTripList() {
+
         List<Trip> tripList = tripJsonDAO.selectTripList();
         System.out.println("tripList = " + tripList);
     }
@@ -91,12 +93,12 @@ class TripJsonDAOTest {
 
         int count = tripJsonDAO.countTripFiles();
         System.out.println("Number of trip files: " + count);
-        assertEquals(15, count);
+        assertEquals(20, count);
 
     }
 
     @Test
     void selectItinerary() {
-        Itinerary selectedItinerary = tripJsonDAO.selectItinerary(15, 1);
+        Itinerary selectedItinerary = tripJsonDAO.selectItinerary(20, 2);
     }
 }

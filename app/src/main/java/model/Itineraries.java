@@ -22,4 +22,9 @@ public class Itineraries {
     public Itinerary get(int itineraryId) {
         return itineraries.get(itineraryId);
     }
+
+    public List<Itinerary> getList() {
+        return itineraries;
+
+    }
 }
