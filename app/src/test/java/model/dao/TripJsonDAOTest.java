@@ -25,7 +25,7 @@ class TripJsonDAOTest {
     @Test
     void createTrip() {
 
-        String tripName = "영국여행";
+        String tripName = "유럽여행";
         String startDate = "2023-08-04";
         String endDate = "2023-08-10";
 
@@ -46,8 +46,8 @@ class TripJsonDAOTest {
     void insertItinerary() {
         int tripId = 2;
 
-        String departurePlace = "뉴욕";
-        String destination = "워싱턴";
+        String departurePlace = "필라델피아";
+        String destination = "뉴욕";
         String departureTimeString = "2023-09-20 12:30";
         String arrivalTimeString = "2023-09-20 15:30";
         String checkInString = "2023-09-20 16:00";
@@ -56,7 +56,7 @@ class TripJsonDAOTest {
         Itinerary itinerary = new Itinerary();
         itinerary.setDeparturePlace(departurePlace);
         itinerary.setDestination(destination);
-        itinerary.setDepartureTime(ofString(departureTimeString));  // Assuming DateTime.parse() is a method to parse your date-time string to your DateTime object
+        itinerary.setDepartureTime(ofString(departureTimeString));
         itinerary.setArrivalTime(ofString(arrivalTimeString));
         itinerary.setCheckIn(ofString(checkInString));
         itinerary.setCheckOut(ofString(checkOutString));
@@ -64,7 +64,7 @@ class TripJsonDAOTest {
         tripJsonDAO.insertItinerary(tripId, itinerary);
 
         Trip updatedTrip = tripJsonDAO.selectTrip(tripId);
-        Itinerary lastInsertedItinerary = updatedTrip.getItineraries().get(updatedTrip.getItineraries().size() - 1);  // Assuming the last one is the one you just inserted.
+        Itinerary lastInsertedItinerary = updatedTrip.getItineraries().get(updatedTrip.getItineraries().size() - 1);
 
         assertEquals(departurePlace, lastInsertedItinerary.getDeparturePlace());
         assertEquals(destination, lastInsertedItinerary.getDestination());
