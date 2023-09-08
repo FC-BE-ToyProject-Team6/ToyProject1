@@ -18,13 +18,20 @@ import model.DateTime;
 import model.Itineraries;
 import model.Itinerary;
 import model.Trip;
+import model.TripDto;
+
 public class TripCsvDAO implements TripDAO {
+
+    private final String directoryName = "app/trip_csv_files/";
     private Trip trip;
     private Itinerary itinerary;
-    private String directoryName = "app/trip_csv_files/";
 
     @Override
     public int createTrip(Trip trip) {
+        return 0;
+    }
+
+    public int createTrip(TripDto trip) {
         int tripId = countTripFiles() + 1;
 
         try {
@@ -34,7 +41,8 @@ public class TripCsvDAO implements TripDAO {
             }
             String fileName = directoryName + "/" + "travel_" + tripId + ".csv";
             FileOutputStream fileStream = new FileOutputStream(fileName);
-            OutputStreamWriter fileWriter = new OutputStreamWriter(fileStream, "UTF-8");
+            OutputStreamWriter fileWriter = new OutputStreamWriter(fileStream,
+                StandardCharsets.UTF_8);
             CSVWriter csvWriter = new CSVWriter(fileWriter);
 
             List<String[]> rowList = new ArrayList<>();
@@ -59,6 +67,8 @@ public class TripCsvDAO implements TripDAO {
         }
         return tripId;
     }
+
+
     @Override
     public void insertItinerary(int tripId, Itinerary itinerary) {
         try {
@@ -99,7 +109,7 @@ public class TripCsvDAO implements TripDAO {
         File folder = new File(directoryName);
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles != null) {
-            return (int) listOfFiles.length;
+            return listOfFiles.length;
         }
         return 0;
     }
@@ -130,9 +140,10 @@ public class TripCsvDAO implements TripDAO {
         }
         return null;
     }
+
     @Override
     public Itinerary selectItinerary(int tripId, int itineraryId) {
-        String fileName = "travel_"+tripId + ".csv";
+        String fileName = "travel_" + tripId + ".csv";
         String fullPath = directoryName + "/" + fileName;
         try (BufferedReader reader = new BufferedReader(new FileReader(fullPath))) {
             String line;
@@ -148,7 +159,8 @@ public class TripCsvDAO implements TripDAO {
                     DateTime arrivalTime = DateTime.ofString(values[4]);
                     DateTime checkIn = DateTime.ofString(values[5]);
                     DateTime checkOut = DateTime.ofString(values[6]);
-                    return new Itinerary(id, departurePlace, destination, departureTime, arrivalTime, checkIn, checkOut);
+                    return new Itinerary(id, departurePlace, destination, departureTime,
+                        arrivalTime, checkIn, checkOut);
                 }
                 currentItineraryId++;
             }
@@ -157,4 +169,5 @@ public class TripCsvDAO implements TripDAO {
         }
         return null;
     }
+
 }

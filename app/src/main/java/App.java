@@ -1,4 +1,6 @@
-import view.MainMenuView;
+import common.AppStatus;
+import view.ConsoleView;
+import view.MainMenu;
 
 public class App {
 
@@ -10,9 +12,9 @@ public class App {
 
     private static void run() {
 
-        MainMenuView mainMenuView = new MainMenuView();
-        while(mainMenuView.isContinue()){
-            mainMenuView.print();
+        ConsoleView consoleView = new MainMenu();
+        while (AppStatus.isProgramRunning()) {
+            consoleView = consoleView.print();
         }
 
     }

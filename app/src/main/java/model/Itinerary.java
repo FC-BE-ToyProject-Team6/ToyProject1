@@ -1,13 +1,13 @@
 package model;
 
 import com.google.gson.Gson;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class Itinerary {
+
     private int itineraryId;
     private String departurePlace;
     private String destination;
@@ -16,7 +16,8 @@ public class Itinerary {
     private DateTime checkIn;
     private DateTime checkOut;
 
-    public Itinerary(int itineraryId, String departurePlace, String destination, DateTime departureTime, DateTime arrivalTime, DateTime checkIn, DateTime checkOut) {
+    public Itinerary(int itineraryId, String departurePlace, String destination,
+        DateTime departureTime, DateTime arrivalTime, DateTime checkIn, DateTime checkOut) {
         this.itineraryId = itineraryId;
         this.departurePlace = departurePlace;
         this.destination = destination;
@@ -25,6 +26,7 @@ public class Itinerary {
         this.checkIn = checkIn;
         this.checkOut = checkOut;
     }
+
     public Itinerary() {
     }
 

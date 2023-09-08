@@ -28,4 +28,7 @@ public class Itineraries {
 
     }
 
+    public boolean isEmpty() {
+        return itineraries.isEmpty();
+    }
 }
