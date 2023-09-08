@@ -15,6 +15,7 @@ public class ItinerarySelect implements ConsoleView {
     private static ItinerarySelect instance;
     private static ItinerarySelectController isController;
     private int searchTripId, searchItId;
+    private static final String TRIP = "여행", ITINERARY = "여정";
 
     public static ItinerarySelect getInstance() {
         if (instance == null) instance = new ItinerarySelect();
@@ -42,51 +43,37 @@ public class ItinerarySelect implements ConsoleView {
             return new MainMenu();
         }
 
-        searchTripId = askIdToSelectTrip();
         printTripBySearchTripId();
-
-        searchItId = askIdToSelectItinerary();
         printItinerariesBySearchItId();
 
         return new MainMenu();
     }
 
-
     private boolean printTripList() {
         Optional<List<Trip>> optional = isController.getTrips();
-        if (!printEmpty(optional, "여행")) return false;
+        if (!printEmpty(optional, TRIP)) return false;
         return printTripsTable(optional.get());
-
     }
 
-    private int askIdToSelectTrip() {
-        int ans = Scan.nextInt("\nQ. 조회할 여행의 아이디를 입력하세요");
+    private int askId(String str) {
+        int ans = Scan.nextInt("\nQ. 조회할 "+ str + "의 아이디를 입력하세요");
         return ans;
     }
 
     private void printTripBySearchTripId() {
         Optional<Trip> optional;
-        while (!printQuestionIDAgain(optional = isController.getTripBySearchId(searchTripId))) {
-            searchTripId = askIdToSelectTrip();
-        }
+        while (!printQuestionIDAgain(optional = isController.getTripBySearchId(searchTripId = askId(TRIP))));
 
         Trip trip = optional.get();
         Optional<Itineraries> optionalIt = isController.getItinerariesByTrip(trip.getTripId());
-        if (!printEmpty(optional, "여정")) return;
+        if (!printEmpty(optional, ITINERARY)) return;
         printItinerariesSummary(trip.getTripName(), optionalIt.get());
 
     }
 
-    private int askIdToSelectItinerary() {
-        int ans = Scan.nextInt("\nQ. 조회할 여정의 아이디를 입력하세요");
-        return ans;
-    }
-
     private void printItinerariesBySearchItId() {
         Optional<Itinerary> optional;
-        while (!printQuestionIDAgain(optional = isController.getItineraryBySearchId(searchTripId, searchItId))) {
-            searchItId = askIdToSelectItinerary();
-        }
+        while (!printQuestionIDAgain(optional = isController.getItineraryBySearchId(searchTripId, searchItId = askId(ITINERARY))));
 
         printItinerary(optional.get());
     }
