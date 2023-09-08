@@ -86,7 +86,7 @@ public class ItinerarySelect implements ConsoleView {
         printItinerariesBySearchItId();
         //closeBr();
 
-        return new MainMenu();
+        return MainMenu.getInstance();
     }
 
     private void askToSelectCSVOrJSON() {

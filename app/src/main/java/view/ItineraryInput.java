@@ -4,8 +4,10 @@ package view;
 import static common.StringUtil.*;
 
 import controller.ItineraryInputController;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 import model.Itineraries;
 import model.Itinerary;
 import model.Trip;
@@ -28,12 +30,12 @@ public class ItineraryInput implements ConsoleView {
         printTitle("여정 기록");
 
         inputItinerary();
-        return new MainMenu();
+        return MainMenu.getInstance();
     }
 
-    public void displayTrips() {
+    public boolean displayTrips() {
         List<Trip> trips = controller.getTrips();
-        printTripsTable(trips);
+        return printTripsTable(trips);
         /** 예외 : 만약 생성된 여행 정보가 없다면, 여정 기록은 종료.*/
 //        if (trips == null || trips.isEmpty()) {
 //            ConsoleUtil.print("현재 기록된 여행 정보가 없습니다. 먼저 여행을 기록해주세요.");
@@ -127,6 +129,7 @@ public class ItineraryInput implements ConsoleView {
 
             inputValue("출발시간(yyyy-mm-dd hh:mi)");
             String departureTime = scanner.nextLine();
+
 
             inputValue("도착시간(yyyy-mm-dd hh:mi)");
             String arrivalTime = scanner.nextLine();

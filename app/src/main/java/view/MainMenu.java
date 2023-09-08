@@ -8,9 +8,19 @@ public class MainMenu implements ConsoleView {
 
     private final Scanner sc;
     private SimpleViewFactory svf;
-    public MainMenu() {
+
+    private static MainMenu mainMenu;
+
+    private MainMenu() {
         this.sc = getScanner();
         svf = new SimpleViewFactory();
+    }
+
+    public static MainMenu getInstance(){
+        if(mainMenu == null){
+            mainMenu = new MainMenu();
+        }
+        return mainMenu;
     }
 
 

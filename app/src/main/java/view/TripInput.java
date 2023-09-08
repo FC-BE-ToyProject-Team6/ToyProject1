@@ -25,7 +25,7 @@ public class TripInput implements ConsoleView {
         int tripId = inputTrip();
         inputItinerary(tripId);
 
-        return new MainMenu();
+        return MainMenu.getInstance();
     }
 
     public int inputTrip() {

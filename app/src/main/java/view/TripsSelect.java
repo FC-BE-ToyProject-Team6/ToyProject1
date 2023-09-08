@@ -34,14 +34,14 @@ public class TripsSelect implements ConsoleView {
             tripDAO = new TripJsonDAO();
         } else {
             System.out.println("잘못된 선택입니다.");
-            return new MainMenu();
+            return MainMenu.getInstance();
         }
 
         // 여행 목록 출력
         List<Trip> tripList = tripDAO.selectTripList();
         if (tripList.isEmpty()) {
             println("여행 정보가 없습니다.");
-            return new MainMenu();
+            return MainMenu.getInstance();
         }
 
         printTripsTable(tripList);
@@ -83,6 +83,6 @@ public class TripsSelect implements ConsoleView {
             System.out.println("해당 ID로 여행을 찾을 수 없습니다.");
         }
 
-        return new MainMenu();
+        return MainMenu.getInstance();
     }
 }
