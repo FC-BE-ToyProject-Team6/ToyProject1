@@ -13,6 +13,8 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import common.FileStringUtil;
 import model.Date;
 import model.DateTime;
 import model.Itineraries;
@@ -22,7 +24,6 @@ import model.TripDto;
 
 public class TripCsvDAO implements TripDAO {
 
-    private final String directoryName = "app/trip_csv_files/";
     private Trip trip;
     private Itinerary itinerary;
 
@@ -35,11 +36,11 @@ public class TripCsvDAO implements TripDAO {
         int tripId = countTripFiles() + 1;
 
         try {
-            File dir = new File(directoryName);
+            File dir = new File(FileStringUtil.DIR_PATH_CSV);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            String fileName = directoryName + "/" + "travel_" + tripId + ".csv";
+            String fileName = String.format(FileStringUtil.FILE_PATH_CSV, tripId);
             FileOutputStream fileStream = new FileOutputStream(fileName);
             OutputStreamWriter fileWriter = new OutputStreamWriter(fileStream,
                 StandardCharsets.UTF_8);
@@ -72,7 +73,7 @@ public class TripCsvDAO implements TripDAO {
     @Override
     public void insertItinerary(int tripId, Itinerary itinerary) {
         try {
-            String fileName = directoryName + "travel_" + tripId + ".csv";
+            String fileName = String.format(FileStringUtil.FILE_PATH_CSV, tripId);
             FileReader fileReader = new FileReader(fileName);
             CSVReader csvReader = new CSVReader(fileReader);
             List<String[]> csvData = csvReader.readAll();
@@ -106,7 +107,7 @@ public class TripCsvDAO implements TripDAO {
 
     @Override
     public int countTripFiles() {
-        File folder = new File(directoryName);
+        File folder = new File(FileStringUtil.DIR_PATH_CSV);
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles != null) {
             return listOfFiles.length;
@@ -122,9 +123,8 @@ public class TripCsvDAO implements TripDAO {
 
     @Override
     public Trip selectTrip(int tripId) {
-        String fileName = "travel_" + tripId + ".csv";
-        String fullPath = directoryName + "/" + fileName;
-        try (BufferedReader reader = new BufferedReader(new FileReader(fullPath))) {
+        String fileName = String.format(FileStringUtil.FILE_PATH_CSV, tripId);
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line = reader.readLine();
             line = reader.readLine();
             if (line != null) {
@@ -143,9 +143,9 @@ public class TripCsvDAO implements TripDAO {
 
     @Override
     public Itinerary selectItinerary(int tripId, int itineraryId) {
-        String fileName = "travel_" + tripId + ".csv";
-        String fullPath = directoryName + "/" + fileName;
-        try (BufferedReader reader = new BufferedReader(new FileReader(fullPath))) {
+
+        String fileName = String.format(FileStringUtil.FILE_PATH_CSV, tripId);
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             reader.readLine();  // Skip header
             int currentItineraryId = 1;
