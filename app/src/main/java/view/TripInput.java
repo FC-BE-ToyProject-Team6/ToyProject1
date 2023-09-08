@@ -1,6 +1,6 @@
 package view;
 
-import common.StringUtil;
+import static common.StringUtil.*;
 import controller.TripInputController;
 import java.util.Scanner;
 import model.Itineraries;
@@ -14,13 +14,13 @@ public class TripInput implements ConsoleView {
     private final TripInputController controller;
 
     public TripInput() {
-        scanner = StringUtil.getScanner();
+        scanner = getScanner();
         controller = new TripInputController();
     }
 
     @Override
     public ConsoleView print() {
-        StringUtil.printTitle("여행 기록");
+        printTitle("여행 기록");
 
         int tripId = inputTrip();
         inputItinerary(tripId);
@@ -29,14 +29,14 @@ public class TripInput implements ConsoleView {
     }
 
     public int inputTrip() {
-        StringUtil.printQuestion("여행 정보를 입력 해주세요.");
-        StringUtil.inputValue("여행 이름");
+        printQuestion("여행 정보를 입력 해주세요.");
+        inputValue("여행 이름");
         String tripName = scanner.nextLine();
 
-        StringUtil.inputValue("시작 날짜(yyyy-mm-dd)");
+        inputValue("시작 날짜(yyyy-mm-dd)");
         String startDate = scanner.nextLine();
 
-        StringUtil.inputValue("종료 날짜(yyyy-mm-dd)");
+        inputValue("종료 날짜(yyyy-mm-dd)");
         String endDate = scanner.nextLine();
 
         TripDto dto = new TripDto(tripName, startDate, endDate);
@@ -50,24 +50,24 @@ public class TripInput implements ConsoleView {
         Itineraries itineraries = new Itineraries();
 
         while (true) {
-            StringUtil.printQuestion("여정 정보를 입력해주세요.");
+            printQuestion("여정 정보를 입력해주세요.");
 
-            StringUtil.inputValue("출발지");
+            inputValue("출발지");
             String departurePlace = scanner.nextLine();
 
-            StringUtil.inputValue("도착지");
+            inputValue("도착지");
             String destination = scanner.nextLine();
 
-            StringUtil.inputValue("출발 시간(yyyy-mm-dd hh:mi)");
+            inputValue("출발 시간(yyyy-mm-dd hh:mi)");
             String departureTime = scanner.nextLine();
 
-            StringUtil.inputValue("도착 시간(yyyy-mm-dd hh:mi)");
+            inputValue("도착 시간(yyyy-mm-dd hh:mi)");
             String arrivalTime = scanner.nextLine();
 
-            StringUtil.inputValue("체크 인(yyyy-mm-dd hh:mi)");
+            inputValue("체크 인(yyyy-mm-dd hh:mi)");
             String checkIn = scanner.nextLine();
 
-            StringUtil.inputValue("체크 아웃(yyyy-mm-dd hh:mi)");
+            inputValue("체크 아웃(yyyy-mm-dd hh:mi)");
             String checkOut = scanner.nextLine();
 
             itineraries.add(
@@ -79,7 +79,7 @@ public class TripInput implements ConsoleView {
             );
 
             System.out.println();
-            StringUtil.inputValue("Q. 다음 여정을 입력 하시겠습니까?(Y/N) : ");
+            inputValue("Q. 다음 여정을 입력 하시겠습니까?(Y/N) : ");
             String input = scanner.nextLine().toUpperCase();
             if (input.equalsIgnoreCase("N")) {
                 break;

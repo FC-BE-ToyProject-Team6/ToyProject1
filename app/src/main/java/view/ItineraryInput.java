@@ -1,7 +1,8 @@
 package view;
 
 
-import common.StringUtil;
+import static common.StringUtil.*;
+
 import controller.ItineraryInputController;
 import java.util.List;
 import java.util.Scanner;
@@ -9,13 +10,14 @@ import model.Itineraries;
 import model.Itinerary;
 import model.Trip;
 
+
 public class ItineraryInput implements ConsoleView {
 
     private final Scanner scanner;
     private final ItineraryInputController controller;
 
     public ItineraryInput() {
-        scanner = StringUtil.getScanner();
+        scanner = getScanner();
         controller = new ItineraryInputController();
     }
 
@@ -23,7 +25,7 @@ public class ItineraryInput implements ConsoleView {
     @Override
     public ConsoleView print() {
 
-        StringUtil.printTitle("여정 기록");
+        printTitle("여정 기록");
 
         inputItinerary();
         return new MainMenu();
@@ -31,7 +33,7 @@ public class ItineraryInput implements ConsoleView {
 
     public void displayTrips() {
         List<Trip> trips = controller.getTrips();
-        StringUtil.printTripsTable(trips);
+        printTripsTable(trips);
         /** 예외 : 만약 생성된 여행 정보가 없다면, 여정 기록은 종료.*/
 //        if (trips == null || trips.isEmpty()) {
 //            ConsoleUtil.print("현재 기록된 여행 정보가 없습니다. 먼저 여행을 기록해주세요.");
@@ -55,19 +57,19 @@ public class ItineraryInput implements ConsoleView {
         Trip selectedTrip = controller.selectTrip(tripId);
         Itineraries itineraries = selectedTrip.getItineraries();
         if (selectedTrip != null) {
-            StringUtil.printDivier();
-            StringUtil.println("# 선택한 여행 상세 정보 #");
-            StringUtil.println("ID \t: " + selectedTrip.getTripId());
-            StringUtil.println("여행이름\t: " + selectedTrip.getTripName());
-            StringUtil.println("출발일\t: " + selectedTrip.getStartDate());
-            StringUtil.println("도착일\t: " + selectedTrip.getEndDate());
+            printDivier();
+            println("# 선택한 여행 상세 정보 #");
+            println("ID \t: " + selectedTrip.getTripId());
+            println("여행이름\t: " + selectedTrip.getTripName());
+            println("출발일\t: " + selectedTrip.getStartDate());
+            println("도착일\t: " + selectedTrip.getEndDate());
 //            System.out.printf("여행 이름: %s, 출발일: %s, 도착일: %s\n",
 //                selectedTrip.getTripName(),
 //                selectedTrip.getStartDate(),
 //                selectedTrip.getEndDate()
 //            );
 
-            StringUtil.printItinerariesTable(itineraries);
+            printItinerariesTable(itineraries);
 
 //            System.out.println();
 //            System.out.println("                                     [ 여정 목록 ]               ");
@@ -95,19 +97,19 @@ public class ItineraryInput implements ConsoleView {
     public Itinerary inputItinerary() {
         displayTrips();
 
-        StringUtil.inputValue("Q. 작성하실 여행의 ID를 입력해주세요 ");
+        inputValue("Q. 작성하실 여행의 ID를 입력해주세요 ");
         int tripId = scanner.nextInt();
         scanner.nextLine();
 
         displayTripsItinerary(tripId);
 
         while (true) {
-            StringUtil.inputValue("Q. 여정을 추가 하시겠습니까?(Y/N)");
+            inputValue("Q. 여정을 추가 하시겠습니까?(Y/N)");
             String choice = scanner.nextLine();
             /** Y/N 유효성 검사 **/
             while (!(choice.equalsIgnoreCase("Y") || choice.equalsIgnoreCase("N"))) {
                 System.out.println("잘못된 입력입니다. Y 또는 N만 입력해주세요.");
-                StringUtil.inputValue("Q. 여정을 추가 하시겠습니까?(Y/N)");
+                inputValue("Q. 여정을 추가 하시겠습니까?(Y/N)");
                 choice = scanner.nextLine();
             }
 
@@ -117,22 +119,22 @@ public class ItineraryInput implements ConsoleView {
 
             System.out.println("여정 정보를 입력해 주세요");
 
-            StringUtil.inputValue("출발지");
+            inputValue("출발지");
             String departurePlace = scanner.nextLine();
 
-            StringUtil.inputValue("도착지");
+            inputValue("도착지");
             String destination = scanner.nextLine();
 
-            StringUtil.inputValue("출발시간(yyyy-mm-dd hh:mi)");
+            inputValue("출발시간(yyyy-mm-dd hh:mi)");
             String departureTime = scanner.nextLine();
 
-            StringUtil.inputValue("도착시간(yyyy-mm-dd hh:mi)");
+            inputValue("도착시간(yyyy-mm-dd hh:mi)");
             String arrivalTime = scanner.nextLine();
 
-            StringUtil.inputValue("체크인(yyyy-mm-dd hh:mi)");
+            inputValue("체크인(yyyy-mm-dd hh:mi)");
             String checkIn = scanner.nextLine();
 
-            StringUtil.inputValue("체크아웃(yyyy-mm-dd hh:mi)");
+            inputValue("체크아웃(yyyy-mm-dd hh:mi)");
             String checkOut = scanner.nextLine();
 
             Itinerary itineraries =
@@ -152,7 +154,7 @@ public class ItineraryInput implements ConsoleView {
 
     public boolean wantToContinue() {
         Scanner scanner = new Scanner(System.in);
-        StringUtil.inputValue("Q. 여정을 추가 하시겠습니까?(Y/N)");
+        inputValue("Q. 여정을 추가 하시겠습니까?(Y/N)");
         String choice = scanner.next();
         return choice.equalsIgnoreCase("Y");
     }

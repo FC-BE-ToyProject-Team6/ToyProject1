@@ -1,6 +1,6 @@
 package view;
 
-import common.StringUtil;
+import static common.StringUtil.*;
 import java.util.Scanner;
 import model.dao.TripJsonDAO;
 
@@ -9,16 +9,16 @@ public class MainMenu implements ConsoleView {
     private final Scanner sc;
     private SimpleViewFactory svf;
     public MainMenu() {
-        this.sc = StringUtil.getScanner();
+        this.sc = getScanner();
         svf = new SimpleViewFactory();
     }
 
 
     @Override
     public ConsoleView print() {
-        StringUtil.printTitle("여행 여정을 기록하고 관리하는 SNS 서비스");
+        printTitle("여행 여정을 기록하고 관리하는 SNS 서비스");
         printMenuList();
-        StringUtil.printDivier();
+        printDivier();
         return inputNextMenu();
     }
 

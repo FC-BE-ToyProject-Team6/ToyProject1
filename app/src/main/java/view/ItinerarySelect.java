@@ -1,7 +1,7 @@
 package view;
 
 
-import common.StringUtil;
+import static common.StringUtil.*;
 import controller.ItinerarySelectController;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -30,7 +30,7 @@ public class ItinerarySelect implements ConsoleView {
     @Override
     public ConsoleView print() {
 
-        StringUtil.printTitle("여정 조회");
+        printTitle("여정 조회");
 
         /**
          * 1. csv OR json 선택.
@@ -91,11 +91,11 @@ public class ItinerarySelect implements ConsoleView {
 
     private void askToSelectCSVOrJSON() {
         try {
-            StringUtil.inputValue("Q. 조회 방식을 선택하세요 (1: CSV, 2: JSON): ");
+            inputValue("Q. 조회 방식을 선택하세요 (1: CSV, 2: JSON): ");
             String input = br.readLine();
 
             while (!isCorrectChoice(input)) {
-                StringUtil.inputValue("Q. 입력 방식이 틀렸습니다. 다시 조회 방식을 선택하세요 (1: CSV, 2: JSON): ");
+                inputValue("Q. 입력 방식이 틀렸습니다. 다시 조회 방식을 선택하세요 (1: CSV, 2: JSON): ");
                 input = br.readLine();
             }
             itinerarySelectController = new ItinerarySelectController(Integer.parseInt(input));
@@ -108,7 +108,7 @@ public class ItinerarySelect implements ConsoleView {
     private boolean printTripList() {
 
         List<Trip> trips = itinerarySelectController.getTrips();
-        return StringUtil.printTripsTable(trips);
+        return printTripsTable(trips);
 
 //        System.out.println("# 여행 목록 #");
 //        System.out.println("ID\t| 여행 이름\t\t");
@@ -128,10 +128,10 @@ public class ItinerarySelect implements ConsoleView {
     private int askIdToSelectTrip() {
         int ans = 0;
         try {
-            StringUtil.inputValue("\nQ. 조회할 여행의 아이디를 입력하세요");
+            inputValue("\nQ. 조회할 여행의 아이디를 입력하세요");
             String input = br.readLine();
             while (!isCorrectAnswer(input)) {
-                StringUtil.inputValue("Q. 입력 방식이 틀렸습니다. 조회할 여행의 아이디를 입력하세요");
+                inputValue("Q. 입력 방식이 틀렸습니다. 조회할 여행의 아이디를 입력하세요");
                 input = br.readLine();
             }
             ans = Integer.parseInt(input);
@@ -174,10 +174,10 @@ public class ItinerarySelect implements ConsoleView {
     private int askIdToSelectItinerary() {
         int ans = 0;
         try {
-            StringUtil.inputValue("\nQ. 조회할 여정의 아이디를 입력하세요");
+            inputValue("\nQ. 조회할 여정의 아이디를 입력하세요");
             String input = br.readLine();
             while (!isCorrectAnswer(input)) {
-                StringUtil.inputValue("Q. 입력 방식이 틀렸습니다. 조회할 여정의 아이디를 입력해주세요");
+                inputValue("Q. 입력 방식이 틀렸습니다. 조회할 여정의 아이디를 입력해주세요");
                 input = br.readLine();
             }
             ans = Integer.parseInt(input);

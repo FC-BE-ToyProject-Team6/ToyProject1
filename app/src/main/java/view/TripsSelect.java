@@ -1,6 +1,6 @@
 package view;
 
-import common.StringUtil;
+import static common.StringUtil.*;
 import java.util.List;
 import java.util.Scanner;
 import model.Trip;
@@ -16,16 +16,16 @@ public class TripsSelect implements ConsoleView {
 
 
     public TripsSelect(TripDAO tripDAO) {
-        scanner = StringUtil.getScanner();
+        scanner = getScanner();
         this.tripDAO = tripDAO;
     }
 
     @Override
     public ConsoleView print() {
 
-        StringUtil.printTitle("여행조회");
+        printTitle("여행조회");
 
-        StringUtil.inputValue("Q : 조회 방식을 선택하세요 (1 : CSV, 2 : JSON)");
+        inputValue("Q : 조회 방식을 선택하세요 (1 : CSV, 2 : JSON)");
         int choice = Integer.parseInt(scanner.nextLine());
 
         if (choice == 1) {
@@ -40,11 +40,11 @@ public class TripsSelect implements ConsoleView {
         // 여행 목록 출력
         List<Trip> tripList = tripDAO.selectTripList();
         if (tripList.isEmpty()) {
-            StringUtil.println("여행 정보가 없습니다.");
+            println("여행 정보가 없습니다.");
             return new MainMenu();
         }
 
-        StringUtil.printTripsTable(tripList);
+        printTripsTable(tripList);
 
 //        System.out.println("여행 목록");
 //        System.out.println("-----------------------------------");
@@ -73,7 +73,7 @@ public class TripsSelect implements ConsoleView {
         if (selectedTrip != null) {
             Trips trips = new Trips();
             trips.addTrip(selectedTrip);
-            StringUtil.printTripsTable(trips, "선택한 여행 정보");
+            printTripsTable(trips, "선택한 여행 정보");
 //            System.out.println("= 선택한 여행 정보 =");
 //
 //            System.out.print(selectedTrip.getTripName());
