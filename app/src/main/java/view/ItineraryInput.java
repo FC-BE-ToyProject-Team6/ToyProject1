@@ -9,6 +9,7 @@ import java.util.Scanner;
 import model.Itineraries;
 import model.Itinerary;
 import model.Trip;
+import model.dao.TripJsonDAO;
 
 
 public class ItineraryInput implements ConsoleView {
@@ -16,9 +17,11 @@ public class ItineraryInput implements ConsoleView {
     private final Scanner scanner;
     private final ItineraryInputController controller;
 
+
     public ItineraryInput() {
         scanner = getScanner();
         controller = new ItineraryInputController();
+
     }
 
 
@@ -97,11 +100,24 @@ public class ItineraryInput implements ConsoleView {
     public Itinerary inputItinerary() {
         displayTrips();
 
-        inputValue("Q. 작성하실 여행의 ID를 입력해주세요 ");
-        int tripId = scanner.nextInt();
-        scanner.nextLine();
+        int tripId = -1;
 
-        displayTripsItinerary(tripId);
+        while (true) {
+            inputValue("Q. 작성하실 여행의 ID를 입력해주세요 ");
+            tripId = scanner.nextInt();
+            scanner.nextLine();
+
+            Trip selectedTrip = controller.selectTrip(tripId);
+
+            if (selectedTrip == null) {
+                System.out.println("존재하지 않는 id입니다. 다시 입력해주세요.");
+            } else {
+                displayTripsItinerary(selectedTrip.getTripId());
+                break;
+            }
+        }
+
+
 
         while (true) {
             inputValue("Q. 여정을 추가 하시겠습니까?(Y/N)");
