@@ -1,6 +1,8 @@
 package view;
 
 import static common.StringUtil.*;
+
+import common.Scan;
 import java.util.List;
 import java.util.Scanner;
 import model.Trip;
@@ -11,12 +13,10 @@ import model.dao.TripJsonDAO;
 
 public class TripsSelect implements ConsoleView {
 
-    private final Scanner scanner;
     private TripDAO tripDAO;
 
 
     public TripsSelect(TripDAO tripDAO) {
-        scanner = getScanner();
         this.tripDAO = tripDAO;
     }
 
@@ -25,8 +25,7 @@ public class TripsSelect implements ConsoleView {
 
         printTitle("여행조회");
 
-        inputValue("Q : 조회 방식을 선택하세요 (1 : CSV, 2 : JSON)");
-        int choice = Integer.parseInt(scanner.nextLine());
+        int choice = Scan.nextInt("Q : 조회 방식을 선택하세요 (1 : CSV, 2 : JSON)", 1,2);
 
         if (choice == 1) {
             tripDAO = new TripCsvDAO();
@@ -64,8 +63,7 @@ public class TripsSelect implements ConsoleView {
 //        }
 
         // 사용자로부터 조회할 여행의 ID 입력 받기
-        System.out.print("조회할 여행의 ID를 입력해 주세요: ");
-        int tripId = Integer.parseInt(scanner.nextLine());
+        int tripId = Scan.nextInt("조회할 여행의 ID를 입력해 주세요");
 
         // 선택한 여행 정보 출력
         Trip selectedTrip = tripDAO.selectTrip(tripId);
