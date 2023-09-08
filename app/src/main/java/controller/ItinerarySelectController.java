@@ -31,34 +31,16 @@ public class ItinerarySelectController {
     }
 
     public Optional<Trip> getTripBySearchId(int searchId) {
-        Optional<Trip> trip;
-        trip = Optional.ofNullable(tripDAO.selectTrip(searchId));
-
-//        if (trips == null) {
-//
-//        } else {
-//            trip = Optional.ofNullable(trips.getTrips(searchId));
-//        }
-
-        return trip;
+        return Optional.ofNullable(tripDAO.selectTrip(searchId));
     }
 
     public Optional<Itineraries> getItinerariesByTrip(int tripId) {
         Optional<Trip> trip = getTripBySearchId(tripId);
-        Optional<Itineraries> itineraries = Optional.ofNullable(trip.get().getItineraries());
-
-        return itineraries;
+        return Optional.ofNullable(trip.get().getItineraries());
     }
 
     public Optional<Itinerary> getItineraryBySearchId(int tripId, int itId) {
-        Optional<Itinerary> itinerary;
-
-        try {
-            itinerary = Optional.ofNullable(tripDAO.selectItinerary(tripId,itId));
-        } catch (Exception e) {
-            return Optional.empty();
-        }
-        return itinerary;
+        return Optional.ofNullable(tripDAO.selectItinerary(tripId,itId));
     }
 
 }

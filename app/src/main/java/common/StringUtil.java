@@ -107,7 +107,7 @@ public class StringUtil {
 
     public static <T> boolean printEmpty(Optional<T> optional, String str) {
         if (optional.isEmpty()) {
-            System.out.println(str + " 정보가 없습니다. 메인 메뉴로 돌아갑니다.");
+            println(str + " 정보가 없습니다. 메인 메뉴로 돌아갑니다.");
             return false;
         }
         return true;
@@ -116,20 +116,17 @@ public class StringUtil {
     public static void printItinerariesSummary(String tripName, Itineraries its) {
         println("\n[" + tripName + "] 여행의 여정 정보입니다.");
         for (Itinerary it : its.getList()) {
-            System.out.println(
-                    "ID " + it.getItineraryId() + "\t: " + it.getDeparturePlace() + " -> " + it.getDestination());
+            println("ID " + it.getItineraryId() + "\t: " + it.getDeparturePlace() + " -> " + it.getDestination());
         }
     }
 
 
     public static void printItinerary(Itinerary it) {
-        System.out.println(
-                "\n[" + it.getDeparturePlace() + " -> " + it.getDestination() + "] 여정의 상세 정보입니다.");
-        System.out.println("출발 시간\t: " + it.getDepartureTime());
-        System.out.println("도착 시간\t: " + it.getArrivalTime());
-        System.out.println("체크 인\t: " + it.getCheckIn());
-        System.out.println("체크 아웃\t: " + it.getCheckOut());
-        System.out.println();
+        println("\n[" + it.getDeparturePlace() + " -> " + it.getDestination() + "] 여정의 상세 정보입니다.");
+        println("출발 시간\t: " + it.getDepartureTime());
+        println("도착 시간\t: " + it.getArrivalTime());
+        println("체크 인\t: " + it.getCheckIn());
+        println("체크 아웃\t: " + it.getCheckOut());
     }
 
 
