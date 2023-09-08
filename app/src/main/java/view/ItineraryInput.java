@@ -16,12 +16,12 @@ public class ItineraryInput implements ConsoleView {
 
     private final Scanner scanner;
     private final ItineraryInputController controller;
-    private TripJsonDAO tripDAO;
+
 
     public ItineraryInput() {
         scanner = getScanner();
         controller = new ItineraryInputController();
-        tripDAO = new TripJsonDAO();
+
     }
 
 
@@ -107,7 +107,7 @@ public class ItineraryInput implements ConsoleView {
             tripId = scanner.nextInt();
             scanner.nextLine();
 
-            Trip selectedTrip = tripDAO.selectTrip(tripId);
+            Trip selectedTrip = controller.selectTrip(tripId);
 
             if (selectedTrip == null) {
                 System.out.println("존재하지 않는 id입니다. 다시 입력해주세요.");
