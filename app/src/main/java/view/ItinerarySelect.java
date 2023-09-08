@@ -2,6 +2,8 @@ package view;
 
 
 import static common.StringUtil.*;
+
+import common.Scan;
 import controller.ItinerarySelectController;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,7 +17,7 @@ import model.Trip;
 public class ItinerarySelect implements ConsoleView {
 
     private static final int CSV_NUMBER = 1, JSON_NUMBER = 2;
-    private static BufferedReader br;
+//    private static BufferedReader br;
     private static ItinerarySelectController itinerarySelectController;
     //    private Trips trips;
 //    private List<Trip> trips;
@@ -24,7 +26,7 @@ public class ItinerarySelect implements ConsoleView {
 
 
     public ItinerarySelect() {
-        br = new BufferedReader(new InputStreamReader(System.in));
+//        br = new BufferedReader(new InputStreamReader(System.in));
     }
 
     @Override
@@ -90,19 +92,19 @@ public class ItinerarySelect implements ConsoleView {
     }
 
     private void askToSelectCSVOrJSON() {
-        try {
-            inputValue("Q. 조회 방식을 선택하세요 (1: CSV, 2: JSON): ");
-            String input = br.readLine();
-
-            while (!isCorrectChoice(input)) {
-                inputValue("Q. 입력 방식이 틀렸습니다. 다시 조회 방식을 선택하세요 (1: CSV, 2: JSON): ");
-                input = br.readLine();
-            }
-            itinerarySelectController = new ItinerarySelectController(Integer.parseInt(input));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        int input = Scan.nextInt("\nQ. 조회 방식을 선택하세요 (1: CSV, 2: JSON)", 1, 2);
+        itinerarySelectController = new ItinerarySelectController(input);
+//        try {
+//            String input = String.valueOf(Scan.nextInt("\nQ. 조회 방식을 선택하세요 (1: CSV, 2: JSON)", 1, 2));
+//
+//            while (!isCorrectChoice(input)) {
+//                input = String.valueOf(Scan.nextInt("Q. 입력 방식이 틀렸습니다. 다시 조회 방식을 선택하세요 (1: CSV, 2: JSON)", 1, 2));
+//            }
+//            itinerarySelectController = new ItinerarySelectController(Integer.parseInt(input));
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private boolean printTripList() {
@@ -126,19 +128,17 @@ public class ItinerarySelect implements ConsoleView {
     }
 
     private int askIdToSelectTrip() {
-        int ans = 0;
-        try {
-            inputValue("\nQ. 조회할 여행의 아이디를 입력하세요");
-            String input = br.readLine();
-            while (!isCorrectAnswer(input)) {
-                inputValue("Q. 입력 방식이 틀렸습니다. 조회할 여행의 아이디를 입력하세요");
-                input = br.readLine();
-            }
-            ans = Integer.parseInt(input);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        int ans = Scan.nextInt("\nQ. 조회할 여행의 아이디를 입력하세요");
+//        try {
+//            String input = String.valueOf(Scan.nextInt("\nQ. 조회할 여행의 아이디를 입력하세요"));
+//            while (!isCorrectAnswer(input)) {
+//                input = String.valueOf(Scan.nextInt("Q. 입력 방식이 틀렸습니다. 조회할 여행의 아이디를 입력하세요"));
+//            }
+//            ans = Integer.parseInt(input);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         return ans;
     }
@@ -172,19 +172,17 @@ public class ItinerarySelect implements ConsoleView {
     }
 
     private int askIdToSelectItinerary() {
-        int ans = 0;
-        try {
-            inputValue("\nQ. 조회할 여정의 아이디를 입력하세요");
-            String input = br.readLine();
-            while (!isCorrectAnswer(input)) {
-                inputValue("Q. 입력 방식이 틀렸습니다. 조회할 여정의 아이디를 입력해주세요");
-                input = br.readLine();
-            }
-            ans = Integer.parseInt(input);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        int ans = Scan.nextInt("\nQ. 조회할 여정의 아이디를 입력하세요");
+//        try {
+//            String input = String.valueOf(Scan.nextInt("\nQ. 조회할 여정의 아이디를 입력하세요"));
+//            while (!isCorrectAnswer(input)) {
+//                input = String.valueOf(Scan.nextInt("Q. 입력 방식이 틀렸습니다. 조회할 여정의 아이디를 입력해주세요"));
+//            }
+//            ans = Integer.parseInt(input);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         return ans;
     }
@@ -231,15 +229,15 @@ public class ItinerarySelect implements ConsoleView {
         return ans == CSV_NUMBER || ans == JSON_NUMBER;
     }
 
-    private void closeBr() {
-        try {
-            if (br != null) {
-                br.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    private void closeBr() {
+//        try {
+//            if (br != null) {
+//                br.close();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }

@@ -3,6 +3,7 @@ package view;
 
 import static common.StringUtil.*;
 
+import common.Scan;
 import controller.ItineraryInputController;
 import java.util.List;
 import java.util.Scanner;
@@ -13,11 +14,9 @@ import model.Trip;
 
 public class ItineraryInput implements ConsoleView {
 
-    private final Scanner scanner;
     private final ItineraryInputController controller;
 
     public ItineraryInput() {
-        scanner = getScanner();
         controller = new ItineraryInputController();
     }
 
@@ -97,21 +96,19 @@ public class ItineraryInput implements ConsoleView {
     public Itinerary inputItinerary() {
         displayTrips();
 
-        inputValue("Q. 작성하실 여행의 ID를 입력해주세요 ");
-        int tripId = scanner.nextInt();
-        scanner.nextLine();
+        int tripId = Scan.nextInt("Q. 작성하실 여행의 ID를 입력해주세요");
 
         displayTripsItinerary(tripId);
 
         while (true) {
-            inputValue("Q. 여정을 추가 하시겠습니까?(Y/N)");
-            String choice = scanner.nextLine();
-            /** Y/N 유효성 검사 **/
-            while (!(choice.equalsIgnoreCase("Y") || choice.equalsIgnoreCase("N"))) {
-                System.out.println("잘못된 입력입니다. Y 또는 N만 입력해주세요.");
-                inputValue("Q. 여정을 추가 하시겠습니까?(Y/N)");
-                choice = scanner.nextLine();
-            }
+
+            String choice = Scan.nextYN("Q. 여정을 추가 하시겠습니까?(Y/N)");
+//            /** Y/N 유효성 검사 **/
+//            while (!(choice.equalsIgnoreCase("Y") || choice.equalsIgnoreCase("N"))) {
+//                System.out.println("잘못된 입력입니다. Y 또는 N만 입력해주세요.");
+//                inputValue("Q. 여정을 추가 하시겠습니까?(Y/N)");
+//                choice = scanner.nextLine();
+//            }
 
             if (choice.equalsIgnoreCase("N")) {
                 break;
@@ -119,23 +116,12 @@ public class ItineraryInput implements ConsoleView {
 
             System.out.println("여정 정보를 입력해 주세요");
 
-            inputValue("출발지");
-            String departurePlace = scanner.nextLine();
-
-            inputValue("도착지");
-            String destination = scanner.nextLine();
-
-            inputValue("출발시간(yyyy-mm-dd hh:mi)");
-            String departureTime = scanner.nextLine();
-
-            inputValue("도착시간(yyyy-mm-dd hh:mi)");
-            String arrivalTime = scanner.nextLine();
-
-            inputValue("체크인(yyyy-mm-dd hh:mi)");
-            String checkIn = scanner.nextLine();
-
-            inputValue("체크아웃(yyyy-mm-dd hh:mi)");
-            String checkOut = scanner.nextLine();
+            String departurePlace = Scan.nextLine("출발지");
+            String destination = Scan.nextLine("도착지");
+            String departureTime = Scan.nextLine("출발시간(yyyy-mm-dd hh:mi)");
+            String arrivalTime = Scan.nextLine("도착시간(yyyy-mm-dd hh:mi)");
+            String checkIn = Scan.nextLine("체크인(yyyy-mm-dd hh:mi)");
+            String checkOut = Scan.nextLine("체크아웃(yyyy-mm-dd hh:mi)");
 
             Itinerary itineraries =
                 new Itinerary(
@@ -153,9 +139,7 @@ public class ItineraryInput implements ConsoleView {
     }
 
     public boolean wantToContinue() {
-        Scanner scanner = new Scanner(System.in);
-        inputValue("Q. 여정을 추가 하시겠습니까?(Y/N)");
-        String choice = scanner.next();
+        String choice = Scan.nextYN("Q. 여정을 추가 하시겠습니까?(Y/N)");
         return choice.equalsIgnoreCase("Y");
     }
 
