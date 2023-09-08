@@ -36,6 +36,8 @@ public class ItinerarySelectController {
 
     public Optional<Itineraries> getItinerariesByTrip(int tripId) {
         Optional<Trip> trip = getTripBySearchId(tripId);
+        Itineraries itineraries = trip.get().getItineraries();
+        if (itineraries.size() == 0) return Optional.empty();
         return Optional.ofNullable(trip.get().getItineraries());
     }
 

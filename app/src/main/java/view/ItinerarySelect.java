@@ -43,7 +43,11 @@ public class ItinerarySelect implements ConsoleView {
             return new MainMenu();
         }
 
-        printTripBySearchTripId();
+        /** 검색한 여행에 여정이 단 한개도 없다면, 여행정보만 출력 후 -> MainMenu 이동 **/
+        if (!printTripBySearchTripId()) {
+            return new MainMenu();
+        }
+
         printItinerariesBySearchItId();
 
         return new MainMenu();
@@ -60,15 +64,16 @@ public class ItinerarySelect implements ConsoleView {
         return ans;
     }
 
-    private void printTripBySearchTripId() {
+    private boolean printTripBySearchTripId() {
         Optional<Trip> optional;
         while (!printQuestionIDAgain(optional = isController.getTripBySearchId(searchTripId = askId(TRIP))));
 
         Trip trip = optional.get();
         Optional<Itineraries> optionalIt = isController.getItinerariesByTrip(trip.getTripId());
-        if (!printEmpty(optional, ITINERARY)) return;
-        printItinerariesSummary(trip.getTripName(), optionalIt.get());
+        if (!printEmpty(optionalIt, ITINERARY)) return false;
 
+        printItinerariesSummary(trip.getTripName(), optionalIt.get());
+        return true;
     }
 
     private void printItinerariesBySearchItId() {
