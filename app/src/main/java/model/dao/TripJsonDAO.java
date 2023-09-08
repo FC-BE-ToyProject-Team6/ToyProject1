@@ -13,6 +13,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+
+import common.FileStringUtil;
 import lombok.Getter;
 import model.DateTime;
 import model.Itineraries;
@@ -23,7 +26,6 @@ import model.TripDto;
 
 public class TripJsonDAO implements TripDAO {
 
-    private final String directoryName = "app/trip_json_files/";
     @Getter
     private int lastTripId;
     private final Gson gson = new GsonBuilder()
@@ -37,7 +39,7 @@ public class TripJsonDAO implements TripDAO {
 
     public int createTrip(TripDto dto) {
 
-        File dir = new File(directoryName);
+        File dir = new File(FileStringUtil.DIR_PATH_JSON);
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -47,10 +49,9 @@ public class TripJsonDAO implements TripDAO {
             tripId, dto.getTripName(), dto.getStartDate(), dto.getEndDate(), new Itineraries()
         );
 
-        String fileName = "travel_" + tripId + ".json";
-        String fullPath = directoryName + "/" + fileName;
+        String fileName = String.format(FileStringUtil.FILE_PATH_JSON, tripId);
 
-        try (FileWriter writer = new FileWriter(fullPath)) {
+        try (FileWriter writer = new FileWriter(fileName)) {
             gson.toJson(trip, writer);
         } catch (IOException e) {
             e.printStackTrace();
@@ -63,10 +64,9 @@ public class TripJsonDAO implements TripDAO {
     @Override
     public void insertItinerary(int tripId, Itinerary itinerary) {
 
-        String fileName = "travel_" + tripId + ".json";
-        String fullPath = directoryName + "/" + fileName;
+        String fileName = String.format(FileStringUtil.FILE_PATH_JSON, tripId);
 
-        try (FileReader reader = new FileReader(fullPath)) {
+        try (FileReader reader = new FileReader(fileName)) {
             Trip trip = gson.fromJson(reader, Trip.class);
             if (trip.getItineraries() == null) {
                 trip.setItineraries(new Itineraries());
@@ -87,7 +87,7 @@ public class TripJsonDAO implements TripDAO {
             newItinerary.setCheckOut(checkOut);
 
             trip.getItineraries().add(newItinerary);
-            try (FileWriter writer = new FileWriter(fullPath)) {
+            try (FileWriter writer = new FileWriter(fileName)) {
                 gson.toJson(trip, writer);
             }
         } catch (IOException e) {
@@ -99,7 +99,7 @@ public class TripJsonDAO implements TripDAO {
     @Override
     public List<Trip> selectTripList() {
         List<Trip> tripList = new ArrayList<>();
-        File folder = new File(directoryName);
+        File folder = new File(FileStringUtil.DIR_PATH_JSON);
         File[] listOfFiles = folder.listFiles();
 
         Type tripType = new TypeToken<Trip>() {
@@ -107,7 +107,7 @@ public class TripJsonDAO implements TripDAO {
 
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
-                if (file.isFile() && file.getName().endsWith(".json")) {
+                if (file.isFile() && file.getName().endsWith(FileStringUtil.FILE_FORMAT_JSON)) {
                     try (FileReader reader = new FileReader(file)) {
                         Trip trip = gson.fromJson(reader, tripType);
                         tripList.add(trip);
@@ -127,7 +127,9 @@ public class TripJsonDAO implements TripDAO {
 
     @Override
     public Trip selectTrip(int tripId) {
-        try (FileReader reader = new FileReader(directoryName + "travel_" + tripId + ".json")) {
+        String fileName = String.format(FileStringUtil.FILE_PATH_JSON, tripId);
+
+        try (FileReader reader = new FileReader(fileName)) {
             return gson.fromJson(reader, Trip.class);
         } catch (JsonSyntaxException ex) {
             /* Json 형태 유효성 검사 */
@@ -139,15 +141,14 @@ public class TripJsonDAO implements TripDAO {
 
     }
 
-
     @Override
     public int countTripFiles() {
-        File folder = new File(directoryName);
+        File folder = new File(FileStringUtil.DIR_PATH_JSON);
         File[] listOfFiles = folder.listFiles();
 
         if (listOfFiles != null) {
             return (int) Arrays.stream(listOfFiles)
-                .filter(file -> file.isFile() && file.getName().endsWith(".json"))
+                .filter(file -> file.isFile() && file.getName().endsWith(FileStringUtil.FILE_FORMAT_JSON))
                 .count();
         }
         return 0;
@@ -155,14 +156,13 @@ public class TripJsonDAO implements TripDAO {
 
     @Override
     public Itinerary selectItinerary(int tripId, int itineraryId) {
-
-        File file = new File(directoryName + "travel_" + tripId + ".json");
+        String fileName = String.format(FileStringUtil.FILE_PATH_JSON, tripId);
+        File file = new File(fileName);
 
         try (FileReader reader = new FileReader(file)) {
             Trip trip = gson.fromJson(reader, Trip.class);
 
             Itinerary selectedItinerary = trip.getItineraries().get(itineraryId - 1);
-            //System.out.println(gson.toJson(selectedItinerary));
             return selectedItinerary;
 
         } catch (JsonSyntaxException ex) {
