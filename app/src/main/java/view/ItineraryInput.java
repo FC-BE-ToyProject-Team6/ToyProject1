@@ -10,14 +10,17 @@ import java.util.Scanner;
 import model.Itineraries;
 import model.Itinerary;
 import model.Trip;
+import model.dao.TripJsonDAO;
 
 
 public class ItineraryInput implements ConsoleView {
 
     private final ItineraryInputController controller;
 
+
     public ItineraryInput() {
         controller = new ItineraryInputController();
+
     }
 
 
@@ -96,14 +99,26 @@ public class ItineraryInput implements ConsoleView {
     public Itinerary inputItinerary() {
         displayTrips();
 
-        int tripId = Scan.nextInt("Q. 작성하실 여행의 ID를 입력해주세요");
-
-        displayTripsItinerary(tripId);
+        int tripId = -1;
 
         while (true) {
+            tripId = Scan.nextInt("Q. 작성하실 여행의 ID를 입력해주세요");
 
+            Trip selectedTrip = controller.selectTrip(tripId);
+
+            if (selectedTrip == null) {
+                System.out.println("존재하지 않는 id입니다. 다시 입력해주세요.");
+            } else {
+                displayTripsItinerary(selectedTrip.getTripId());
+                break;
+            }
+        }
+
+
+
+        while (true) {
             String choice = Scan.nextYN("Q. 여정을 추가 하시겠습니까?(Y/N)");
-//            /** Y/N 유효성 검사 **/
+            /** Y/N 유효성 검사 **/
 //            while (!(choice.equalsIgnoreCase("Y") || choice.equalsIgnoreCase("N"))) {
 //                System.out.println("잘못된 입력입니다. Y 또는 N만 입력해주세요.");
 //                inputValue("Q. 여정을 추가 하시겠습니까?(Y/N)");
@@ -118,10 +133,10 @@ public class ItineraryInput implements ConsoleView {
 
             String departurePlace = Scan.nextLine("출발지");
             String destination = Scan.nextLine("도착지");
-            String departureTime = Scan.nextLine("출발시간(yyyy-mm-dd hh:mi)");
-            String arrivalTime = Scan.nextLine("도착시간(yyyy-mm-dd hh:mi)");
-            String checkIn = Scan.nextLine("체크인(yyyy-mm-dd hh:mi)");
-            String checkOut = Scan.nextLine("체크아웃(yyyy-mm-dd hh:mi)");
+            String departureTime = Scan.nextDateTime("출발시간(yyyy-mm-dd hh:mi)");
+            String arrivalTime = Scan.nextDateTime("도착시간(yyyy-mm-dd hh:mi)");
+            String checkIn = Scan.nextDateTime("체크인(yyyy-mm-dd hh:mi)");
+            String checkOut = Scan.nextDateTime("체크아웃(yyyy-mm-dd hh:mi)");
 
             Itinerary itineraries =
                 new Itinerary(
