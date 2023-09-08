@@ -1,5 +1,7 @@
 package controller;
 
+import model.*;
+
 import java.util.List;
 import java.util.Optional;
 import model.Itineraries;
@@ -11,50 +13,51 @@ import model.dao.TripJsonDAO;
 
 public class ItinerarySelectController {
 
-    private static final int CSV_NUMBER = 1, JSON_NUMBER = 2;
     private static TripDAO tripDAO;
+    private Trips trips = null;
 
-    public ItinerarySelectController(int searchMethod) {
-        if (searchMethod == CSV_NUMBER) {
-            tripDAO = new TripCsvDAO();
-        } else if (searchMethod == JSON_NUMBER) {
-            tripDAO = new TripJsonDAO();
-        }
+    public ItinerarySelectController() {
+        tripDAO = new TripJsonDAO();
     }
 
 //    public Trips getTrips() {
 //        return tripDAO.selectTripList();
 //    }
 
-    public List<Trip> getTrips() {
-        return tripDAO.selectTripList();
+    public Optional<List<Trip>> getTrips() {
+        List<Trip> tripList = tripDAO.selectTripList();
+        if (tripList.size() == 0) return Optional.empty();
+        return Optional.of(tripList);
     }
 
-//    public boolean isTripsEmpty() {
-//        System.out.println("isTripsEmpty(): " + tripDAO.countTripFiles());
-//        if (tripDAO.countTripFiles() == 0) return true;
-//        return false;
-//    }
-
     public Optional<Trip> getTripBySearchId(int searchId) {
-        Optional<Trip> trip = Optional.ofNullable(tripDAO.selectTrip(searchId));
+        Optional<Trip> trip;
+        trip = Optional.ofNullable(tripDAO.selectTrip(searchId));
+
+//        if (trips == null) {
+//
+//        } else {
+//            trip = Optional.ofNullable(trips.getTrips(searchId));
+//        }
+
         return trip;
     }
 
     public Optional<Itineraries> getItinerariesByTrip(int tripId) {
-        Optional<Trip> trip = Optional.ofNullable(tripDAO.selectTrip(tripId));
+        Optional<Trip> trip = getTripBySearchId(tripId);
         Optional<Itineraries> itineraries = Optional.ofNullable(trip.get().getItineraries());
 
         return itineraries;
-
     }
-//    public List<Itinerary> selectItierariesByTrip(int tripId) {
-//        List<Trip> trips = getTrips();
-//
-//    }
 
     public Optional<Itinerary> getItineraryBySearchId(int tripId, int itId) {
-        Optional<Itinerary> itinerary = Optional.ofNullable(tripDAO.selectItinerary(tripId, itId));
+        Optional<Itinerary> itinerary;
+
+        try {
+            itinerary = Optional.ofNullable(tripDAO.selectItinerary(tripId,itId));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
         return itinerary;
     }
 
