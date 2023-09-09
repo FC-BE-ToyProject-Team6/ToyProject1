@@ -5,15 +5,25 @@ import model.Itineraries;
 import model.Itinerary;
 import model.Trip;
 import model.Trips;
+import model.dao.TripCsvDAO;
 import model.dao.TripDAO;
 import model.dao.TripJsonDAO;
 
 public class TripSelectController {
 
-    private final TripDAO tripDAO;
+    private TripDAO tripDAO;
+    private static final int CSV = 1, JSON = 2;
 
     public TripSelectController() {
         this.tripDAO = new TripJsonDAO();
+    }
+
+    public TripSelectController(int readMethod) {
+        if (readMethod == CSV) {
+            this.tripDAO = new TripCsvDAO();
+        } else if (readMethod == JSON) {
+            this.tripDAO = new TripJsonDAO();
+        }
     }
 
     public Optional<Trips> getAllTrips() {
@@ -44,8 +54,4 @@ public class TripSelectController {
         return Optional.ofNullable(tripDAO.selectItinerary(tripId, itId));
     }
 
-    public boolean isItinerariesEmpty(int tripId) {
-        if (getItinerariesByTrip(tripId).equals(Optional.empty())) return true;
-        return false;
-    }
 }
