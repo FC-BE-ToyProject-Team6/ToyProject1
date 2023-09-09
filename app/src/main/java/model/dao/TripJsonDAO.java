@@ -5,25 +5,33 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import common.FileStringUtil;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.*;
-
-import common.FileStringUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import lombok.Getter;
-import model.*;
+import model.DateTime;
+import model.Itineraries;
+import model.Itinerary;
+import model.Trip;
+import model.TripDto;
+import model.Trips;
 
 
 public class TripJsonDAO implements TripDAO {
 
-    @Getter
-    private int lastTripId;
     private final Gson gson = new GsonBuilder()
         .setPrettyPrinting()
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+    @Getter
+    private int lastTripId;
 
     @Override
     public int createTrip(Trip trip) {
@@ -143,7 +151,8 @@ public class TripJsonDAO implements TripDAO {
 
         if (listOfFiles != null) {
             return (int) Arrays.stream(listOfFiles)
-                .filter(file -> file.isFile() && file.getName().endsWith(FileStringUtil.FILE_FORMAT_JSON))
+                .filter(file -> file.isFile() && file.getName()
+                    .endsWith(FileStringUtil.FILE_FORMAT_JSON))
                 .count();
         }
         return 0;

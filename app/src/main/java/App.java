@@ -12,7 +12,7 @@ public class App {
 
     private static void run() {
 
-        ConsoleView consoleView = new MainMenu();
+        ConsoleView consoleView = MainMenu.getInstance();
         while (AppStatus.isProgramRunning()) {
             consoleView = consoleView.print();
         }

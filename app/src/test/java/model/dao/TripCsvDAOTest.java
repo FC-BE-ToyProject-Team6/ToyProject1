@@ -1,24 +1,25 @@
 package model.dao;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.List;
 import model.Date;
 import model.Itinerary;
 import model.Trip;
+import model.Trips;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
+
 class TripCsvDAOTest {
-    private TripCsvDAO tripCsvDAO;
+
     private final String tripFilesFolder = "app/trip_csv_files/";
+    private TripCsvDAO tripCsvDAO;
 
     @BeforeEach
     void setUp() {
         tripCsvDAO = new TripCsvDAO();
     }
+
     @Test
     void createTrip() {
         String tripName = "일본여행";
@@ -32,6 +33,7 @@ class TripCsvDAOTest {
         System.out.println("createdTripId = " + createdTripId);
         String expectedFilePath = tripFilesFolder + "/travel_" + createdTripId + ".csv";
     }
+
     @Test
     void insertItinerary() {
         int tripId = 12;
@@ -43,9 +45,9 @@ class TripCsvDAOTest {
         String checkOutString = "2023-09-10 11:00";
 
         Itinerary itinerary = new Itinerary(
-          departurePlace,destination,
-          departureTimeString,arrivalTimeString,
-          checkInString,checkOutString
+            departurePlace, destination,
+            departureTimeString, arrivalTimeString,
+            checkInString, checkOutString
         );
 
         tripCsvDAO.insertItinerary(
@@ -54,20 +56,24 @@ class TripCsvDAOTest {
         );
         Trip updatedTrip = tripCsvDAO.selectTrip(tripId);
     }
+
     @Test
     void selectTripList() {
-        List<Trip> tripList = tripCsvDAO.selectTripList();
+        Trips tripList = tripCsvDAO.selectTripList();
         System.out.println("tripList = " + tripList);
     }
+
     @Test
     void selectTrip() {
         Trip selectedTrip = tripCsvDAO.selectTrip(6);
     }
+
     @Test
     void countTripFiles() {
         int count = tripCsvDAO.countTripFiles();
         assertEquals(7, count);
     }
+
     @Test
     void selectItinerary() {
         Itinerary selectedItinerary = tripCsvDAO.selectItinerary(7, 1);

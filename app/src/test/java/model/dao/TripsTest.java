@@ -18,7 +18,7 @@ public class TripsTest {
     Trips trips;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         Trip trip1 = new Trip(1, "여행1"
             , Date.ofString("2020-12-12"), Date.ofString("2020-12-12")
             , new Itineraries()
@@ -34,12 +34,12 @@ public class TripsTest {
     }
 
     @Test
-    public void sizeTrips(){
+    public void sizeTrips() {
         assertThat(trips.size()).isEqualTo(2);
     }
 
     @Test
-    public void addTrips(){
+    public void addTrips() {
         Trip trip = new Trip(3, "여행3"
             , Date.ofString("2020-12-12"), Date.ofString("2020-12-12")
             , new Itineraries()
@@ -49,8 +49,8 @@ public class TripsTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {1,2})
-    public void getId(int tripId){
+    @ValueSource(ints = {1, 2})
+    public void getId(int tripId) {
         Trip trip = trips.getTrips(tripId);
         assertThat(trip.getTripId()).isEqualTo(tripId);
     }

@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 
 public class DateTest {
 
-    private int year = 2023;
-    private int month = 12;
-    private int day = 31;
+    private final int year = 2023;
+    private final int month = 12;
+    private final int day = 31;
 
     @Test
     public void Date클래스는년월일비교가같나요() {
@@ -102,7 +102,7 @@ public class DateTest {
     }
 
     @Test
-    public void dateToString(){
+    public void dateToString() {
         Date date = Date.ofString("2020-12-12");
         assertThat(date.toString()).isEqualTo("2020-12-12");
     }

@@ -1,17 +1,25 @@
 package view;
 
-import static common.StringUtil.*;
+import static common.StringUtil.printDivier;
+import static common.StringUtil.printTitle;
 
 import common.Scan;
-import java.util.Scanner;
 
 public class MainMenu implements ConsoleView {
 
-    private SimpleViewFactory svf;
-    public MainMenu() {
+    private static MainMenu instance;
+    private final SimpleViewFactory svf;
+
+    private MainMenu() {
         svf = new SimpleViewFactory();
     }
 
+    public static MainMenu getInstance() {
+        if (instance == null) {
+            instance = new MainMenu();
+        }
+        return instance;
+    }
 
     @Override
     public ConsoleView print() {

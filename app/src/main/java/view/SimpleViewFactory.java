@@ -1,28 +1,26 @@
 package view;
 
-import model.dao.TripJsonDAO;
-
 public class SimpleViewFactory {
 
-    public ConsoleView selectView(int menu){
+    public ConsoleView selectView(int menu) {
 
-        ConsoleView consoleView = null;
+        ConsoleView consoleView;
 
         if (menu == 1) {
-            consoleView = new TripInput();
+            consoleView = TripInput.getInstance();
         } else if (menu == 2) {
-            consoleView = new ItineraryInput();
+            consoleView = ItineraryInput.getInstance();
         } else if (menu == 3) {
-            consoleView = new TripsSelect();
+            consoleView = TripsSelect.getInstance();
         } else if (menu == 4) {
-            consoleView = new ItinerarySelect();
+            consoleView = ItinerarySelect.getInstance();
         } else if (menu == 5) {
-            consoleView = new ProgramExit();
-        } else{
+            consoleView = ProgramExit.getInstance();
+        } else {
             throw new IllegalArgumentException("잘 못 된 입력 입니다.");
         }
 
-        return  consoleView;
+        return consoleView;
 
     }
 

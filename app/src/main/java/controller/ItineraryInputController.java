@@ -1,8 +1,6 @@
 package controller;
 
-import java.util.List;
 import model.Itinerary;
-import model.Trip;
 import model.dao.TripCsvDAO;
 import model.dao.TripJsonDAO;
 

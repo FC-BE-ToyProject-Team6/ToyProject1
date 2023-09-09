@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Test;
 public class DateTimeTest {
 
 
-    private int year = 2023;
-    private int month = 12;
-    private int day = 31;
-    private int hour = 12;
-    private int minute = 59;
+    private final int year = 2023;
+    private final int month = 12;
+    private final int day = 31;
+    private final int hour = 12;
+    private final int minute = 59;
 
     @Test
     public void 시간분이정상적으로입력되는가() {
@@ -32,7 +32,6 @@ public class DateTimeTest {
             new DateTime(year, month, day, -1, minute);
         }).isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("시간은 0 ~ 23 사이 여야 합니다.");
-        ;
     }
 
     @Test
@@ -41,7 +40,6 @@ public class DateTimeTest {
             new DateTime(year, month, day, 24, minute);
         }).isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("시간은 0 ~ 23 사이 여야 합니다.");
-        ;
     }
 
     @Test
@@ -61,7 +59,7 @@ public class DateTimeTest {
     }
 
     @Test
-    public void DateTimeToString(){
+    public void DateTimeToString() {
         DateTime dateTime = DateTime.ofString("2020-12-12 13:14");
         assertThat(dateTime.toString()).isEqualTo("2020-12-12 13:14");
     }
