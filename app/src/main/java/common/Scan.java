@@ -13,7 +13,7 @@ public class Scan {
     private static final String AllWordsRegex = "[0-9a-zA-Zㄱ-ㅎ가-힣 ]*";
     private static final String dateRegex = "\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])";
     private static final String dateTimeRegex =
-        dateRegex + " (0[1-9]|1[0-9]|2[0-4]):(0[1-9]|[1-5][0-9])";
+        dateRegex + " (0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])";
     private static final String ynRegex = "[y|Y|n|N]";
 
     private static final BufferedReader sc = new BufferedReader(new InputStreamReader(System.in));
