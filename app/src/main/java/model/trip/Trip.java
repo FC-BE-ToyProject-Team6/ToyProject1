@@ -1,11 +1,11 @@
-package model;
+package model.trip;
 
 import com.google.gson.Gson;
 import lombok.Getter;
-import lombok.Setter;
+import model.Date;
+import model.itinerary.Itineraries;
 
 @Getter
-@Setter
 public class Trip {
 
     private int tripId;
@@ -41,7 +41,7 @@ public class Trip {
     }
 
     public Trip() {
-
+        itineraries = new Itineraries();
     }
 
 

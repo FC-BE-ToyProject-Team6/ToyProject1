@@ -3,8 +3,11 @@ package view;
 
 import common.Scan;
 import controller.TripInputController;
-import model.Itineraries;
-import model.Itinerary;
+import java.util.ArrayList;
+import java.util.List;
+import model.DateTime;
+import model.itinerary.Itinerary;
+import model.itinerary.ItineraryDto;
 
 import static common.StringUtil.*;
 
@@ -56,31 +59,31 @@ public class ItineraryInput implements ConsoleView {
     }
 
     public Itinerary inputItinerary() {
-        Itineraries itineraries = new Itineraries();
+        List<ItineraryDto> itineraryDtoList = new ArrayList<>();
 
         do {
             println("여정 정보를 입력해 주세요");
 
             String departurePlace = Scan.nextLine("출발지");
             String destination = Scan.nextLine("도착지");
-            String departureTime = Scan.nextDateTime("출발시간(yyyy-mm-dd hh:mi)");
-            String arrivalTime = Scan.nextDateTime("도착시간(yyyy-mm-dd hh:mi)");
-            String checkIn = Scan.nextDateTime("체크인(yyyy-mm-dd hh:mi)");
-            String checkOut = Scan.nextDateTime("체크아웃(yyyy-mm-dd hh:mi)");
+            DateTime departureTime = Scan.nextDateTime("출발시간(yyyy-mm-dd hh:mi)");
+            DateTime arrivalTime = Scan.nextDateTime("도착시간(yyyy-mm-dd hh:mi)");
+            DateTime checkIn = Scan.nextDateTime("체크인(yyyy-mm-dd hh:mi)");
+            DateTime checkOut = Scan.nextDateTime("체크아웃(yyyy-mm-dd hh:mi)");
 
-            Itinerary itinerary =
-                    new Itinerary(
+            ItineraryDto  itinerary =
+                    new ItineraryDto(
                             departurePlace, destination,
                             departureTime, arrivalTime,
                             checkIn, checkOut
                     );
-            itineraries.add(itinerary);
+            itineraryDtoList.add(itinerary);
 
             println("");
             println("여정 기록이 완료되었습니다!");
         } while (!(Scan.nextYN("\nQ. 여정을 추가 하시겠습니까?(Y/N)")).equals(N));
 
-        tiController.insertItineraries(searchTripId, itineraries);
+        tiController.insertItineraries(searchTripId, itineraryDtoList);
 
         return null;
     }

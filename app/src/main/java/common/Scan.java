@@ -3,6 +3,8 @@ package common;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import model.Date;
+import model.DateTime;
 
 public class Scan {
 
@@ -58,20 +60,21 @@ public class Scan {
         return Integer.parseInt(nextLine(msg, regex, alert));
     }
 
-    public static String nextDate(String msg) {
-        return nextLine(msg, dateRegex, defaultAlert);
+    public static Date nextDate(String msg) {
+        return Date.ofString(nextLine(msg, dateRegex, defaultAlert));
+
     }
 
-    public static String nextDate(String msg, String alert) {
-        return nextLine(msg, dateRegex, alert);
+    public static Date nextDate(String msg, String alert) {
+        return Date.ofString(nextLine(msg, dateRegex, alert));
     }
 
-    public static String nextDateTime(String msg) {
-        return nextLine(msg, dateTimeRegex, defaultAlert);
+    public static DateTime nextDateTime(String msg) {
+        return DateTime.ofString(nextLine(msg, dateTimeRegex, defaultAlert));
     }
 
-    public static String nextDateTime(String msg, String alert) {
-        return nextLine(msg, dateTimeRegex, alert);
+    public static DateTime nextDateTime(String msg, String alert) {
+        return DateTime.ofString(nextLine(msg, dateTimeRegex, alert));
     }
 
     public static String nextYN(String msg) {

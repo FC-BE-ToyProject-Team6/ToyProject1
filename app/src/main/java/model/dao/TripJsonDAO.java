@@ -17,12 +17,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import lombok.Getter;
-import model.DateTime;
-import model.Itineraries;
-import model.Itinerary;
-import model.Trip;
-import model.TripDto;
-import model.Trips;
+import model.itinerary.Itineraries;
+import model.itinerary.Itinerary;
+import model.itinerary.ItineraryDto;
+import model.trip.Trip;
+import model.trip.TripDto;
+import model.trip.Trips;
 
 
 public class TripJsonDAO implements TripDAO {
@@ -34,10 +34,6 @@ public class TripJsonDAO implements TripDAO {
     private int lastTripId;
 
     @Override
-    public int createTrip(Trip trip) {
-        return 0;
-    }
-
     public int createTrip(TripDto dto) {
 
         File dir = new File(FileStringUtil.DIR_PATH_JSON);
@@ -63,29 +59,26 @@ public class TripJsonDAO implements TripDAO {
 
 
     @Override
-    public void insertItinerary(int tripId, Itinerary itinerary) {
+    public void insertItinerary(int tripId, ItineraryDto dto) {
 
         String fileName = String.format(FileStringUtil.FILE_PATH_JSON, tripId);
 
         try (FileReader reader = new FileReader(fileName)) {
             Trip trip = gson.fromJson(reader, Trip.class);
-            if (trip.getItineraries() == null) {
-                trip.setItineraries(new Itineraries());
-            }
+//            if (trip.getItineraries() == null) {
+//                trip.setItineraries(new Itineraries());
+//            }
             int itineraryId = trip.getItineraries().size() + 1;
-            DateTime departureTime = itinerary.getDepartureTime();
-            DateTime arrivalTime = itinerary.getArrivalTime();
-            DateTime checkIn = itinerary.getCheckIn();
-            DateTime checkOut = itinerary.getCheckOut();
 
-            Itinerary newItinerary = new Itinerary();
-            newItinerary.setItineraryId(itineraryId);
-            newItinerary.setDeparturePlace(itinerary.getDeparturePlace());
-            newItinerary.setDestination(itinerary.getDestination());
-            newItinerary.setDepartureTime(departureTime);
-            newItinerary.setArrivalTime(arrivalTime);
-            newItinerary.setCheckIn(checkIn);
-            newItinerary.setCheckOut(checkOut);
+            Itinerary newItinerary = new Itinerary(
+                itineraryId,
+                dto.getDeparturePlace(),
+                dto.getDestination(),
+                dto.getDepartureTime(),
+                dto.getArrivalTime()
+                ,dto.getCheckIn()
+                ,dto.getCheckOut()
+            );
 
             trip.getItineraries().add(newItinerary);
             try (FileWriter writer = new FileWriter(fileName)) {

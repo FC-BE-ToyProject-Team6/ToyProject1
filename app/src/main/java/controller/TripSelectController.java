@@ -1,10 +1,10 @@
 package controller;
 
 import java.util.Optional;
-import model.Itineraries;
-import model.Itinerary;
-import model.Trip;
-import model.Trips;
+import model.itinerary.Itineraries;
+import model.itinerary.Itinerary;
+import model.trip.Trip;
+import model.trip.Trips;
 import model.dao.TripDAO;
 import model.dao.TripJsonDAO;
 
