@@ -1,27 +1,26 @@
 package model.dao;
 
 import static model.DateTime.ofString;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import model.Date;
+import java.util.List;
 import model.Itinerary;
 import model.Trip;
+import model.Trips;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.io.File;
-import java.util.List;
 
 class TripJsonDAOTest {
-    private int lastTripId;
 
-    private TripJsonDAO tripJsonDAO;
     private final String tripFilesFolder = "app/trip_json_files/";
-
+    private int lastTripId;
+    private TripJsonDAO tripJsonDAO;
 
     @BeforeEach
     void setUp() {
         tripJsonDAO = new TripJsonDAO();
     }
+
     @Test
     void createTrip() {
 
@@ -31,15 +30,12 @@ class TripJsonDAOTest {
 
         Trip newTrip = new Trip(tripName, startDate, endDate);
 
-
         int tripId = tripJsonDAO.createTrip(newTrip);
         lastTripId = tripId;
 
         Trip savedTrip = tripJsonDAO.selectTrip(tripId);
         System.out.println("savedTrip = " + savedTrip);
     }
-
-
 
 
     @Test
@@ -64,7 +60,8 @@ class TripJsonDAOTest {
         tripJsonDAO.insertItinerary(tripId, itinerary);
 
         Trip updatedTrip = tripJsonDAO.selectTrip(tripId);
-        Itinerary lastInsertedItinerary = updatedTrip.getItineraries().get(updatedTrip.getItineraries().size() - 1);
+        Itinerary lastInsertedItinerary = updatedTrip.getItineraries()
+            .get(updatedTrip.getItineraries().size() - 1);
 
         assertEquals(departurePlace, lastInsertedItinerary.getDeparturePlace());
         assertEquals(destination, lastInsertedItinerary.getDestination());
@@ -77,7 +74,7 @@ class TripJsonDAOTest {
     @Test
     void selectTripList() {
 
-        List<Trip> tripList = tripJsonDAO.selectTripList();
+        Trips tripList = tripJsonDAO.selectTripList();
         System.out.println("tripList = " + tripList);
     }
 

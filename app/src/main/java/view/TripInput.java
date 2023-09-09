@@ -1,24 +1,28 @@
 package view;
 
-import static common.StringUtil.*;
+import static common.StringUtil.printQuestion;
+import static common.StringUtil.printTitle;
+import static common.StringUtil.println;
 
 import common.Scan;
 import controller.TripInputController;
-import java.util.Scanner;
 import model.Itineraries;
 import model.Itinerary;
 import model.TripDto;
 
 public class TripInput implements ConsoleView {
-    private final TripInputController tiController;
-    private static TripInput instance;
 
-    public TripInput() {
+    private static TripInput instance;
+    private final TripInputController tiController;
+
+    private TripInput() {
         tiController = new TripInputController();
     }
 
     public static TripInput getInstance() {
-        if (instance == null) instance = new TripInput();
+        if (instance == null) {
+            instance = new TripInput();
+        }
         return instance;
     }
 

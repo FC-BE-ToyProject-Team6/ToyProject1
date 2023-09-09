@@ -8,8 +8,7 @@ import lombok.Getter;
 public class Trips {
 
     /**
-     * -- GETTER --
-     *  반복문등 List타입이 필요할때 List타입 반환합니다. Iterable 등 반복자를 구현할 필요성이 있음.
+     * -- GETTER -- 반복문등 List타입이 필요할때 List타입 반환합니다. Iterable 등 반복자를 구현할 필요성이 있음.
      *
      * @return List<Trip>
      */

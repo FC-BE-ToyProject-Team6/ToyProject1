@@ -9,6 +9,7 @@ import model.Trip;
 import model.Trips;
 
 public class StringUtil {
+
     public static final String TRIP = "여행", ITINERARY = "여정";
 
     private static final Scanner sc;
@@ -117,7 +118,8 @@ public class StringUtil {
     public static void printItinerariesSummary(String tripName, Itineraries its) {
         println("\n[" + tripName + "] 여행의 여정 정보입니다.");
         for (Itinerary it : its.getList()) {
-            println("ID " + it.getItineraryId() + "\t: " + it.getDeparturePlace() + " -> " + it.getDestination());
+            println("ID " + it.getItineraryId() + "\t: " + it.getDeparturePlace() + " -> "
+                + it.getDestination());
         }
     }
 
@@ -131,7 +133,7 @@ public class StringUtil {
     }
 
     public static int askId(String str) {
-        return Scan.nextInt("\nQ. 조회할 "+ str + "의 아이디를 입력하세요");
+        return Scan.nextInt("\nQ. 조회할 " + str + "의 아이디를 입력하세요");
     }
 
 

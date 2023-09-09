@@ -3,6 +3,7 @@ package model.dao;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
+import common.FileStringUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,9 +14,13 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
-import common.FileStringUtil;
-import model.*;
+import model.Date;
+import model.DateTime;
+import model.Itineraries;
+import model.Itinerary;
+import model.Trip;
+import model.TripDto;
+import model.Trips;
 
 public class TripCsvDAO implements TripDAO {
 

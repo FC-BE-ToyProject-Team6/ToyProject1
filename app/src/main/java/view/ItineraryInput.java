@@ -1,26 +1,30 @@
 package view;
 
 
-import static common.StringUtil.*;
+import static common.StringUtil.printTitle;
+import static common.StringUtil.println;
 
 import common.Scan;
 import controller.ItineraryInputController;
-import java.util.List;
-import java.util.Scanner;
-import model.Itineraries;
 import model.Itinerary;
-import model.Trip;
-import model.dao.TripJsonDAO;
 
 
 public class ItineraryInput implements ConsoleView {
 
+    private static ConsoleView instance;
     private final ItineraryInputController itController;
     private int searchTripId;
 
 
-    public ItineraryInput() {
+    private ItineraryInput() {
         itController = new ItineraryInputController();
+    }
+
+    public static ConsoleView getInstance() {
+        if (instance == null) {
+            instance = new ItineraryInput();
+        }
+        return instance;
     }
 
     @Override
@@ -30,16 +34,18 @@ public class ItineraryInput implements ConsoleView {
 
         if (displayTrips()) {
             inputItinerary();
-        }  else {
+        } else {
             return TripInput.getInstance();
         }
 
-        return new MainMenu();
+        return MainMenu.getInstance();
     }
 
     public boolean displayTrips() {
         TripsSelect tripsSelect = TripsSelect.getInstance();
-        if (!tripsSelect.printByOtherMenu()) return false;
+        if (!tripsSelect.printByOtherMenu()) {
+            return false;
+        }
         searchTripId = tripsSelect.getSearchTripId();
         return true;
     }
