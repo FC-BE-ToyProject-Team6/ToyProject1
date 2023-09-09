@@ -3,10 +3,9 @@ package model.dao;
 import static model.DateTime.ofString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
-import model.Itinerary;
-import model.Trip;
-import model.Trips;
+import model.itinerary.Itinerary;
+import model.trip.Trip;
+import model.trip.Trips;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -9,7 +9,7 @@ import static common.StringUtil.printTitle;
 
 import controller.TripSelectController;
 import java.util.Optional;
-import model.Itinerary;
+import model.itinerary.Itinerary;
 
 
 public class ItinerarySelect implements ConsoleView {

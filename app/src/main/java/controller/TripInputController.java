@@ -1,8 +1,8 @@
 package controller;
 
-import model.Itineraries;
-import model.Itinerary;
-import model.TripDto;
+import java.util.List;
+import model.itinerary.ItineraryDto;
+import model.trip.TripDto;
 import model.dao.TripCsvDAO;
 import model.dao.TripJsonDAO;
 
@@ -21,8 +21,8 @@ public class TripInputController {
         return jsonDAO.createTrip(dto);
     }
 
-    public void insertItineraries(int tripId, Itineraries itineraries) {
-        for (Itinerary itinerary : itineraries.getList()) {
+    public void insertItineraries(int tripId, List<ItineraryDto> itineraries) {
+        for (ItineraryDto itinerary : itineraries) {
             csvDAO.insertItinerary(tripId, itinerary);
             jsonDAO.insertItinerary(tripId, itinerary);
         }

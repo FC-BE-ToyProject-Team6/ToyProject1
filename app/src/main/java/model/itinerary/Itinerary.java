@@ -1,11 +1,10 @@
-package model;
+package model.itinerary;
 
 import com.google.gson.Gson;
 import lombok.Getter;
-import lombok.Setter;
+import model.DateTime;
 
 @Getter
-@Setter
 public class Itinerary {
 
     private int itineraryId;
@@ -32,7 +31,6 @@ public class Itinerary {
 
     public Itinerary(String departurePlace, String destination, String departureTime,
         String arrivalTime, String checkIn, String checkOut) {
-
         this.departurePlace = departurePlace;
         this.destination = destination;
         this.departureTime = DateTime.ofString(departureTime);

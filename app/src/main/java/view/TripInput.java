@@ -6,9 +6,8 @@ import static common.StringUtil.println;
 
 import common.Scan;
 import controller.TripInputController;
-import model.Itineraries;
-import model.Itinerary;
-import model.TripDto;
+import model.Date;
+import model.trip.TripDto;
 
 public class TripInput implements ConsoleView {
 
@@ -40,8 +39,8 @@ public class TripInput implements ConsoleView {
     public int inputTrip() {
         printQuestion("여행 정보를 입력 해주세요.");
         String tripName = Scan.nextLine("여행 이름");
-        String startDate = Scan.nextDate("시작 날짜(yyyy-mm-dd)");
-        String endDate = Scan.nextDate("종료 날짜(yyyy-mm-dd)");
+        Date startDate = Scan.nextDate("시작 날짜(yyyy-mm-dd)");
+        Date endDate = Scan.nextDate("종료 날짜(yyyy-mm-dd)");
         TripDto dto = new TripDto(tripName, startDate, endDate);
 
         int tripId = tiController.createTrip(dto);

@@ -3,10 +3,10 @@ package common;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import model.Itineraries;
-import model.Itinerary;
-import model.Trip;
-import model.Trips;
+import model.itinerary.Itineraries;
+import model.itinerary.Itinerary;
+import model.trip.Trip;
+import model.trip.Trips;
 
 public class StringUtil {
 
