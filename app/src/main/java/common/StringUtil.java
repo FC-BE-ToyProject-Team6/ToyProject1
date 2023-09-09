@@ -9,6 +9,7 @@ import model.Trip;
 import model.Trips;
 
 public class StringUtil {
+    public static final String TRIP = "여행", ITINERARY = "여정";
 
     private static final Scanner sc;
 
@@ -107,7 +108,7 @@ public class StringUtil {
 
     public static <T> boolean printEmpty(Optional<T> optional, String str) {
         if (optional.isEmpty()) {
-            println(str + " 정보가 없습니다. 메인 메뉴로 돌아갑니다.");
+            println(str + " 정보가 없습니다. (1) 여행 입력 메뉴로 이동합니다.");
             return false;
         }
         return true;
@@ -127,6 +128,10 @@ public class StringUtil {
         println("도착 시간\t: " + it.getArrivalTime());
         println("체크 인\t: " + it.getCheckIn());
         println("체크 아웃\t: " + it.getCheckOut());
+    }
+
+    public static int askId(String str) {
+        return Scan.nextInt("\nQ. 조회할 "+ str + "의 아이디를 입력하세요");
     }
 
 

@@ -2,20 +2,17 @@ package view;
 
 
 import static common.StringUtil.*;
-import common.Scan;
-import controller.ItinerarySelectController;
-import java.util.List;
+
 import java.util.Optional;
-import model.Itineraries;
+
+import controller.TripSelectController;
 import model.Itinerary;
-import model.Trip;
 
 
 public class ItinerarySelect implements ConsoleView {
     private static ItinerarySelect instance;
-    private static ItinerarySelectController isController;
+    private static TripSelectController tsController;
     private int searchTripId, searchItId;
-    private static final String TRIP = "여행", ITINERARY = "여정";
 
     public static ItinerarySelect getInstance() {
         if (instance == null) instance = new ItinerarySelect();
@@ -23,65 +20,33 @@ public class ItinerarySelect implements ConsoleView {
     }
 
     public ItinerarySelect() {
-        isController = new ItinerarySelectController();
+        tsController = new TripSelectController();
     }
 
     @Override
     public ConsoleView print() {
         printTitle("여정 조회");
 
-        /**
-         * 1. 여행 리스트 print
-         * 2. 찾고 싶은 여행 ID 입력.
-         * 3. 찾고 싶은 여행 정보 출력.
-         * 4. 찾고 싶은 여정 ID 입력.
-         * 5. 찾고 싶은 여정 정보 출력.
-         */
-
-        /** 만약 여행이 없다면 -> MainMenu 이동 **/
-        if (!printTripList()) {
-            return new MainMenu();
+        if (displayTrips()) {
+            printItinerariesBySearchItId();
+        } else {
+            return TripInput.getInstance();
         }
-
-        /** 검색한 여행에 여정이 단 한개도 없다면, 여행정보만 출력 후 -> MainMenu 이동 **/
-        if (!printTripBySearchTripId()) {
-            return new MainMenu();
-        }
-
-        printItinerariesBySearchItId();
 
         return new MainMenu();
     }
-
-    private boolean printTripList() {
-        Optional<List<Trip>> optional = isController.getTrips();
-        if (!printEmpty(optional, TRIP)) return false;
-        return printTripsTable(optional.get());
-    }
-
-    private int askId(String str) {
-        int ans = Scan.nextInt("\nQ. 조회할 "+ str + "의 아이디를 입력하세요");
-        return ans;
-    }
-
-    private boolean printTripBySearchTripId() {
-        Optional<Trip> optional;
-        while (!printQuestionIDAgain(optional = isController.getTripBySearchId(searchTripId = askId(TRIP))));
-
-        Trip trip = optional.get();
-        Optional<Itineraries> optionalIt = isController.getItinerariesByTrip(trip.getTripId());
-        if (!printEmpty(optionalIt, ITINERARY)) return false;
-
-        printItinerariesSummary(trip.getTripName(), optionalIt.get());
+    public boolean displayTrips() {
+        TripsSelect tripsSelect = TripsSelect.getInstance();
+        if (!tripsSelect.printByOtherMenu()) return false;
+        searchTripId = tripsSelect.getSearchTripId();
         return true;
     }
 
     private void printItinerariesBySearchItId() {
         Optional<Itinerary> optional;
-        while (!printQuestionIDAgain(optional = isController.getItineraryBySearchId(searchTripId, searchItId = askId(ITINERARY))));
+        while (!printQuestionIDAgain(optional = tsController.getItineraryBySearchId(searchTripId, searchItId = askId(ITINERARY))));
 
         printItinerary(optional.get());
     }
-
 
 }

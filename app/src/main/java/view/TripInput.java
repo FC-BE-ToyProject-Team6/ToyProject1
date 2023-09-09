@@ -10,12 +10,16 @@ import model.Itinerary;
 import model.TripDto;
 
 public class TripInput implements ConsoleView {
-
-
-    private final TripInputController controller;
+    private final TripInputController tiController;
+    private static TripInput instance;
 
     public TripInput() {
-        controller = new TripInputController();
+        tiController = new TripInputController();
+    }
+
+    public static TripInput getInstance() {
+        if (instance == null) instance = new TripInput();
+        return instance;
     }
 
     @Override
@@ -35,9 +39,9 @@ public class TripInput implements ConsoleView {
         String endDate = Scan.nextDate("종료 날짜(yyyy-mm-dd)");
         TripDto dto = new TripDto(tripName, startDate, endDate);
 
-        int tripId = controller.createTrip(dto);
+        int tripId = tiController.createTrip(dto);
 
-        System.out.println("여행 정보가 저장 되었습니다.");
+        println("여행 정보가 저장 되었습니다.");
         return tripId;
     }
 
@@ -68,6 +72,6 @@ public class TripInput implements ConsoleView {
                 break;
             }
         }
-        controller.insertItineraries(TripId, itineraries);
+        tiController.insertItineraries(TripId, itineraries);
     }
 }

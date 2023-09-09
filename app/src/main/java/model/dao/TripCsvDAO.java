@@ -15,12 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.FileStringUtil;
-import model.Date;
-import model.DateTime;
-import model.Itineraries;
-import model.Itinerary;
-import model.Trip;
-import model.TripDto;
+import model.*;
 
 public class TripCsvDAO implements TripDAO {
 
@@ -116,9 +111,10 @@ public class TripCsvDAO implements TripDAO {
     }
 
     @Override
-    public List<Trip> selectTripList() {
+    public Trips selectTripList() {
         List<Trip> tripList = new ArrayList<>();
-        return tripList;
+
+        return new Trips(tripList);
     }
 
     @Override

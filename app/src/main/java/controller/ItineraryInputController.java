@@ -30,13 +30,13 @@ public class ItineraryInputController {
         jsonDAO.insertItinerary(tripId, itinerary);
     }
 
-    public List<Trip> getTrips() {
-        return jsonDAO.selectTripList();
-    }
+//    public Trips getTrips() {
+//        return jsonDAO.selectTripList();
+//    }
 
-    public Trip selectTrip(int tripId) {
-        return jsonDAO.selectTrip(tripId);
-    }
+//    public Trip selectTrip(int tripId) {
+//        return jsonDAO.selectTrip(tripId);
+//    }
 
 
 }
