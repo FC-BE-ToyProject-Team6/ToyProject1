@@ -1,5 +1,6 @@
 package model;
 
+import exception.IllegalDateException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -47,14 +48,14 @@ public class DateTime extends Date {
 
     private int validateHour(int hour) {
         if (!(0 <= hour && hour <= 23)) {
-            throw new IllegalArgumentException("시간은 0 ~ 23 사이 여야 합니다.");
+            throw new IllegalDateException("시간은 0 ~ 23 사이 여야 합니다.");
         }
         return hour;
     }
 
     private int validateMinute(int minute) {
         if (!(0 <= minute && minute <= 59)) {
-            throw new IllegalArgumentException("분은 0~59 사이 여야 합니다.");
+            throw new IllegalDateException("분은 0~59 사이 여야 합니다.");
         }
         return minute;
     }

@@ -1,5 +1,6 @@
 package model;
 
+import exception.IllegalDateException;
 import java.time.YearMonth;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -52,14 +53,14 @@ public class Date {
 
     private int validateYear(int year) {
         if (!(1 <= year)) {
-            throw new IllegalArgumentException("년도는 1보다 커야 합니다.");
+            throw new IllegalDateException("년도는 1보다 커야 합니다.");
         }
         return year;
     }
 
     private int validateMonth(int month) {
         if (!(1 <= month && month <= 12)) {
-            throw new IllegalArgumentException("월은 1 ~ 12 사이 여야 합니다.");
+            throw new IllegalDateException("월은 1 ~ 12 사이 여야 합니다.");
         }
         return month;
     }
@@ -67,7 +68,7 @@ public class Date {
     private int validateDay(int year, int month, int day) {
         YearMonth yearMonth = YearMonth.of(year, month);
         if (!yearMonth.isValidDay(day)) {
-            throw new IllegalArgumentException(
+            throw new IllegalDateException(
                 "일은 1 ~ " + yearMonth.lengthOfMonth() + " 사이 여야 합니다.");
         }
         return day;
