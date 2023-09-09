@@ -1,23 +1,23 @@
 package view;
 
 
-import static common.StringUtil.printTitle;
-import static common.StringUtil.println;
-
 import common.Scan;
-import controller.ItineraryInputController;
+import controller.TripInputController;
+import model.Itineraries;
 import model.Itinerary;
+
+import static common.StringUtil.*;
 
 
 public class ItineraryInput implements ConsoleView {
 
     private static ConsoleView instance;
-    private final ItineraryInputController itController;
+    private final TripInputController tiController;
     private int searchTripId;
 
 
     private ItineraryInput() {
-        itController = new ItineraryInputController();
+        tiController = new TripInputController();
     }
 
     public static ConsoleView getInstance() {
@@ -41,6 +41,11 @@ public class ItineraryInput implements ConsoleView {
         return MainMenu.getInstance();
     }
 
+    public void inputItineraryByOtherView(int id) {
+        searchTripId = id;
+        inputItinerary();
+    }
+
     public boolean displayTrips() {
         TripsSelect tripsSelect = TripsSelect.getInstance();
         if (!tripsSelect.printByOtherMenu()) {
@@ -51,9 +56,9 @@ public class ItineraryInput implements ConsoleView {
     }
 
     public Itinerary inputItinerary() {
+        Itineraries itineraries = new Itineraries();
 
-        while (!(Scan.nextYN("\nQ. 여정을 추가 하시겠습니까?(Y/N)")).equals("N")) {
-
+        do {
             println("여정 정보를 입력해 주세요");
 
             String departurePlace = Scan.nextLine("출발지");
@@ -63,18 +68,20 @@ public class ItineraryInput implements ConsoleView {
             String checkIn = Scan.nextDateTime("체크인(yyyy-mm-dd hh:mi)");
             String checkOut = Scan.nextDateTime("체크아웃(yyyy-mm-dd hh:mi)");
 
-            Itinerary itineraries =
-                new Itinerary(
-                    departurePlace, destination,
-                    departureTime, arrivalTime,
-                    checkIn, checkOut
-                );
-
-            itController.addItinerary(itineraries, searchTripId);
+            Itinerary itinerary =
+                    new Itinerary(
+                            departurePlace, destination,
+                            departureTime, arrivalTime,
+                            checkIn, checkOut
+                    );
+            itineraries.add(itinerary);
 
             println("");
             println("여정 기록이 완료되었습니다!");
-        }
+        } while (!(Scan.nextYN("\nQ. 여정을 추가 하시겠습니까?(Y/N)")).equals(N));
+
+        tiController.insertItineraries(searchTripId, itineraries);
+
         return null;
     }
 

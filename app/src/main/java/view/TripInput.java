@@ -31,7 +31,8 @@ public class TripInput implements ConsoleView {
         printTitle("여행 기록");
 
         int tripId = inputTrip();
-        inputItinerary(tripId);
+        ItineraryInput itineraryInput = (ItineraryInput) ItineraryInput.getInstance();
+        itineraryInput.inputItineraryByOtherView(tripId);
 
         return MainMenu.getInstance();
     }
@@ -49,33 +50,4 @@ public class TripInput implements ConsoleView {
         return tripId;
     }
 
-    public void inputItinerary(int TripId) {
-        Itineraries itineraries = new Itineraries();
-
-        while (true) {
-            printQuestion("여정 정보를 입력해주세요.");
-
-            String departurePlace = Scan.nextLine("출발지");
-            String destination = Scan.nextLine("도착지");
-            String departureTime = Scan.nextDateTime("출발 시간(yyyy-mm-dd hh:mi)");
-            String arrivalTime = Scan.nextDateTime("도착 시간(yyyy-mm-dd hh:mi)");
-            String checkIn = Scan.nextDateTime("체크 인(yyyy-mm-dd hh:mi)");
-            String checkOut = Scan.nextDateTime("체크 아웃(yyyy-mm-dd hh:mi)");
-
-            itineraries.add(
-                new Itinerary(
-                    departurePlace, destination,
-                    departureTime, arrivalTime,
-                    checkIn, checkOut
-                )
-            );
-
-            System.out.println();
-            String input = Scan.nextYN("Q. 다음 여정을 입력 하시겠습니까?(Y/N");
-            if (input.equalsIgnoreCase("N")) {
-                break;
-            }
-        }
-        tiController.insertItineraries(TripId, itineraries);
-    }
 }

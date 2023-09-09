@@ -11,6 +11,7 @@ import model.Trips;
 public class StringUtil {
 
     public static final String TRIP = "여행", ITINERARY = "여정";
+    public static final String Y = "Y", N = "N";
 
     private static final Scanner sc;
 
@@ -122,7 +123,6 @@ public class StringUtil {
                 + it.getDestination());
         }
     }
-
 
     public static void printItinerary(Itinerary it) {
         println("\n[" + it.getDeparturePlace() + " -> " + it.getDestination() + "] 여정의 상세 정보입니다.");
