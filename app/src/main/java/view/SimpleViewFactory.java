@@ -13,7 +13,7 @@ public class SimpleViewFactory {
         } else if (menu == 2) {
             consoleView = new ItineraryInput();
         } else if (menu == 3) {
-            consoleView = new TripsSelect(new TripJsonDAO());
+            consoleView = new TripsSelect();
         } else if (menu == 4) {
             consoleView = new ItinerarySelect();
         } else if (menu == 5) {

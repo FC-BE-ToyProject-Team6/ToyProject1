@@ -1,6 +1,7 @@
 package common;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import model.Itineraries;
 import model.Itinerary;
@@ -8,6 +9,7 @@ import model.Trip;
 import model.Trips;
 
 public class StringUtil {
+    public static final String TRIP = "여행", ITINERARY = "여정";
 
     private static final Scanner sc;
 
@@ -45,7 +47,6 @@ public class StringUtil {
     public static void println(String str) {
         System.out.println(str);
     }
-
 
     public static boolean printTripsTable(Trips trips, String title) {
         if (title.isEmpty()) {
@@ -95,6 +96,42 @@ public class StringUtil {
                 itinerary.getArrivalTime(), itinerary.getCheckIn(), itinerary.getCheckOut());
         }
         return true;
+    }
+
+    public static <T> boolean printQuestionIDAgain(Optional<T> optional) {
+        if (optional.isEmpty()) {
+            println("조회 정보가 없습니다. 다시 ID 검색을 진행합니다.");
+            return false;
+        }
+        return true;
+    }
+
+    public static <T> boolean printEmpty(Optional<T> optional, String str) {
+        if (optional.isEmpty()) {
+            println(str + " 정보가 없습니다. (1) 여행 입력 메뉴로 이동합니다.");
+            return false;
+        }
+        return true;
+    }
+
+    public static void printItinerariesSummary(String tripName, Itineraries its) {
+        println("\n[" + tripName + "] 여행의 여정 정보입니다.");
+        for (Itinerary it : its.getList()) {
+            println("ID " + it.getItineraryId() + "\t: " + it.getDeparturePlace() + " -> " + it.getDestination());
+        }
+    }
+
+
+    public static void printItinerary(Itinerary it) {
+        println("\n[" + it.getDeparturePlace() + " -> " + it.getDestination() + "] 여정의 상세 정보입니다.");
+        println("출발 시간\t: " + it.getDepartureTime());
+        println("도착 시간\t: " + it.getArrivalTime());
+        println("체크 인\t: " + it.getCheckIn());
+        println("체크 아웃\t: " + it.getCheckOut());
+    }
+
+    public static int askId(String str) {
+        return Scan.nextInt("\nQ. 조회할 "+ str + "의 아이디를 입력하세요");
     }
 
 

@@ -10,18 +10,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import common.FileStringUtil;
 import lombok.Getter;
-import model.DateTime;
-import model.Itineraries;
-import model.Itinerary;
-import model.Trip;
-import model.TripDto;
+import model.*;
 
 
 public class TripJsonDAO implements TripDAO {
@@ -97,7 +90,7 @@ public class TripJsonDAO implements TripDAO {
 
 
     @Override
-    public List<Trip> selectTripList() {
+    public Trips selectTripList() {
         List<Trip> tripList = new ArrayList<>();
         File folder = new File(FileStringUtil.DIR_PATH_JSON);
         File[] listOfFiles = folder.listFiles();
@@ -115,13 +108,15 @@ public class TripJsonDAO implements TripDAO {
                         /* Json 형태 유효성 검사 */
                         System.out.println("잘못된 JSON 형식입니다.");
                         return null;
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
         }
-        return tripList;
+
+        Collections.sort(tripList, Comparator.comparingInt(Trip::getTripId));
+        return new Trips(tripList);
     }
 
 

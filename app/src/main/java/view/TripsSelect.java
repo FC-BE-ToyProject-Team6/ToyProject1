@@ -3,21 +3,27 @@ package view;
 import static common.StringUtil.*;
 
 import common.Scan;
-import java.util.List;
-import java.util.Scanner;
+import java.util.Optional;
+
+import controller.TripSelectController;
+import model.Itineraries;
 import model.Trip;
 import model.Trips;
-import model.dao.TripCsvDAO;
-import model.dao.TripDAO;
-import model.dao.TripJsonDAO;
 
 public class TripsSelect implements ConsoleView {
 
-    private TripDAO tripDAO;
+    private TripSelectController tsController;
+    public static TripsSelect instance;
+    private static int searchTripId;
 
 
-    public TripsSelect(TripDAO tripDAO) {
-        this.tripDAO = tripDAO;
+    public TripsSelect() {
+        this.tsController = new TripSelectController();
+    }
+
+    public static TripsSelect getInstance() {
+        if (instance == null) instance = new TripsSelect();
+        return instance;
     }
 
     @Override
@@ -25,62 +31,43 @@ public class TripsSelect implements ConsoleView {
 
         printTitle("여행조회");
 
-        int choice = Scan.nextInt("Q : 조회 방식을 선택하세요 (1 : CSV, 2 : JSON)", 1,2);
-
-        if (choice == 1) {
-            tripDAO = new TripCsvDAO();
-        } else if (choice == 2) {
-            tripDAO = new TripJsonDAO();
-        } else {
-            System.out.println("잘못된 선택입니다.");
-            return new MainMenu();
-        }
-
         // 여행 목록 출력
-        List<Trip> tripList = tripDAO.selectTripList();
-        if (tripList.isEmpty()) {
-            println("여행 정보가 없습니다.");
-            return new MainMenu();
-        }
-
-        printTripsTable(tripList);
-
-//        System.out.println("여행 목록");
-//        System.out.println("-----------------------------------");
-//        System.out.println("ID | 여행이름    | 출발일 | 도착일 |");
-//
-//
-//        if (tripList.isEmpty()) {
-//            System.out.println("여행을 찾을 수 없습니다.");
-//        } else {
-//            for (Trip trip : tripList) {
-//                System.out.printf("%d.   %s  | %s| %s|\n",
-//                    trip.getTripId(),
-//                    trip.getTripName(),
-//                    trip.getStartDate(),
-//                    trip.getEndDate());
-//            }
-//        }
-
-        // 사용자로부터 조회할 여행의 ID 입력 받기
-        int tripId = Scan.nextInt("조회할 여행의 ID를 입력해 주세요");
-
-        // 선택한 여행 정보 출력
-        Trip selectedTrip = tripDAO.selectTrip(tripId);
-
-        if (selectedTrip != null) {
-            Trips trips = new Trips();
-            trips.addTrip(selectedTrip);
-            printTripsTable(trips, "선택한 여행 정보");
-//            System.out.println("= 선택한 여행 정보 =");
-//
-//            System.out.print(selectedTrip.getTripName());
-//            System.out.print(", 출발일 : " + selectedTrip.getStartDate());
-//            System.out.print(" 도착일 : " + selectedTrip.getEndDate());
+        if (printTripList()) {
+            printTripBySearchTripId();
         } else {
-            System.out.println("해당 ID로 여행을 찾을 수 없습니다.");
+            return TripInput.getInstance();
         }
 
         return new MainMenu();
+    }
+
+    public boolean printByOtherMenu() {
+        if (printTripList()) {
+            printTripBySearchTripId();
+            return true;
+        }
+        return false;
+    }
+
+    public int getSearchTripId() {
+        return searchTripId;
+    }
+
+    private boolean printTripList() {
+        Optional<Trips> optional = tsController.getAllTrips();
+        if (!printEmpty(optional, TRIP)) return false;
+        return printTripsTable(optional.get());
+    }
+
+    private boolean printTripBySearchTripId() {
+        Optional<Trip> optional;
+        while (!printQuestionIDAgain(optional = tsController.getTripBySearchId(searchTripId = askId(TRIP))));
+
+        Trip trip = optional.get();
+        Optional<Itineraries> optionalIt = tsController.getItinerariesByTrip(trip.getTripId());
+        if (!printEmpty(optionalIt, ITINERARY)) return false;
+
+        printItinerariesSummary(trip.getTripName(), optionalIt.get());
+        return true;
     }
 }
