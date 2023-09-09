@@ -1,5 +1,6 @@
 package common;
 
+import exception.IllegalDateException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +12,7 @@ public class Scan {
     private static final String defaultAlert = "올바른 입력이 아닙니다.";
     private static final String intRegex = "[0-9]+";
     private static final String AllWordsRegex = "[0-9a-zA-Zㄱ-ㅎ가-힣 ]*";
-    private static final String dateRegex = "\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])";
+    private static final String dateRegex = "\\d{4}-(0[1-9]|1[012])-(0[0-9]|[12][0-9]|3[01])";
     private static final String dateTimeRegex =
         dateRegex + " (0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])";
     private static final String ynRegex = "[y|Y|n|N]";
@@ -61,20 +62,43 @@ public class Scan {
     }
 
     public static Date nextDate(String msg) {
-        return Date.ofString(nextLine(msg, dateRegex, defaultAlert));
-
+        while(true){
+            try {
+                return Date.ofString(nextLine(msg, dateRegex, defaultAlert));
+            }catch (IllegalDateException e){
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public static Date nextDate(String msg, String alert) {
-        return Date.ofString(nextLine(msg, dateRegex, alert));
+        while(true){
+            try {
+                return Date.ofString(nextLine(msg, dateRegex, alert));
+            }catch (IllegalDateException e){
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public static DateTime nextDateTime(String msg) {
-        return DateTime.ofString(nextLine(msg, dateTimeRegex, defaultAlert));
+        while(true){
+            try {
+                return DateTime.ofString(nextLine(msg, dateTimeRegex, defaultAlert));
+            }catch (IllegalDateException e){
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public static DateTime nextDateTime(String msg, String alert) {
-        return DateTime.ofString(nextLine(msg, dateTimeRegex, alert));
+        while(true){
+            try {
+                return DateTime.ofString(nextLine   (msg, dateTimeRegex, alert));
+            }catch (IllegalDateException e){
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public static String nextYN(String msg) {
