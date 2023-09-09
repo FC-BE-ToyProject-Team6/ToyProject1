@@ -43,4 +43,9 @@ public class TripSelectController {
     public Optional<Itinerary> getItineraryBySearchId(int tripId, int itId) {
         return Optional.ofNullable(tripDAO.selectItinerary(tripId, itId));
     }
+
+    public boolean isItinerariesEmpty(int tripId) {
+        if (getItinerariesByTrip(tripId).equals(Optional.empty())) return true;
+        return false;
+    }
 }
