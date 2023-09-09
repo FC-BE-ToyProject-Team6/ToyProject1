@@ -1,8 +1,8 @@
 package model.dao;
 
-import java.util.List;
 import model.Itinerary;
 import model.Trip;
+import model.Trips;
 
 public interface TripDAO {
 
@@ -11,7 +11,7 @@ public interface TripDAO {
 
     void insertItinerary(int tripId, Itinerary itinerary);
 
-    List<Trip> selectTripList();
+    Trips selectTripList();
 
     Trip selectTrip(int tripId);
 

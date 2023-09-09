@@ -1,26 +1,15 @@
 package view;
 
 import static common.StringUtil.*;
+
+import common.Scan;
 import java.util.Scanner;
-import model.dao.TripJsonDAO;
 
 public class MainMenu implements ConsoleView {
 
-    private final Scanner sc;
     private SimpleViewFactory svf;
-
-    private static MainMenu mainMenu;
-
-    private MainMenu() {
-        this.sc = getScanner();
+    public MainMenu() {
         svf = new SimpleViewFactory();
-    }
-
-    public static MainMenu getInstance(){
-        if(mainMenu == null){
-            mainMenu = new MainMenu();
-        }
-        return mainMenu;
     }
 
 
@@ -35,9 +24,7 @@ public class MainMenu implements ConsoleView {
 
     //이 메소드에 대해 개선 필요성이 있는거 같습니다.
     private ConsoleView inputNextMenu() {
-        System.out.print("시작 할 메뉴 번호를 입력하세요 : ");
-
-        int status = Integer.parseInt(sc.nextLine());
+        int status = Scan.nextInt("시작 할 메뉴 번호를 입력 하세요.", 1, 5);
         return svf.selectView(status);
     }
 

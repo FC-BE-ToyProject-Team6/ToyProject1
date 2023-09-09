@@ -1,0 +1,51 @@
+{
+  "trip_id": 6,
+  "trip_name": "dighghashdfnz",
+  "start_date": {
+    "year": 2020,
+    "month": 12,
+    "day": 12
+  },
+  "end_date": {
+    "year": 2020,
+    "month": 12,
+    "day": 13
+  },
+  "itineraries": {
+    "itineraries": [
+      {
+        "itinerary_id": 1,
+        "departure_place": "컨ㄹㄴㅇ루",
+        "destination": "줃룸",
+        "departure_time": {
+          "hour": 1,
+          "minute": 23,
+          "year": 2020,
+          "month": 12,
+          "day": 12
+        },
+        "arrival_time": {
+          "hour": 23,
+          "minute": 59,
+          "year": 2020,
+          "month": 12,
+          "day": 13
+        },
+        "check_in": {
+          "hour": 14,
+          "minute": 52,
+          "year": 2020,
+          "month": 12,
+          "day": 12
+        },
+        "check_out": {
+          "hour": 15,
+          "minute": 21,
+          "year": 2020,
+          "month": 12,
+          "day": 12
+        }
+      }
+    ]
+  }
+}
