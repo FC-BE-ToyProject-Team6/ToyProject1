@@ -18,11 +18,12 @@ import java.util.Arrays;
 import java.util.List;
 import model.Date;
 import model.DateTime;
-import model.Itineraries;
-import model.Itinerary;
-import model.Trip;
-import model.TripDto;
-import model.Trips;
+import model.itinerary.Itineraries;
+import model.itinerary.Itinerary;
+import model.itinerary.ItineraryDto;
+import model.trip.Trip;
+import model.trip.TripDto;
+import model.trip.Trips;
 
 public class TripCsvDAO implements TripDAO {
 
@@ -30,10 +31,6 @@ public class TripCsvDAO implements TripDAO {
     private Itinerary itinerary;
 
     @Override
-    public int createTrip(Trip trip) {
-        return 0;
-    }
-
     public int createTrip(TripDto trip) {
         int tripId = countTripFiles() + 1;
 
@@ -73,8 +70,9 @@ public class TripCsvDAO implements TripDAO {
 
 
     @Override
-    public void insertItinerary(int tripId, Itinerary itinerary) {
+    public void insertItinerary(int tripId, ItineraryDto itinerary) {
         try {
+
             String fileName = String.format(FileStringUtil.FILE_PATH_CSV, tripId);
             FileReader fileReader = new FileReader(fileName);
             CSVReader csvReader = new CSVReader(fileReader);

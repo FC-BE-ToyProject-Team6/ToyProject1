@@ -1,4 +1,4 @@
-package model;
+package model.trip;
 
 import java.util.ArrayList;
 import java.util.List;

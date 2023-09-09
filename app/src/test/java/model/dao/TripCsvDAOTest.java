@@ -2,11 +2,13 @@ package model.dao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
 import model.Date;
-import model.Itinerary;
-import model.Trip;
-import model.Trips;
+import model.DateTime;
+import model.itinerary.Itinerary;
+import model.itinerary.ItineraryDto;
+import model.trip.Trip;
+import model.trip.TripDto;
+import model.trip.Trips;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,10 +27,7 @@ class TripCsvDAOTest {
         String tripName = "일본여행";
         String startDateStr = "2023-09-04";
         String endDateStr = "2023-09-10";
-        Trip trip = new Trip();
-        trip.setTripName(tripName);
-        trip.setStartDate(Date.ofString(startDateStr));
-        trip.setEndDate(Date.ofString(endDateStr));
+        TripDto trip = new TripDto(tripName, Date.ofString(startDateStr), Date.ofString(endDateStr));
         int createdTripId = tripCsvDAO.createTrip(trip);
         System.out.println("createdTripId = " + createdTripId);
         String expectedFilePath = tripFilesFolder + "/travel_" + createdTripId + ".csv";
@@ -39,12 +38,12 @@ class TripCsvDAOTest {
         int tripId = 12;
         String departurePlace = "Tokyo";
         String destination = "Osaka";
-        String departureTimeString = "2023-07-04 12:30";
-        String arrivalTimeString = "2023-08-04 15:30";
-        String checkInString = "2023-09-04 16:00";
-        String checkOutString = "2023-09-10 11:00";
+        DateTime departureTimeString = DateTime.ofString("2023-07-04 12:30");
+        DateTime arrivalTimeString = DateTime.ofString("2023-08-04 15:30");
+        DateTime checkInString = DateTime.ofString("2023-09-04 16:00");
+        DateTime checkOutString = DateTime.ofString("2023-09-10 11:00");
 
-        Itinerary itinerary = new Itinerary(
+        ItineraryDto itinerary = new ItineraryDto(
             departurePlace, destination,
             departureTimeString, arrivalTimeString,
             checkInString, checkOutString

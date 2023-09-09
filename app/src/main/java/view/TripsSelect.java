@@ -3,9 +3,9 @@ package view;
 import common.Scan;
 import controller.TripSelectController;
 import java.util.Optional;
-import model.Itineraries;
-import model.Trip;
-import model.Trips;
+import model.itinerary.Itineraries;
+import model.trip.Trip;
+import model.trip.Trips;
 
 import static common.StringUtil.*;
 

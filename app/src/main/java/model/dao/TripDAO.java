@@ -1,15 +1,17 @@
 package model.dao;
 
-import model.Itinerary;
-import model.Trip;
-import model.Trips;
+import model.itinerary.Itinerary;
+import model.itinerary.ItineraryDto;
+import model.trip.Trip;
+import model.trip.TripDto;
+import model.trip.Trips;
 
 public interface TripDAO {
 
 
-    int createTrip(Trip trip);
+    int createTrip(TripDto trip);
 
-    void insertItinerary(int tripId, Itinerary itinerary);
+    void insertItinerary(int tripId, ItineraryDto itinerary);
 
     Trips selectTripList();
 

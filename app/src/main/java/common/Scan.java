@@ -3,6 +3,8 @@ package common;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import model.Date;
+import model.DateTime;
 
 public class Scan {
 
@@ -11,7 +13,7 @@ public class Scan {
     private static final String AllWordsRegex = "[0-9a-zA-Zㄱ-ㅎ가-힣 ]*";
     private static final String dateRegex = "\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])";
     private static final String dateTimeRegex =
-        dateRegex + " (0[1-9]|1[0-9]|2[0-4]):(0[1-9]|[1-5][0-9])";
+        dateRegex + " (0[1-9]|1[0-9]|2[0-4]):(0[0-9]|[1-5][0-9])";
     private static final String ynRegex = "[y|Y|n|N]";
 
     private static final BufferedReader sc = new BufferedReader(new InputStreamReader(System.in));
@@ -58,20 +60,21 @@ public class Scan {
         return Integer.parseInt(nextLine(msg, regex, alert));
     }
 
-    public static String nextDate(String msg) {
-        return nextLine(msg, dateRegex, defaultAlert);
+    public static Date nextDate(String msg) {
+        return Date.ofString(nextLine(msg, dateRegex, defaultAlert));
+
     }
 
-    public static String nextDate(String msg, String alert) {
-        return nextLine(msg, dateRegex, alert);
+    public static Date nextDate(String msg, String alert) {
+        return Date.ofString(nextLine(msg, dateRegex, alert));
     }
 
-    public static String nextDateTime(String msg) {
-        return nextLine(msg, dateTimeRegex, defaultAlert);
+    public static DateTime nextDateTime(String msg) {
+        return DateTime.ofString(nextLine(msg, dateTimeRegex, defaultAlert));
     }
 
-    public static String nextDateTime(String msg, String alert) {
-        return nextLine(msg, dateTimeRegex, alert);
+    public static DateTime nextDateTime(String msg, String alert) {
+        return DateTime.ofString(nextLine(msg, dateTimeRegex, alert));
     }
 
     public static String nextYN(String msg) {

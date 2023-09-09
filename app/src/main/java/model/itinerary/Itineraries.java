@@ -1,4 +1,4 @@
-package model;
+package model.itinerary;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,12 +1,14 @@
 package model.dao;
 
-import static model.DateTime.ofString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.List;
-import model.Itinerary;
-import model.Trip;
-import model.Trips;
+import model.Date;
+import model.DateTime;
+import model.itinerary.Itinerary;
+import model.itinerary.ItineraryDto;
+import model.trip.Trip;
+import model.trip.TripDto;
+import model.trip.Trips;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,10 +27,10 @@ class TripJsonDAOTest {
     void createTrip() {
 
         String tripName = "유럽여행";
-        String startDate = "2023-08-04";
-        String endDate = "2023-08-10";
+        Date startDate = Date.ofString("2023-08-04");
+        Date endDate = Date.ofString("2023-08-10");
 
-        Trip newTrip = new Trip(tripName, startDate, endDate);
+        TripDto newTrip = new TripDto(tripName, startDate, endDate);
 
         int tripId = tripJsonDAO.createTrip(newTrip);
         lastTripId = tripId;
@@ -49,13 +51,14 @@ class TripJsonDAOTest {
         String checkInString = "2023-09-20 16:00";
         String checkOutString = "2023-09-30 11:00";
 
-        Itinerary itinerary = new Itinerary();
-        itinerary.setDeparturePlace(departurePlace);
-        itinerary.setDestination(destination);
-        itinerary.setDepartureTime(ofString(departureTimeString));
-        itinerary.setArrivalTime(ofString(arrivalTimeString));
-        itinerary.setCheckIn(ofString(checkInString));
-        itinerary.setCheckOut(ofString(checkOutString));
+        ItineraryDto itinerary = new ItineraryDto(
+            departurePlace,
+            destination,
+            DateTime.ofString(departureTimeString),
+            DateTime.ofString(arrivalTimeString),
+            DateTime.ofString(checkInString),
+            DateTime.ofString(checkOutString)
+        );
 
         tripJsonDAO.insertItinerary(tripId, itinerary);
 
