@@ -1,0 +1,51 @@
+{
+  "trip_id": 2,
+  "trip_name": "무야호",
+  "start_date": {
+    "year": 2020,
+    "month": 12,
+    "day": 12
+  },
+  "end_date": {
+    "year": 2020,
+    "month": 12,
+    "day": 12
+  },
+  "itineraries": {
+    "itineraries": [
+      {
+        "itinerary_id": 1,
+        "departure_place": "우리집",
+        "destination": "쟤내집",
+        "departure_time": {
+          "hour": 13,
+          "minute": 13,
+          "year": 2020,
+          "month": 12,
+          "day": 12
+        },
+        "arrival_time": {
+          "hour": 13,
+          "minute": 13,
+          "year": 2020,
+          "month": 12,
+          "day": 12
+        },
+        "check_in": {
+          "hour": 13,
+          "minute": 13,
+          "year": 2020,
+          "month": 12,
+          "day": 12
+        },
+        "check_out": {
+          "hour": 13,
+          "minute": 13,
+          "year": 2020,
+          "month": 12,
+          "day": 12
+        }
+      }
+    ]
+  }
+}

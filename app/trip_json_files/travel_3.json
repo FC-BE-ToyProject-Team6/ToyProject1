@@ -1,0 +1,84 @@
+{
+  "trip_id": 3,
+  "trip_name": "새로운여행",
+  "start_date": {
+    "year": 2020,
+    "month": 12,
+    "day": 12
+  },
+  "end_date": {
+    "year": 2020,
+    "month": 12,
+    "day": 13
+  },
+  "itineraries": {
+    "itineraries": [
+      {
+        "itinerary_id": 1,
+        "departure_place": "집",
+        "destination": "호텔",
+        "departure_time": {
+          "hour": 8,
+          "minute": 1,
+          "year": 2020,
+          "month": 12,
+          "day": 12
+        },
+        "arrival_time": {
+          "hour": 12,
+          "minute": 20,
+          "year": 2020,
+          "month": 12,
+          "day": 12
+        },
+        "check_in": {
+          "hour": 13,
+          "minute": 20,
+          "year": 2020,
+          "month": 12,
+          "day": 12
+        },
+        "check_out": {
+          "hour": 10,
+          "minute": 10,
+          "year": 2020,
+          "month": 12,
+          "day": 13
+        }
+      },
+      {
+        "itinerary_id": 2,
+        "departure_place": "호텔",
+        "destination": "집",
+        "departure_time": {
+          "hour": 10,
+          "minute": 5,
+          "year": 2020,
+          "month": 12,
+          "day": 13
+        },
+        "arrival_time": {
+          "hour": 14,
+          "minute": 2,
+          "year": 2020,
+          "month": 12,
+          "day": 13
+        },
+        "check_in": {
+          "hour": 15,
+          "minute": 2,
+          "year": 2020,
+          "month": 12,
+          "day": 13
+        },
+        "check_out": {
+          "hour": 18,
+          "minute": 2,
+          "year": 2020,
+          "month": 12,
+          "day": 13
+        }
+      }
+    ]
+  }
+}
